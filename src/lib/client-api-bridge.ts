@@ -484,6 +484,27 @@ async function handleApiRequest(
       if (body.clearBookmarks) {
         runtime.profile.bookmarks = [];
       }
+      if (body.importSync && typeof body.importSync === 'object') {
+        const imp = body.importSync as Partial<RuntimeState>;
+        if (imp.profile && typeof imp.profile === 'object') {
+          runtime.profile = {
+            ...runtime.profile,
+            ...imp.profile,
+            bookmarks: Array.isArray(imp.profile.bookmarks)
+              ? imp.profile.bookmarks.map(Number)
+              : runtime.profile.bookmarks,
+            mistakeIds: Array.isArray(imp.profile.mistakeIds)
+              ? imp.profile.mistakeIds.map(Number)
+              : runtime.profile.mistakeIds,
+          };
+        }
+        if (Array.isArray(imp.attempts)) {
+          runtime.attempts = imp.attempts;
+        }
+        if (imp.examProgress !== undefined) {
+          runtime.examProgress = imp.examProgress;
+        }
+      }
       writeRuntimeStateClient(runtime);
       return jsonResponse({ ok: true, profile: runtime.profile });
     }

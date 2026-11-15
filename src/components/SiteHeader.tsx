@@ -114,6 +114,20 @@ const APP_NAV = [
   { href: '/admin', label: 'Admin', icon: SlidersHorizontal },
 ];
 
+const MOBILE_BOTTOM_NAV = [
+  { href: '/dashboard', label: 'แดชบอร์ด', icon: PenLine },
+  { href: '/catalog', label: 'ชุดข้อสอบ', icon: BookMarked },
+  { href: '/catalog/subject', label: 'แยกวิชา', icon: Layers },
+  { href: '/bank', label: 'คลังข้อสอบ', icon: Database },
+  { href: '/history', label: 'ประวัติ', icon: History },
+];
+
+function isNavItemActive(pathname: string, href: string): boolean {
+  if (href === '/') return pathname === '/';
+  if (href === '/catalog') return pathname === '/catalog' || pathname.startsWith('/catalog/form');
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 const PUBLIC_NAV = [
   { href: '/#features', label: 'จุดเด่น' },
   { href: '/#tracks', label: 'สายงานที่เปิดสอบ' },
@@ -127,44 +141,40 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-panel/85 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2.5 font-extrabold tracking-tight text-ink">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white shadow-sm">
-            <ShieldCheck className="h-5 w-5" />
-          </span>
-          <span className="text-base sm:text-lg">
-            GURU <span className="text-brand">POLICE</span>
-          </span>
-        </Link>
+    <>
+      <header className="sticky top-0 z-30 border-b border-line bg-panel/85 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+          <Link href="/" className="flex items-center gap-2.5 font-extrabold tracking-tight text-ink">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white shadow-sm">
+              <ShieldCheck className="h-5 w-5" />
+            </span>
+            <span className="text-base sm:text-lg">
+              GURU <span className="text-brand">POLICE</span>
+            </span>
+          </Link>
 
-        {mode === 'app' ? (
-          <nav className="hidden items-center gap-1 md:flex">
-            {APP_NAV.map((item) => {
-              const Icon = item.icon;
-              const active =
-                item.href === '/'
-                  ? pathname === '/'
-                  : item.href === '/catalog'
-                    ? pathname === '/catalog' || pathname.startsWith('/catalog/form')
-                    : pathname === item.href || pathname.startsWith(`${item.href}/`);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-semibold transition-colors ${
-                    active
-                      ? 'bg-brand/10 text-brand'
-                      : 'text-muted hover:bg-bg2 hover:text-ink'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-        ) : (
+          {mode === 'app' ? (
+            <nav className="hidden items-center gap-1 md:flex">
+              {APP_NAV.map((item) => {
+                const Icon = item.icon;
+                const active = isNavItemActive(pathname, item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-semibold transition-colors ${
+                      active
+                        ? 'bg-brand/10 text-brand'
+                        : 'text-muted hover:bg-bg2 hover:text-ink'
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          ) : (
           <nav className="hidden items-center gap-5 md:flex">
             {PUBLIC_NAV.map((item) => (
               <Link
@@ -233,7 +243,34 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
           </div>
         </div>
       )}
-    </header>
+      </header>
+
+      {mode === 'app' && (
+        <nav
+          aria-label="แถบนำทางมือถือ"
+          className="md:hidden fixed bottom-0 inset-x-0 z-30 border-t border-line bg-panel/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]"
+        >
+          <div className="grid grid-cols-5">
+            {MOBILE_BOTTOM_NAV.map((item) => {
+              const Icon = item.icon;
+              const active = isNavItemActive(pathname, item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex flex-col items-center justify-center gap-1 py-2 text-[11px] font-bold transition-colors ${
+                    active ? 'text-brand' : 'text-muted hover:text-ink'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span className="truncate max-w-full px-1">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
+      )}
+    </>
   );
 }
 

@@ -32,6 +32,9 @@ const DEFAULT_LEADERBOARD = [
   { track: 'ปราบปราม (ทหารเกณฑ์)', nameMasked: 'อร*** มี***', score: 139, total: 150, durationFormatted: '1:34:20 ชม.' },
 ];
 
+const IMAGE_URL_ONLY_RE =
+  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
+
 /**
  * @param {string | null | undefined} raw
  * @param {Map<string, string>} urlMap
@@ -95,24 +98,41 @@ function generateStaticDataset() {
 
   /** @type {Array<Record<string, any>>} */
   const questions = rawQuestions.map((q) => {
-    const fixedStem =
-      q.stem && /^https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)/i.test(String(q.stem).trim())
-        ? resolveLocalImageUrl(q.stem, imageUrlMap) || q.stem
-        : q.stem;
-    const fixedExp =
-      q.explanation && /^https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)/i.test(String(q.explanation).trim())
-        ? resolveLocalImageUrl(q.explanation, imageUrlMap) || q.explanation
-        : q.explanation;
+    const stemTrim = typeof q.stem === 'string' ? q.stem.trim() : '';
+    const stemIsImg = Boolean(stemTrim && IMAGE_URL_ONLY_RE.test(stemTrim));
+    const resolvedStemImg = stemIsImg ? resolveLocalImageUrl(stemTrim, imageUrlMap) || stemTrim : null;
+
+    const expTrim = typeof q.explanation === 'string' ? q.explanation.trim() : '';
+    const expIsImg = Boolean(expTrim && IMAGE_URL_ONLY_RE.test(expTrim));
+    const resolvedExpImg = expIsImg ? resolveLocalImageUrl(expTrim, imageUrlMap) || expTrim : null;
+
+    /** @type {string[]} */
+    const rawOpts = Array.isArray(q.opts) ? q.opts : [];
+    /** @type {Array<string | null>} */
+    const existingOptImgs = Array.isArray(q.opt_imgs) ? q.opt_imgs : [];
+    const normalizedOptImgs = rawOpts.map((opt, idx) => {
+      const existing = resolveLocalImageUrl(existingOptImgs[idx], imageUrlMap);
+      if (existing) return existing;
+      const optTrim = typeof opt === 'string' ? opt.trim() : '';
+      if (optTrim && IMAGE_URL_ONLY_RE.test(optTrim)) {
+        return resolveLocalImageUrl(optTrim, imageUrlMap) || optTrim;
+      }
+      return null;
+    });
+    const normalizedOpts = rawOpts.map((opt) => {
+      const optTrim = typeof opt === 'string' ? opt.trim() : '';
+      if (optTrim && IMAGE_URL_ONLY_RE.test(optTrim)) return '';
+      return opt;
+    });
 
     return {
       ...q,
-      stem: fixedStem,
-      img: resolveLocalImageUrl(q.img, imageUrlMap),
-      opt_imgs: Array.isArray(q.opt_imgs)
-        ? q.opt_imgs.map((/** @type {string | null} */ u) => resolveLocalImageUrl(u, imageUrlMap))
-        : null,
-      explanation: fixedExp,
-      explanation_img: resolveLocalImageUrl(q.explanation_img, imageUrlMap),
+      stem: stemIsImg ? 'พิจารณารูปภาพต่อไปนี้แล้วเลือกคำตอบที่ถูกต้อง' : q.stem,
+      img: resolveLocalImageUrl(q.img, imageUrlMap) || resolvedStemImg,
+      opts: normalizedOpts,
+      opt_imgs: normalizedOptImgs.some(Boolean) ? normalizedOptImgs : null,
+      explanation: expIsImg ? '' : q.explanation,
+      explanation_img: resolveLocalImageUrl(q.explanation_img, imageUrlMap) || resolvedExpImg,
     };
   });
 

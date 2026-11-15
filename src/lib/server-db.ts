@@ -153,6 +153,7 @@ export interface RuntimeState {
 const KB_DATASET_DIR = path.join(process.cwd(), 'data', 'dataset');
 const KB_Q_IMAGES_DIR = path.join(process.cwd(), 'public', 'question-images');
 const RUNTIME_STATE_PATH = path.join(process.cwd(), 'data', 'runtime-state.json');
+const TMP_RUNTIME_STATE_PATH = '/tmp/guru-runtime-state.json';
 
 interface StoreCache {
   questions: QuestionRecord[];
@@ -169,7 +170,11 @@ interface StoreCache {
 
 const globalForStore = globalThis as typeof globalThis & {
   __guruStore?: StoreCache;
+  __guruRuntime?: RuntimeState;
 };
+
+const IMAGE_URL_ONLY_RE =
+  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
 
 function resolveLocalImageUrl(raw: string | null | undefined, urlMap: Map<string, string>): string | null {
   if (!raw || typeof raw !== 'string') return null;
@@ -213,24 +218,39 @@ function buildStore(): StoreCache {
   );
 
   const questions: QuestionRecord[] = rawQuestions.map((q) => {
-    const fixedStem =
-      q.stem && /^https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)/i.test(q.stem.trim())
-        ? resolveLocalImageUrl(q.stem, imageUrlMap) || q.stem
-        : q.stem;
-    const fixedExp =
-      q.explanation && /^https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)/i.test(q.explanation.trim())
-        ? resolveLocalImageUrl(q.explanation, imageUrlMap) || q.explanation
-        : q.explanation;
+    const stemTrim = typeof q.stem === 'string' ? q.stem.trim() : '';
+    const stemIsImg = Boolean(stemTrim && IMAGE_URL_ONLY_RE.test(stemTrim));
+    const resolvedStemImg = stemIsImg ? resolveLocalImageUrl(stemTrim, imageUrlMap) || stemTrim : null;
+
+    const expTrim = typeof q.explanation === 'string' ? q.explanation.trim() : '';
+    const expIsImg = Boolean(expTrim && IMAGE_URL_ONLY_RE.test(expTrim));
+    const resolvedExpImg = expIsImg ? resolveLocalImageUrl(expTrim, imageUrlMap) || expTrim : null;
+
+    const rawOpts = Array.isArray(q.opts) ? q.opts : [];
+    const existingOptImgs = Array.isArray(q.opt_imgs) ? q.opt_imgs : [];
+    const normalizedOptImgs: (string | null)[] = rawOpts.map((opt, idx) => {
+      const existing = resolveLocalImageUrl(existingOptImgs[idx], imageUrlMap);
+      if (existing) return existing;
+      const optTrim = typeof opt === 'string' ? opt.trim() : '';
+      if (optTrim && IMAGE_URL_ONLY_RE.test(optTrim)) {
+        return resolveLocalImageUrl(optTrim, imageUrlMap) || optTrim;
+      }
+      return null;
+    });
+    const normalizedOpts: string[] = rawOpts.map((opt) => {
+      const optTrim = typeof opt === 'string' ? opt.trim() : '';
+      if (optTrim && IMAGE_URL_ONLY_RE.test(optTrim)) return '';
+      return opt;
+    });
 
     return {
       ...q,
-      stem: fixedStem,
-      img: resolveLocalImageUrl(q.img, imageUrlMap),
-      opt_imgs: Array.isArray(q.opt_imgs)
-        ? q.opt_imgs.map((u) => resolveLocalImageUrl(u, imageUrlMap))
-        : null,
-      explanation: fixedExp,
-      explanation_img: resolveLocalImageUrl(q.explanation_img, imageUrlMap),
+      stem: stemIsImg ? 'พิจารณารูปภาพต่อไปนี้แล้วเลือกคำตอบที่ถูกต้อง' : q.stem,
+      img: resolveLocalImageUrl(q.img, imageUrlMap) || resolvedStemImg,
+      opts: normalizedOpts,
+      opt_imgs: normalizedOptImgs.some(Boolean) ? normalizedOptImgs : null,
+      explanation: expIsImg ? '' : q.explanation,
+      explanation_img: resolveLocalImageUrl(q.explanation_img, imageUrlMap) || resolvedExpImg,
     };
   });
 
@@ -384,15 +404,33 @@ function getDefaultRuntimeState(): RuntimeState {
 }
 
 export function readRuntimeState(): RuntimeState {
-  fs.mkdirSync(path.dirname(RUNTIME_STATE_PATH), { recursive: true });
-  if (!fs.existsSync(RUNTIME_STATE_PATH)) {
+  if (globalForStore.__guruRuntime) {
+    return globalForStore.__guruRuntime;
+  }
+
+  let raw: Partial<RuntimeState> | null = null;
+  const sourcePath = fs.existsSync(TMP_RUNTIME_STATE_PATH)
+    ? TMP_RUNTIME_STATE_PATH
+    : fs.existsSync(RUNTIME_STATE_PATH)
+      ? RUNTIME_STATE_PATH
+      : null;
+
+  if (sourcePath) {
+    try {
+      raw = JSON.parse(fs.readFileSync(sourcePath, 'utf8')) as Partial<RuntimeState>;
+    } catch {
+      raw = null;
+    }
+  }
+
+  if (!raw) {
     const initial = getDefaultRuntimeState();
-    fs.writeFileSync(RUNTIME_STATE_PATH, JSON.stringify(initial, null, 2));
+    writeRuntimeState(initial);
     return initial;
   }
-  const raw = JSON.parse(fs.readFileSync(RUNTIME_STATE_PATH, 'utf8'));
+
   const defaults = getDefaultRuntimeState();
-  const rawProf = raw?.profile || {};
+  const rawProf = raw?.profile;
   const customSetQuestionIds: Record<string, number[]> = raw?.customSetQuestionIds || {};
   const store = getStore();
   const customSets: ExamSetSummary[] = Array.isArray(raw?.customSets)
@@ -406,13 +444,13 @@ export function readRuntimeState(): RuntimeState {
       })
     : [];
 
-  return {
+  const normalized: RuntimeState = {
     profile: {
-      track: typeof rawProf.track === 'string' && rawProf.track ? rawProf.track : defaults.profile.track,
-      bookmarks: Array.isArray(rawProf.bookmarks) ? rawProf.bookmarks.map(Number) : [],
-      mistakeIds: Array.isArray(rawProf.mistakeIds) ? rawProf.mistakeIds.map(Number) : [],
-      streakDays: typeof rawProf.streakDays === 'number' ? rawProf.streakDays : 1,
-      lastActiveDate: typeof rawProf.lastActiveDate === 'string' ? rawProf.lastActiveDate : null,
+      track: typeof rawProf?.track === 'string' && rawProf.track ? rawProf.track : defaults.profile.track,
+      bookmarks: Array.isArray(rawProf?.bookmarks) ? rawProf.bookmarks.map(Number) : [],
+      mistakeIds: Array.isArray(rawProf?.mistakeIds) ? rawProf.mistakeIds.map(Number) : [],
+      streakDays: typeof rawProf?.streakDays === 'number' ? rawProf.streakDays : 1,
+      lastActiveDate: typeof rawProf?.lastActiveDate === 'string' ? rawProf.lastActiveDate : null,
     },
     attempts: Array.isArray(raw?.attempts) ? raw.attempts : [],
     examProgress: raw?.examProgress || null,
@@ -420,15 +458,30 @@ export function readRuntimeState(): RuntimeState {
     customSets,
     customSetQuestionIds,
     customQuestions: Array.isArray(raw?.customQuestions) ? raw.customQuestions : [],
-    leaderboard: Array.isArray(raw?.leaderboard) && raw.leaderboard.length > 0 ? raw.leaderboard : defaults.leaderboard,
+    leaderboard:
+      Array.isArray(raw?.leaderboard) && raw.leaderboard.length > 0
+        ? raw.leaderboard
+        : defaults.leaderboard,
   };
+  globalForStore.__guruRuntime = normalized;
+  return normalized;
 }
 
 export function writeRuntimeState(state: RuntimeState): void {
-  fs.mkdirSync(path.dirname(RUNTIME_STATE_PATH), { recursive: true });
-  const tmpPath = `${RUNTIME_STATE_PATH}.tmp`;
-  fs.writeFileSync(tmpPath, JSON.stringify(state, null, 2));
-  fs.renameSync(tmpPath, RUNTIME_STATE_PATH);
+  globalForStore.__guruRuntime = state;
+  const serialized = JSON.stringify(state, null, 2);
+  try {
+    fs.mkdirSync(path.dirname(RUNTIME_STATE_PATH), { recursive: true });
+    const tmpPath = `${RUNTIME_STATE_PATH}.tmp`;
+    fs.writeFileSync(tmpPath, serialized);
+    fs.renameSync(tmpPath, RUNTIME_STATE_PATH);
+  } catch {
+    try {
+      fs.writeFileSync(TMP_RUNTIME_STATE_PATH, serialized);
+    } catch {
+      // ignore read-only environments without /tmp writable access
+    }
+  }
 }
 
 export function getAllQuestionsMerged(): QuestionRecord[] {

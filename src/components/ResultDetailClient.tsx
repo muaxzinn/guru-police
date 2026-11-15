@@ -23,7 +23,8 @@ import { CHOICE_LABELS, SUBJECT_MAP } from '@/lib/constants';
 import type { AttemptRecord, RunnerQuestion } from '@/lib/server-db';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SubjectIcon } from '@/components/SubjectIcon';
-import { ImageLightbox } from '@/components/ImageLightbox';
+import { ImageLightbox, isImageUrlString } from '@/components/ImageLightbox';
+import { computeAttemptXp } from '@/lib/gamification';
 
 type ReviewFilter = 'all' | 'wrong' | 'correct' | 'unanswered';
 
@@ -66,6 +67,13 @@ export function ResultDetailClient() {
     if (!attempt?.perTopic) return [];
     return [...attempt.perTopic].sort((a, b) => a.pct - b.pct);
   }, [attempt]);
+
+  const sortedSubjects = useMemo(() => {
+    if (!attempt?.perSubject) return [];
+    return [...attempt.perSubject].sort((a, b) => a.pct - b.pct);
+  }, [attempt]);
+
+  const earnedXp = useMemo(() => (attempt ? computeAttemptXp(attempt) : 0), [attempt]);
 
   const reviewItems = useMemo(() => {
     if (!attempt) return [];
@@ -123,9 +131,12 @@ export function ResultDetailClient() {
   const mins = Math.floor(attempt.durationSec / 60);
   const secs = attempt.durationSec % 60;
   const wrongCount = attempt.wrongIndices.length;
+  const weakestSubject = sortedSubjects[0] ?? null;
+  const urgentWeakTopics = sortedTopics.filter((t) => t.pct < 60).slice(0, 3);
+  const topWeakTopics = urgentWeakTopics.length > 0 ? urgentWeakTopics : sortedTopics.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-bg text-ink pb-16">
+    <div className="min-h-screen bg-bg text-ink pb-24 md:pb-16">
       <SiteHeader mode="app" />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 space-y-6">
@@ -157,6 +168,10 @@ export function ResultDetailClient() {
                 </span>
                 <span className="px-2.5 py-1 rounded-full bg-bg2 border border-line text-xs font-bold text-muted">
                   {attempt.mode === 'real' ? 'โหมดจับเวลาจริง' : 'โหมดฝึกซ้อม'}
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gold/15 border border-gold/40 text-xs font-extrabold font-mono text-gold-ink">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>+{earnedXp} XP</span>
                 </span>
               </div>
 
@@ -244,6 +259,66 @@ export function ResultDetailClient() {
             </div>
           </div>
         </section>
+
+        {/* Personal Weakness Diagnostic Banner */}
+        {(weakestSubject || topWeakTopics.length > 0) && (
+          <section className="bg-panel border border-accent/35 rounded-card p-5 sm:p-6 shadow-card space-y-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="space-y-1">
+                <h2 className="text-base sm:text-lg font-extrabold flex items-center gap-2 text-ink">
+                  <Target className="w-5 h-5 text-accent" />
+                  <span>วิเคราะห์จุดอ่อนจากชุดนี้ (สิ่งที่ยังไม่ถนัด &amp; ต้องซ่อมด่วน)</span>
+                </h2>
+                <p className="text-xs sm:text-sm text-muted">
+                  ระบบคัดเฉพาะวิชาและหัวข้อที่คุณทำได้น้อยที่สุดในชุดนี้ พร้อมปุ่มเจาะฝึกแก้จุดอ่อนทันที
+                </p>
+              </div>
+              {weakestSubject && (
+                <Link
+                  href={`/exam/subject-${encodeURIComponent(weakestSubject.key)}?set=1&count=20&mode=practice&fresh=1`}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-btn bg-accent hover:bg-accent-dark text-white text-xs sm:text-sm font-extrabold transition shrink-0"
+                >
+                  <span>ซ่อมด่วนวิชา{SUBJECT_MAP[weakestSubject.key]?.shortName || weakestSubject.key}</span>
+                  <span className="font-mono text-xs opacity-90">({weakestSubject.pct}%)</span>
+                </Link>
+              )}
+            </div>
+
+            {topWeakTopics.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {topWeakTopics.map((tp, idx) => (
+                  <div
+                    key={tp.subjectKey + '-' + tp.title + '-' + idx}
+                    className="p-3.5 rounded-2xl border border-line bg-bg2/70 flex flex-col justify-between gap-3"
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between gap-2 text-xs">
+                        <span className="font-bold text-brand truncate">
+                          {SUBJECT_MAP[tp.subjectKey]?.shortName || tp.subjectKey}
+                        </span>
+                        <span
+                          className={`font-mono font-extrabold ${
+                            tp.pct >= 60 ? 'text-teal-ink' : 'text-accent'
+                          }`}
+                        >
+                          {tp.pct}% ({tp.correct}/{tp.total})
+                        </span>
+                      </div>
+                      <p className="text-sm font-bold text-ink line-clamp-2">{tp.title}</p>
+                    </div>
+                    <Link
+                      href={`/exam/topic?subject=${encodeURIComponent(tp.subjectKey)}&topic=${encodeURIComponent(tp.title)}&count=20&mode=practice&fresh=1`}
+                      className="inline-flex items-center justify-center gap-1.5 w-full py-2 rounded-xl bg-brand/10 hover:bg-brand hover:text-white text-brand text-xs font-extrabold transition"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>เจาะฝึกซ่อมหัวข้อนี้</span>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
         {/* Subject & Topic Breakdown */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -387,21 +462,34 @@ export function ResultDetailClient() {
                     )}
                   </div>
 
-                  <p className="text-base font-semibold text-ink whitespace-pre-line">{q.b}</p>
-
-                  {q.img && (
-                    <ImageLightbox
-                      src={q.img}
-                      alt={`ภาพข้อ ${q.id}`}
-                      className="max-h-64 rounded-xl border border-line object-contain bg-panel p-1.5"
-                    />
-                  )}
+                  {(() => {
+                    const stemIsRaw = isImageUrlString(q.b);
+                    const stemImg = q.img || (stemIsRaw ? q.b.trim() : null);
+                    const stemText = stemIsRaw
+                      ? 'พิจารณารูปภาพต่อไปนี้แล้วเลือกคำตอบที่ถูกต้อง'
+                      : q.b;
+                    return (
+                      <>
+                        <p className="text-base font-semibold text-ink whitespace-pre-line">{stemText}</p>
+                        {stemImg && (
+                          <ImageLightbox
+                            src={stemImg}
+                            alt={`ภาพข้อ ${q.id}`}
+                            className="max-h-64 rounded-xl border border-line object-contain bg-panel p-1.5"
+                          />
+                        )}
+                      </>
+                    );
+                  })()}
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
                     {q.opts.map((opt, optIdx) => {
                       const label = CHOICE_LABELS[optIdx] || String(optIdx + 1);
                       const isTarget = q.c === optIdx;
                       const isPicked = userAns === optIdx;
+                      const optIsRaw = isImageUrlString(opt);
+                      const optImg = q.optImgs?.[optIdx] || (optIsRaw ? opt.trim() : null);
+                      const optDisplayText = optIsRaw ? '' : opt;
                       let cls = 'border-line bg-panel text-ink/85';
                       if (isTarget) cls = 'border-teal bg-teal/15 text-ink font-bold';
                       else if (isPicked && !isTarget) cls = 'border-accent bg-accent/15 text-accent font-bold';
@@ -410,11 +498,11 @@ export function ResultDetailClient() {
                         <div key={optIdx} className={`p-3 rounded-xl border text-sm flex items-start gap-2 ${cls}`}>
                           <span className="font-mono font-extrabold shrink-0">{label}.</span>
                           <div className="flex-1 min-w-0">
-                            <span>{opt}</span>
-                            {q.optImgs?.[optIdx] && (
-                              <div className="mt-1.5">
+                            {optDisplayText && <span>{optDisplayText}</span>}
+                            {optImg && (
+                              <div className={optDisplayText ? 'mt-1.5' : ''}>
                                 <ImageLightbox
-                                  src={q.optImgs[optIdx]!}
+                                  src={optImg}
                                   alt={`ภาพตัวเลือก ${label}`}
                                   className="max-h-28 rounded-lg border border-line object-contain bg-panel p-1"
                                 />
@@ -428,21 +516,30 @@ export function ResultDetailClient() {
                     })}
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-panel border border-line text-sm space-y-2">
-                    <p className="font-extrabold text-teal-ink text-xs">
-                      คำอธิบายเฉลย (ตอบ {CHOICE_LABELS[q.c] || q.c + 1})
-                    </p>
-                    <p className="text-ink/90 whitespace-pre-line leading-relaxed">
-                      {q.e || 'เฉลยตามคลังข้อมูลข้อสอบมาตรฐาน กูรูตำรวจ'}
-                    </p>
-                    {q.eImg && (
-                      <ImageLightbox
-                        src={q.eImg}
-                        alt={`ภาพเฉลยข้อ ${q.id}`}
-                        className="max-h-64 rounded-xl border border-line object-contain bg-bg2 p-1.5"
-                      />
-                    )}
-                  </div>
+                  {(() => {
+                    const eIsRaw = isImageUrlString(q.e);
+                    const eImg = q.eImg || (eIsRaw ? (q.e || '').trim() : null);
+                    const eText = eIsRaw ? '' : q.e;
+                    return (
+                      <div className="p-3.5 rounded-xl bg-panel border border-line text-sm space-y-2">
+                        <p className="font-extrabold text-teal-ink text-xs">
+                          คำอธิบายเฉลย (ตอบ {CHOICE_LABELS[q.c] || q.c + 1})
+                        </p>
+                        {(eText || !eImg) && (
+                          <p className="text-ink/90 whitespace-pre-line leading-relaxed">
+                            {eText || 'เฉลยตามคลังข้อมูลข้อสอบมาตรฐาน กูรูตำรวจ'}
+                          </p>
+                        )}
+                        {eImg && (
+                          <ImageLightbox
+                            src={eImg}
+                            alt={`ภาพเฉลยข้อ ${q.id}`}
+                            className="max-h-64 rounded-xl border border-line object-contain bg-bg2 p-1.5"
+                          />
+                        )}
+                      </div>
+                    );
+                  })()}
                 </article>
               );
             })}

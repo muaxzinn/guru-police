@@ -3,14 +3,24 @@
 import React, { useEffect, useState } from 'react';
 import { Maximize2, RefreshCw, X } from 'lucide-react';
 
+export const IMAGE_URL_ONLY_RE =
+  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
+
+export function isImageUrlString(val?: string | null): boolean {
+  if (!val) return false;
+  return IMAGE_URL_ONLY_RE.test(val.trim());
+}
+
 export function ImageLightbox({
   src,
   alt,
   className = 'max-h-72 w-auto rounded-xl border border-line bg-white',
+  selectOnImageClick = false,
 }: {
   src: string;
   alt: string;
   className?: string;
+  selectOnImageClick?: boolean;
 }) {
   const [zoom, setZoom] = useState(false);
   const [errored, setErrored] = useState(false);
@@ -31,8 +41,11 @@ export function ImageLightbox({
   }, [zoom]);
 
   const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || '').replace(/\/$/, '');
+  const trimmed = src.trim();
   const resolvedSrc =
-    basePath && src.startsWith('/') && !src.startsWith(`${basePath}/`) ? `${basePath}${src}` : src;
+    basePath && trimmed.startsWith('/') && !trimmed.startsWith(`${basePath}/`)
+      ? `${basePath}${trimmed}`
+      : trimmed;
   const effectiveSrc =
     retryCount > 0 ? `${resolvedSrc}${resolvedSrc.includes('?') ? '&' : '?'}r=${retryCount}` : resolvedSrc;
 
@@ -61,14 +74,26 @@ export function ImageLightbox({
           alt={alt}
           onError={() => setErrored(true)}
           onClick={(e) => {
+            if (selectOnImageClick) return;
             e.stopPropagation();
             setZoom(true);
           }}
-          className={`${className} cursor-zoom-in transition-opacity hover:opacity-95`}
+          className={`${className} ${
+            selectOnImageClick ? 'cursor-pointer' : 'cursor-zoom-in'
+          } transition-opacity hover:opacity-95`}
         />
-        <span className="pointer-events-none absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-black/55 text-white">
-          <Maximize2 className="h-3 w-3" />
-        </span>
+        <button
+          type="button"
+          aria-label="ขยายรูปภาพ"
+          onClick={(e) => {
+            e.stopPropagation();
+            setZoom(true);
+          }}
+          className="absolute bottom-2 right-2 flex h-7 w-7 items-center justify-center rounded-full bg-black/65 text-white shadow-sm hover:bg-black/85 transition"
+          title="แตะเพื่อขยายรูปภาพ"
+        >
+          <Maximize2 className="h-3.5 w-3.5" />
+        </button>
       </div>
 
       {zoom && (
@@ -99,4 +124,3 @@ export function ImageLightbox({
     </>
   );
 }
-

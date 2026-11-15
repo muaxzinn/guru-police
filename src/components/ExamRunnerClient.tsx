@@ -13,6 +13,8 @@ import {
   Clock,
   Eye,
   Flag,
+  Flame,
+  Grid2X2,
   HelpCircle,
   Keyboard,
   Layers,
@@ -23,7 +25,10 @@ import {
   Scissors,
   Send,
   ShieldAlert,
+  SlidersHorizontal,
   Sparkles,
+  Target,
+  Timer,
   X,
   XCircle,
 } from 'lucide-react';
@@ -31,11 +36,14 @@ import { AWAY_TIMEOUT_MINUTES, CHOICE_LABELS, SUBJECT_MAP, SUBJECTS, type Subjec
 import { safeTruncateThai } from '@/lib/utf8-thai';
 import type { ExamProgressRecord, RunnerQuestion } from '@/lib/server-db';
 import { SubjectIcon } from '@/components/SubjectIcon';
-import { ImageLightbox } from '@/components/ImageLightbox';
+import { ImageLightbox, isImageUrlString } from '@/components/ImageLightbox';
 
 const LOCAL_PROGRESS_KEY = 'gp:progress:v2';
+const LOCAL_PREFS_KEY = 'gp:exam-prefs:v2';
 
 type ExamMode = 'real' | 'practice' | 'review';
+type RevealMode = 'instant' | 'end';
+type TimerMode = 'timed' | 'elapsed';
 type PaletteFilter = 'all' | 'unanswered' | 'bookmarked';
 type FontScale = 'sm' | 'md' | 'lg';
 
@@ -82,10 +90,23 @@ function ExamRunnerInner() {
   const shuffle = searchParams.get('shuffle') || '';
   const setParam = searchParams.get('set') || '';
   const fresh = searchParams.get('fresh') === '1';
+  const autostart = searchParams.get('autostart') === '1';
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [exam, setExam] = useState<ExamPayload | null>(null);
+
+  const [revealMode, setRevealMode] = useState<RevealMode>(mode === 'real' ? 'end' : 'instant');
+  const [timerMode, setTimerMode] = useState<TimerMode>(mode === 'real' ? 'timed' : 'elapsed');
+  const [draftReveal, setDraftReveal] = useState<RevealMode>(mode === 'real' ? 'end' : 'instant');
+  const [draftTimer, setDraftTimer] = useState<TimerMode>(mode === 'real' ? 'timed' : 'elapsed');
+  const [showSetupModal, setShowSetupModal] = useState(false);
+  const [setupConfigured, setSetupConfigured] = useState(mode === 'review' || autostart);
+  const [unansweredOnlyMode, setUnansweredOnlyMode] = useState(false);
+  const [showMobilePalette, setShowMobilePalette] = useState(false);
+
+  const [combo, setCombo] = useState(0);
+  const [sessionXp, setSessionXp] = useState(0);
 
   const [answers, setAnswers] = useState<(number | null)[]>([]);
   const [cur, setCur] = useState(0);
@@ -182,7 +203,38 @@ function ExamRunnerInner() {
         }
 
         setSubjectFilter('all');
+        setUnansweredOnlyMode(false);
+        setCombo(0);
+        setSessionXp(0);
         setExam(examData);
+
+        let initialReveal: RevealMode = mode === 'real' ? 'end' : 'instant';
+        let initialTimer: TimerMode = mode === 'real' ? 'timed' : 'elapsed';
+        try {
+          const rawPrefs = window.localStorage.getItem(LOCAL_PREFS_KEY);
+          if (rawPrefs) {
+            const parsedPrefs = JSON.parse(rawPrefs) as Partial<{
+              revealMode: RevealMode;
+              timerMode: TimerMode;
+            }>;
+            if (parsedPrefs.revealMode === 'instant' || parsedPrefs.revealMode === 'end') {
+              initialReveal = parsedPrefs.revealMode;
+            }
+            if (parsedPrefs.timerMode === 'timed' || parsedPrefs.timerMode === 'elapsed') {
+              initialTimer = parsedPrefs.timerMode;
+            }
+          }
+        } catch {
+          // ignore prefs parse errors
+        }
+        if (mode === 'review') {
+          initialReveal = 'instant';
+        }
+        setRevealMode(initialReveal);
+        setTimerMode(initialTimer);
+        setDraftReveal(initialReveal);
+        setDraftTimer(initialTimer);
+
         if (restored) {
           setAnswers(restored.answers);
           setCur(Math.min(Math.max(0, restored.cur || 0), Math.max(0, total - 1)));
@@ -191,6 +243,8 @@ function ExamRunnerInner() {
           setEndAt(nextEndAt);
           setRemainingSec(Math.max(1, Math.floor((nextEndAt - now) / 1000)));
           setActiveSec(restored.activeSec || 0);
+          setShowSetupModal(false);
+          setSetupConfigured(true);
           pushToast('กู้คืนความคืบหน้าเดิมจากการบันทึกล่าสุดเรียบร้อย');
         } else {
           setAnswers(new Array(total).fill(null));
@@ -200,6 +254,13 @@ function ExamRunnerInner() {
           setEndAt(targetEnd);
           setRemainingSec(examData.durationSec);
           setActiveSec(0);
+          if (mode !== 'review' && !autostart && total > 0) {
+            setShowSetupModal(true);
+            setSetupConfigured(false);
+          } else {
+            setShowSetupModal(false);
+            setSetupConfigured(true);
+          }
         }
       } catch (err) {
         if (active) {
@@ -213,10 +274,18 @@ function ExamRunnerInner() {
     return () => {
       active = false;
     };
-  }, [setId, mode, track, count, subject, topic, shuffle, setParam, fresh, pushToast]);
+  }, [setId, mode, track, count, subject, topic, shuffle, setParam, fresh, autostart, pushToast]);
 
   const currentQuestion = exam?.items[cur] ?? null;
   const answeredCount = useMemo(() => answers.filter((a) => a !== null).length, [answers]);
+  const unansweredIndices = useMemo(
+    () =>
+      answers.reduce<number[]>((acc, ans, idx) => {
+        if (ans === null || ans === undefined) acc.push(idx);
+        return acc;
+      }, []),
+    [answers]
+  );
 
   // Persist progress helper
   const saveProgressNow = useCallback(
@@ -260,13 +329,14 @@ function ExamRunnerInner() {
       setShowSubmitModal(false);
       if (reasonMsg) pushToast(reasonMsg);
       try {
+        const effectiveMode = revealMode === 'end' && timerMode === 'timed' ? 'real' : 'practice';
         const res = await fetch('/api/attempts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             setId,
             setTitle: exam.title,
-            mode: mode === 'real' ? 'real' : 'practice',
+            mode: effectiveMode,
             passRule: exam.passRule,
             durationSec: Math.max(1, activeSec),
             startedAt,
@@ -292,15 +362,60 @@ function ExamRunnerInner() {
         pushToast(err instanceof Error ? err.message : 'เกิดข้อผิดพลาดในการส่งข้อสอบ');
       }
     },
-    [exam, submitting, setId, mode, activeSec, startedAt, answers, bookmarkedIds, router, pushToast]
+    [exam, submitting, revealMode, timerMode, setId, activeSec, startedAt, answers, bookmarkedIds, router, pushToast]
+  );
+
+  const openSubmitConfirmation = useCallback(() => {
+    if (!exam) return;
+    if (unansweredIndices.length > 0) {
+      setCur(unansweredIndices[0]);
+      setPaletteFilter('unanswered');
+      pushToast(`ตรวจพบข้อที่ยังไม่ได้ทำ ${unansweredIndices.length} ข้อ ระบบพาไปที่ข้อ ${unansweredIndices[0] + 1}`);
+    }
+    setShowSubmitModal(true);
+  }, [exam, unansweredIndices, pushToast]);
+
+  const openSetupModal = useCallback(() => {
+    setDraftReveal(revealMode);
+    setDraftTimer(timerMode);
+    setShowSetupModal(true);
+  }, [revealMode, timerMode]);
+
+  const applySetupAndStart = useCallback(
+    (nextReveal: RevealMode, nextTimer: TimerMode) => {
+      setRevealMode(nextReveal);
+      setTimerMode(nextTimer);
+      try {
+        window.localStorage.setItem(
+          LOCAL_PREFS_KEY,
+          JSON.stringify({ revealMode: nextReveal, timerMode: nextTimer })
+        );
+      } catch {
+        // ignore storage failure
+      }
+      if (!setupConfigured && exam) {
+        const targetEnd = Date.now() + exam.durationSec * 1000;
+        setEndAt(targetEnd);
+        setRemainingSec(exam.durationSec);
+        setActiveSec(0);
+      }
+      setSetupConfigured(true);
+      setShowSetupModal(false);
+      pushToast(
+        nextReveal === 'instant'
+          ? 'เปิดโหมดเฉลยข้อต่อข้อทันทีแล้ว'
+          : 'เปิดโหมดเฉลยย้อนหลัง + วิเคราะห์จุดอ่อนเมื่อส่งข้อสอบ'
+      );
+    },
+    [setupConfigured, exam, pushToast]
   );
 
   // Countdown & active clock
   useEffect(() => {
-    if (!exam || exam.items.length === 0 || mode === 'review') return;
+    if (!exam || exam.items.length === 0 || mode === 'review' || showSetupModal) return;
     const timer = window.setInterval(() => {
       setActiveSec((s) => s + 1);
-      if (mode === 'real' && endAt > 0) {
+      if (timerMode === 'timed' && endAt > 0) {
         const diff = Math.max(0, Math.floor((endAt - Date.now()) / 1000));
         setRemainingSec(diff);
         if (diff <= 0 && !autoSubmitLock.current) {
@@ -310,7 +425,7 @@ function ExamRunnerInner() {
       }
     }, 1000);
     return () => window.clearInterval(timer);
-  }, [exam, mode, endAt, handleSubmit]);
+  }, [exam, mode, timerMode, showSetupModal, endAt, handleSubmit]);
 
   // Away-timeout guard for real exam mode
   useEffect(() => {
@@ -358,15 +473,60 @@ function ExamRunnerInner() {
         });
         return;
       }
+      const wasUnanswered = answers[cur] === null || answers[cur] === undefined;
+      const toggledOff = answers[cur] === choiceIdx;
       setAnswers((prev) => {
         const next = prev.slice();
         next[cur] = prev[cur] === choiceIdx ? null : choiceIdx;
         return next;
       });
+
+      if (!toggledOff && wasUnanswered) {
+        if (revealMode === 'instant') {
+          if (choiceIdx === q.c) {
+            setCombo((c) => {
+              const nextCombo = c + 1;
+              setSessionXp((xp) => xp + 10 + (nextCombo >= 2 ? 5 : 0));
+              return nextCombo;
+            });
+          } else {
+            setCombo(0);
+            setSessionXp((xp) => xp + 2);
+          }
+        } else {
+          setSessionXp((xp) => xp + 5);
+        }
+      }
+
       setTimeout(() => saveProgressNow(false), 50);
     },
-    [exam, mode, cur, cutMode, saveProgressNow]
+    [exam, mode, cur, cutMode, answers, revealMode, saveProgressNow]
   );
+
+  const goPrevQuestion = useCallback(() => {
+    if (!exam) return;
+    if (unansweredOnlyMode && unansweredIndices.length > 0) {
+      const prevSkipped = [...unansweredIndices].reverse().find((idx) => idx < cur);
+      if (prevSkipped !== undefined) setCur(prevSkipped);
+      else setCur(unansweredIndices[0]);
+      return;
+    }
+    setCur((c) => Math.max(0, c - 1));
+  }, [exam, unansweredOnlyMode, unansweredIndices, cur]);
+
+  const goNextQuestion = useCallback(() => {
+    if (!exam) return;
+    if (unansweredOnlyMode && unansweredIndices.length > 0) {
+      const nextSkipped = unansweredIndices.find((idx) => idx > cur);
+      if (nextSkipped !== undefined) {
+        setCur(nextSkipped);
+      } else {
+        setCur(unansweredIndices[0]);
+      }
+      return;
+    }
+    setCur((c) => Math.min(exam.total - 1, c + 1));
+  }, [exam, unansweredOnlyMode, unansweredIndices, cur]);
 
   const toggleEliminate = useCallback((qid: number, choiceIdx: number) => {
     setEliminated((prev) => {
@@ -399,7 +559,7 @@ function ExamRunnerInner() {
   // Keyboard shortcuts: 1-4, ArrowLeft, ArrowRight, B, F, E
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (showReportModal || showSubmitModal || showShortcuts) return;
+      if (showReportModal || showSubmitModal || showShortcuts || showSetupModal || showMobilePalette) return;
       const target = e.target as HTMLElement | null;
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
       if (!exam || exam.items.length === 0) return;
@@ -409,10 +569,10 @@ function ExamRunnerInner() {
         selectAnswer(Number(e.key) - 1);
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
-        setCur((c) => Math.min(exam.items.length - 1, c + 1));
+        goNextQuestion();
       } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
-        setCur((c) => Math.max(0, c - 1));
+        goPrevQuestion();
       } else if (e.key.toLowerCase() === 'b') {
         e.preventDefault();
         const q = exam.items[cur];
@@ -427,7 +587,19 @@ function ExamRunnerInner() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [exam, cur, showReportModal, showSubmitModal, showShortcuts, selectAnswer, toggleBookmark]);
+  }, [
+    exam,
+    cur,
+    showReportModal,
+    showSubmitModal,
+    showShortcuts,
+    showSetupModal,
+    showMobilePalette,
+    selectAnswer,
+    toggleBookmark,
+    goNextQuestion,
+    goPrevQuestion,
+  ]);
 
   const handleSendReport = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -560,11 +732,158 @@ function ExamRunnerInner() {
 
   const userChoice = answers[cur];
   const isAnswered = userChoice !== null;
-  const showInstantFeedback = (mode === 'practice' && isAnswered) || mode === 'review';
+  const showInstantFeedback = (revealMode === 'instant' && isAnswered) || mode === 'review';
   const isBookmarked = bookmarkedIds.includes(currentQuestion.id);
   const currentEliminated = eliminated[currentQuestion.id] || [];
   const subjMeta = SUBJECT_MAP[currentQuestion.subject];
-  const urgentClock = mode === 'real' && remainingSec <= 300;
+  const urgentClock = timerMode === 'timed' && remainingSec <= 300;
+
+  const stemIsRawUrl = isImageUrlString(currentQuestion.b);
+  const effectiveStemImg = currentQuestion.img || (stemIsRawUrl ? (currentQuestion.b || '').trim() : null);
+  const effectiveStemText = stemIsRawUrl
+    ? 'พิจารณารูปภาพต่อไปนี้แล้วเลือกคำตอบที่ถูกต้อง'
+    : currentQuestion.b;
+
+  const expIsRawUrl = isImageUrlString(currentQuestion.e);
+  const effectiveExpImg = currentQuestion.eImg || (expIsRawUrl ? (currentQuestion.e || '').trim() : null);
+  const effectiveExpText = expIsRawUrl ? '' : currentQuestion.e;
+
+  const palettePanelContent = (
+    <div className="bg-panel border border-line rounded-card p-5 shadow-card">
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="text-sm font-extrabold">แผนผังข้อสอบ</h2>
+        <span className="text-xs font-mono text-muted">
+          {answeredCount}/{exam.total} ข้อ
+        </span>
+      </div>
+
+      {subjectsInExam.length > 1 && (
+        <div className="mt-2.5 flex items-center gap-1.5">
+          <select
+            aria-label="กรองแผนผังตามวิชา"
+            value={subjectFilter}
+            onChange={(e) => {
+              const val = e.target.value as SubjectKey | 'all';
+              setSubjectFilter(val);
+              if (val !== 'all') {
+                const target = subjectsInExam.find((s) => s.meta.key === val);
+                if (target) setCur(target.firstIdx);
+              }
+            }}
+            className="w-full rounded-xl border border-line bg-bg2 px-2.5 py-1.5 text-xs font-bold text-ink outline-none focus:border-brand"
+          >
+            <option value="all">แสดงทุกวิชา ({exam.total} ข้อ)</option>
+            {subjectsInExam.map(({ meta, count: subCount, answered: subAns }) => (
+              <option key={meta.key} value={meta.key}>
+                {meta.shortName} ({subAns}/{subCount})
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {/* Filter Tabs */}
+      <div className="mt-3 grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-bg2 border border-line text-xs font-bold">
+        {(
+          [
+            ['all', `ทั้งหมด (${exam.total})`],
+            ['unanswered', `ยังไม่ตอบ (${exam.total - answeredCount})`],
+            ['bookmarked', `ติดดาว (${exam.items.filter((q) => bookmarkedIds.includes(q.id)).length})`],
+          ] as const
+        ).map(([key, label]) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setPaletteFilter(key)}
+            className={`py-1.5 px-2 rounded-lg transition truncate ${
+              paletteFilter === key ? 'bg-panel text-brand shadow-sm' : 'text-muted hover:text-ink'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Grid */}
+      <div className="mt-4 grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-6 gap-2 max-h-[340px] overflow-y-auto pr-1">
+        {filteredIndices.length === 0 ? (
+          <p className="col-span-full text-center text-xs text-muted py-6">ไม่มีข้อสอบในตัวกรองนี้</p>
+        ) : (
+          filteredIndices.map((idx) => {
+            const q = exam.items[idx];
+            const ans = answers[idx];
+            const isCur = idx === cur;
+            const isStar = bookmarkedIds.includes(q.id);
+
+            let btnClass = 'bg-bg2 border-line text-muted hover:border-brand/50';
+            if (isCur) {
+              btnClass = 'bg-brand border-brand text-white ring-2 ring-brand/30';
+            } else if (ans !== null) {
+              if (revealMode === 'instant' || mode === 'review') {
+                btnClass =
+                  ans === q.c
+                    ? 'bg-teal/15 border-teal text-teal-ink'
+                    : 'bg-accent/15 border-accent text-accent';
+              } else {
+                btnClass = 'bg-brand/15 border-brand/50 text-brand';
+              }
+            }
+
+            return (
+              <button
+                key={q.id + '-' + idx}
+                type="button"
+                onClick={() => {
+                  setCur(idx);
+                  setShowMobilePalette(false);
+                }}
+                className={`relative h-9 rounded-xl border font-mono text-xs font-bold transition ${btnClass}`}
+              >
+                {idx + 1}
+                {isStar && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-gold border border-panel" />
+                )}
+              </button>
+            );
+          })
+        )}
+      </div>
+
+      {/* Legend */}
+      <div className="mt-4 pt-3 border-t border-line flex flex-wrap gap-3 text-[11px] text-muted font-medium">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded bg-brand" /> ข้อปัจจุบัน
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded bg-brand/20 border border-brand/50" /> ตอบแล้ว
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-gold" /> ติดดาว
+        </span>
+      </div>
+
+      {mode !== 'review' && (
+        <button
+          type="button"
+          onClick={() => {
+            if (window.confirm('ต้องการล้างคำตอบทั้งหมดในชุดนี้เพื่อเริ่มทำใหม่หรือไม่?')) {
+              setAnswers(new Array(exam.total).fill(null));
+              setEliminated({});
+              setUnansweredOnlyMode(false);
+              setCombo(0);
+              setSessionXp(0);
+              setCur(0);
+              setShowMobilePalette(false);
+            }
+          }}
+          className="mt-4 w-full py-2 rounded-xl border border-line bg-bg2 text-xs font-bold text-muted hover:text-ink flex items-center justify-center gap-1.5"
+        >
+          <RotateCcw className="w-3.5 h-3.5" />
+          <span>ล้างคำตอบเริ่มทำชุดนี้ใหม่</span>
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <div
@@ -594,8 +913,12 @@ function ExamRunnerInner() {
             </Link>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-brand/10 text-brand shrink-0">
-                  {mode === 'real' ? 'จับเวลาจริง' : mode === 'review' ? 'ทบทวนเฉลย' : 'โหมดฝึกซ้อม'}
+                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-brand/10 text-brand shrink-0">
+                  {mode === 'review'
+                    ? 'ทบทวนเฉลย'
+                    : revealMode === 'instant'
+                    ? 'เฉลยทีละข้อ'
+                    : 'เฉลยหลังส่ง'}
                 </span>
                 <h1 className="text-sm sm:text-base font-extrabold truncate">{exam.title}</h1>
               </div>
@@ -606,22 +929,53 @@ function ExamRunnerInner() {
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Live Combo & XP HUD */}
+            {mode !== 'review' && (sessionXp > 0 || combo >= 2) && (
+              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-gold/40 bg-gold/10 text-xs font-extrabold text-gold-ink">
+                {combo >= 2 && (
+                  <span className="inline-flex items-center gap-1 text-accent">
+                    <Flame className="w-3.5 h-3.5" />
+                    <span>Combo x{combo}</span>
+                  </span>
+                )}
+                {combo >= 2 && sessionXp > 0 && <span className="text-line">|</span>}
+                <span className="inline-flex items-center gap-1 font-mono">
+                  <Sparkles className="w-3.5 h-3.5 text-gold-ink" />
+                  +{sessionXp} XP
+                </span>
+              </div>
+            )}
+
             {/* Timer Pill */}
             {mode !== 'review' && (
               <div
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-mono text-sm font-bold ${
+                title={timerMode === 'timed' ? 'จับเวลาถอยหลังตามจริง' : 'นับเวลาสะสม (ไม่จำกัดเวลา)'}
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border font-mono text-xs sm:text-sm font-bold ${
                   urgentClock
                     ? 'bg-accent/15 border-accent/40 text-accent animate-pulse'
                     : 'bg-bg2 border-line text-ink'
                 }`}
               >
                 <Clock className="w-4 h-4" />
-                <span>{mode === 'real' ? formatClock(remainingSec) : formatClock(activeSec)}</span>
+                <span>{timerMode === 'timed' ? formatClock(remainingSec) : formatClock(activeSec)}</span>
               </div>
             )}
 
+            {/* Settings Button */}
+            {mode !== 'review' && (
+              <button
+                type="button"
+                onClick={openSetupModal}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-line bg-bg2 text-muted hover:text-ink hover:border-brand/50 text-xs font-bold transition"
+                title="ตั้งค่าวิธีเฉลยและเวลาสอบ"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">ตั้งค่า</span>
+              </button>
+            )}
+
             {/* Font Scaler */}
-            <div className="hidden md:flex items-center border border-line rounded-xl bg-bg2 p-0.5">
+            <div className="hidden lg:flex items-center border border-line rounded-xl bg-bg2 p-0.5">
               {(['sm', 'md', 'lg'] as FontScale[]).map((sz, i) => (
                 <button
                   key={sz}
@@ -641,7 +995,7 @@ function ExamRunnerInner() {
             <button
               type="button"
               onClick={() => setCutMode((v) => !v)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition ${
+              className={`hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition ${
                 cutMode
                   ? 'bg-gold/20 border-gold text-gold-ink'
                   : 'border-line bg-bg2 text-muted hover:text-ink'
@@ -649,27 +1003,27 @@ function ExamRunnerInner() {
               title="เปิดโหมดขีดฆ่าตัวเลือก (คีย์ลัด E)"
             >
               <Scissors className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">ตัดช้อยส์</span>
+              <span className="hidden lg:inline">ตัดช้อยส์</span>
             </button>
 
             {/* Focus Mode */}
             <button
               type="button"
               onClick={() => setFocusMode((v) => !v)}
-              className={`hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition ${
+              className={`hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition ${
                 focusMode ? 'bg-brand/15 border-brand text-brand' : 'border-line bg-bg2 text-muted hover:text-ink'
               }`}
               title="โหมดโฟกัส (คีย์ลัด F)"
             >
               {focusMode ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
-              <span className="hidden lg:inline">โฟกัส</span>
+              <span className="hidden xl:inline">โฟกัส</span>
             </button>
 
             {/* Shortcuts Help */}
             <button
               type="button"
               onClick={() => setShowShortcuts(true)}
-              className="hidden sm:flex w-9 h-9 rounded-xl border border-line bg-bg2 items-center justify-center text-muted hover:text-ink"
+              className="hidden lg:flex w-9 h-9 rounded-xl border border-line bg-bg2 items-center justify-center text-muted hover:text-ink"
               title="คีย์ลัดการทำข้อสอบ"
             >
               <Keyboard className="w-4 h-4" />
@@ -679,8 +1033,8 @@ function ExamRunnerInner() {
             {mode !== 'review' && (
               <button
                 type="button"
-                onClick={() => setShowSubmitModal(true)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand hover:bg-brand-dark text-white text-xs sm:text-sm font-extrabold shadow-sm transition"
+                onClick={openSubmitConfirmation}
+                className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl bg-brand hover:bg-brand-dark text-white text-xs sm:text-sm font-extrabold shadow-sm transition"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>ส่งข้อสอบ</span>
@@ -698,9 +1052,9 @@ function ExamRunnerInner() {
       </header>
 
       {toast && (
-        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-ink text-panel text-xs sm:text-sm font-bold shadow-xl flex items-center gap-2">
+        <div className="fixed bottom-20 lg:bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-ink text-panel text-xs sm:text-sm font-bold shadow-xl flex items-center gap-2 max-w-[92vw]">
           <ShieldAlert className="w-4 h-4 text-gold shrink-0" />
-          <span>{toast}</span>
+          <span className="truncate">{toast}</span>
         </div>
       )}
 
@@ -770,9 +1124,53 @@ function ExamRunnerInner() {
       )}
 
       {/* Main Layout */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-5 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-5 pb-24 lg:pb-8 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Question Card Column */}
         <section className={`${focusMode ? 'lg:col-span-12 max-w-4xl mx-auto w-full' : 'lg:col-span-8'} space-y-4`}>
+          {unansweredOnlyMode && mode !== 'review' && (
+            <div className="rounded-card border border-gold/40 bg-gold/10 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-gold-ink">
+                <Target className="w-4 h-4 shrink-0" />
+                {unansweredIndices.length > 0 ? (
+                  <span>
+                    โหมดเก็บข้อที่ยังไม่ได้ทำ: เหลืออีก {unansweredIndices.length} ข้อ
+                  </span>
+                ) : (
+                  <span>ตอบครบทุกข้อที่ข้ามไว้แล้ว พร้อมส่งข้อสอบได้ทันที</span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {unansweredIndices.length === 0 ? (
+                  <button
+                    type="button"
+                    onClick={openSubmitConfirmation}
+                    className="px-3 py-1.5 rounded-xl bg-brand text-white text-xs font-extrabold"
+                  >
+                    ส่งข้อสอบเลย
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={goNextQuestion}
+                    className="px-3 py-1.5 rounded-xl bg-gold/20 border border-gold/40 text-gold-ink text-xs font-extrabold hover:bg-gold/30 transition"
+                  >
+                    ข้อที่ข้ามถัดไป
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUnansweredOnlyMode(false);
+                    setPaletteFilter('all');
+                  }}
+                  className="px-3 py-1.5 rounded-xl border border-line bg-panel text-xs font-bold text-muted hover:text-ink transition"
+                >
+                  ดูข้อสอบทั้งหมด
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="bg-panel border border-line rounded-card p-5 sm:p-7 shadow-card">
             {/* Subject + Actions Row */}
             <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-line">
@@ -786,7 +1184,7 @@ function ExamRunnerInner() {
                     <span className="text-xs font-mono text-muted">#{currentQuestion.id}</span>
                   </div>
                   {currentQuestion.title && (
-                    <p className="text-xs text-muted truncate max-w-[260px] sm:max-w-md">
+                    <p className="text-xs text-muted truncate max-w-[240px] sm:max-w-md">
                       หัวข้อ: {currentQuestion.title}
                     </p>
                   )}
@@ -812,7 +1210,7 @@ function ExamRunnerInner() {
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-line bg-bg2 text-muted hover:text-accent hover:border-accent/40 text-xs font-bold transition"
                 >
                   <Flag className="w-3.5 h-3.5" />
-                  <span>แจ้งข้อผิดพลาด</span>
+                  <span className="hidden sm:inline">แจ้งข้อผิดพลาด</span>
                 </button>
               </div>
             </div>
@@ -832,13 +1230,13 @@ function ExamRunnerInner() {
                 <span className="inline-block font-mono text-brand font-extrabold mr-2">
                   ข้อที่ {cur + 1}.
                 </span>
-                {currentQuestion.b}
+                {effectiveStemText}
               </div>
 
-              {currentQuestion.img && (
+              {effectiveStemImg && (
                 <div className="mt-4">
                   <ImageLightbox
-                    src={currentQuestion.img}
+                    src={effectiveStemImg}
                     alt={`ภาพประกอบข้อ ${currentQuestion.id}`}
                     className="max-h-72 rounded-2xl border border-line object-contain bg-bg2 p-2"
                   />
@@ -853,7 +1251,9 @@ function ExamRunnerInner() {
                 const selected = userChoice === idx;
                 const isCorrectOpt = currentQuestion.c === idx;
                 const isEliminated = currentEliminated.includes(idx);
-                const optImg = currentQuestion.optImgs?.[idx] || null;
+                const optIsRawUrl = isImageUrlString(optText);
+                const optImg = currentQuestion.optImgs?.[idx] || (optIsRawUrl ? optText.trim() : null);
+                const displayOptText = optIsRawUrl ? '' : optText;
 
                 let cardStyle =
                   'border-line bg-bg2/60 hover:border-brand/50 hover:bg-brand/5 text-ink';
@@ -890,19 +1290,22 @@ function ExamRunnerInner() {
                       {label}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p
-                        className={`${stemSizeClass} ${
-                          isEliminated ? 'line-through decoration-2' : ''
-                        }`}
-                      >
-                        {optText}
-                      </p>
+                      {displayOptText && (
+                        <p
+                          className={`${stemSizeClass} ${
+                            isEliminated ? 'line-through decoration-2' : ''
+                          }`}
+                        >
+                          {displayOptText}
+                        </p>
+                      )}
                       {optImg && (
-                        <div className="mt-2" onClick={(e) => e.stopPropagation()}>
+                        <div className={displayOptText ? 'mt-2' : ''}>
                           <ImageLightbox
                             src={optImg}
                             alt={`ภาพตัวเลือก ${label}`}
                             className="max-h-36 rounded-xl border border-line object-contain bg-panel p-1"
+                            selectOnImageClick={true}
                           />
                         </div>
                       )}
@@ -936,7 +1339,7 @@ function ExamRunnerInner() {
               })}
             </div>
 
-            {/* Instant Explanation (Practice & Review) */}
+            {/* Instant Explanation (Instant mode & Review) */}
             {showInstantFeedback && (
               <div className="mt-6 p-4 sm:p-5 rounded-2xl border border-teal/35 bg-teal/5 space-y-2.5">
                 <div className="flex items-center justify-between gap-2">
@@ -958,13 +1361,19 @@ function ExamRunnerInner() {
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-ink/90 whitespace-pre-line font-exam leading-relaxed">
-                  {currentQuestion.e || 'ข้อนี้เฉลยตามตัวเลือกที่ระบุไว้ในระบบคลังข้อสอบ'}
-                </p>
-                {currentQuestion.eImg && (
+                {effectiveExpText ? (
+                  <p className="text-sm text-ink/90 whitespace-pre-line font-exam leading-relaxed">
+                    {effectiveExpText}
+                  </p>
+                ) : !effectiveExpImg ? (
+                  <p className="text-sm text-ink/90 font-exam leading-relaxed">
+                    ข้อนี้เฉลยตามตัวเลือกที่ระบุไว้ในระบบคลังข้อสอบ
+                  </p>
+                ) : null}
+                {effectiveExpImg && (
                   <div className="pt-2">
                     <ImageLightbox
-                      src={currentQuestion.eImg}
+                      src={effectiveExpImg}
                       alt={`ภาพเฉลยข้อ ${currentQuestion.id}`}
                       className="max-h-72 rounded-xl border border-line object-contain bg-panel p-1.5"
                     />
@@ -973,31 +1382,32 @@ function ExamRunnerInner() {
               </div>
             )}
 
-            {/* Navigation Footer */}
-            <div className="mt-6 pt-5 border-t border-line flex items-center justify-between gap-3">
+            {/* Navigation Footer (Desktop/Tablet) */}
+            <div className="mt-6 pt-5 border-t border-line hidden sm:flex items-center justify-between gap-3">
               <button
                 type="button"
-                disabled={cur === 0}
-                onClick={() => setCur((c) => Math.max(0, c - 1))}
+                disabled={!unansweredOnlyMode && cur === 0}
+                onClick={goPrevQuestion}
                 className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-btn border border-line bg-bg2 font-bold text-sm disabled:opacity-40 hover:border-brand/50 transition"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>ข้อก่อนหน้า</span>
               </button>
 
-              {cur < exam.total - 1 ? (
+              {(!unansweredOnlyMode && cur < exam.total - 1) ||
+              (unansweredOnlyMode && unansweredIndices.length > 0) ? (
                 <button
                   type="button"
-                  onClick={() => setCur((c) => Math.min(exam.total - 1, c + 1))}
+                  onClick={goNextQuestion}
                   className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-btn bg-brand hover:bg-brand-dark text-white font-bold text-sm transition"
                 >
-                  <span>ข้อถัดไป</span>
+                  <span>{unansweredOnlyMode ? 'ข้อที่ข้ามถัดไป' : 'ข้อถัดไป'}</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               ) : mode !== 'review' ? (
                 <button
                   type="button"
-                  onClick={() => setShowSubmitModal(true)}
+                  onClick={openSubmitConfirmation}
                   className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-btn bg-teal hover:opacity-90 text-white font-extrabold text-sm transition"
                 >
                   <Check className="w-4 h-4" />
@@ -1017,141 +1427,252 @@ function ExamRunnerInner() {
 
         {/* Navigator Palette Column */}
         {!focusMode && (
-          <aside className="lg:col-span-4 space-y-4 lg:sticky lg:top-20">
-            <div className="bg-panel border border-line rounded-card p-5 shadow-card">
-              <div className="flex items-center justify-between gap-2">
-                <h2 className="text-sm font-extrabold">แผนผังข้อสอบ</h2>
-                <span className="text-xs font-mono text-muted">
-                  {answeredCount}/{exam.total} ข้อ
-                </span>
-              </div>
-
-              {subjectsInExam.length > 1 && (
-                <div className="mt-2.5 flex items-center gap-1.5">
-                  <select
-                    aria-label="กรองแผนผังตามวิชา"
-                    value={subjectFilter}
-                    onChange={(e) => {
-                      const val = e.target.value as SubjectKey | 'all';
-                      setSubjectFilter(val);
-                      if (val !== 'all') {
-                        const target = subjectsInExam.find((s) => s.meta.key === val);
-                        if (target) setCur(target.firstIdx);
-                      }
-                    }}
-                    className="w-full rounded-xl border border-line bg-bg2 px-2.5 py-1.5 text-xs font-bold text-ink outline-none focus:border-brand"
-                  >
-                    <option value="all">แสดงทุกวิชา ({exam.total} ข้อ)</option>
-                    {subjectsInExam.map(({ meta, count: subCount, answered: subAns }) => (
-                      <option key={meta.key} value={meta.key}>
-                        {meta.shortName} ({subAns}/{subCount})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-
-              {/* Filter Tabs */}
-              <div className="mt-3 grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-bg2 border border-line text-xs font-bold">
-                {(
-                  [
-                    ['all', `ทั้งหมด (${exam.total})`],
-                    ['unanswered', `ยังไม่ตอบ (${exam.total - answeredCount})`],
-                    ['bookmarked', `ติดดาว (${exam.items.filter((q) => bookmarkedIds.includes(q.id)).length})`],
-                  ] as const
-                ).map(([key, label]) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => setPaletteFilter(key)}
-                    className={`py-1.5 px-2 rounded-lg transition truncate ${
-                      paletteFilter === key
-                        ? 'bg-panel text-brand shadow-sm'
-                        : 'text-muted hover:text-ink'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Grid */}
-              <div className="mt-4 grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-6 gap-2 max-h-[360px] overflow-y-auto pr-1">
-                {filteredIndices.length === 0 ? (
-                  <p className="col-span-full text-center text-xs text-muted py-6">
-                    ไม่มีข้อสอบในตัวกรองนี้
-                  </p>
-                ) : (
-                  filteredIndices.map((idx) => {
-                    const q = exam.items[idx];
-                    const ans = answers[idx];
-                    const isCur = idx === cur;
-                    const isStar = bookmarkedIds.includes(q.id);
-
-                    let btnClass = 'bg-bg2 border-line text-muted hover:border-brand/50';
-                    if (isCur) {
-                      btnClass = 'bg-brand border-brand text-white ring-2 ring-brand/30';
-                    } else if (ans !== null) {
-                      if (mode === 'practice') {
-                        btnClass =
-                          ans === q.c
-                            ? 'bg-teal/15 border-teal text-teal-ink'
-                            : 'bg-accent/15 border-accent text-accent';
-                      } else {
-                        btnClass = 'bg-brand/15 border-brand/50 text-brand';
-                      }
-                    }
-
-                    return (
-                      <button
-                        key={q.id + '-' + idx}
-                        type="button"
-                        onClick={() => setCur(idx)}
-                        className={`relative h-9 rounded-xl border font-mono text-xs font-bold transition ${btnClass}`}
-                      >
-                        {idx + 1}
-                        {isStar && (
-                          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-gold border border-panel" />
-                        )}
-                      </button>
-                    );
-                  })
-                )}
-              </div>
-
-              {/* Legend */}
-              <div className="mt-4 pt-3 border-t border-line flex flex-wrap gap-3 text-[11px] text-muted font-medium">
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded bg-brand" /> ข้อปัจจุบัน
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded bg-brand/20 border border-brand/50" /> ตอบแล้ว
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-gold" /> ติดดาว
-                </span>
-              </div>
-
-              {mode !== 'review' && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (window.confirm('ต้องการล้างคำตอบทั้งหมดในชุดนี้เพื่อเริ่มทำใหม่หรือไม่?')) {
-                      setAnswers(new Array(exam.total).fill(null));
-                      setEliminated({});
-                      setCur(0);
-                    }
-                  }}
-                  className="mt-4 w-full py-2 rounded-xl border border-line bg-bg2 text-xs font-bold text-muted hover:text-ink flex items-center justify-center gap-1.5"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>ล้างคำตอบเริ่มทำชุดนี้ใหม่</span>
-                </button>
-              )}
-            </div>
+          <aside className="hidden lg:block lg:col-span-4 space-y-4 lg:sticky lg:top-20">
+            {palettePanelContent}
           </aside>
         )}
       </main>
+
+      {/* Sticky Mobile Bottom Action Bar */}
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 border-t border-line bg-panel/95 backdrop-blur-xl px-3 py-2.5">
+        <div className="max-w-xl mx-auto flex items-center justify-between gap-2">
+          <button
+            type="button"
+            disabled={!unansweredOnlyMode && cur === 0}
+            onClick={goPrevQuestion}
+            className="inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl border border-line bg-bg2 text-xs font-bold disabled:opacity-40"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>ก่อนหน้า</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowMobilePalette(true)}
+            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-line bg-bg2 text-xs font-extrabold text-ink"
+          >
+            <Grid2X2 className="w-4 h-4 text-brand" />
+            <span className="font-mono">
+              {cur + 1}/{exam.total}
+            </span>
+          </button>
+
+          {mode !== 'review' && (
+            <button
+              type="button"
+              onClick={openSetupModal}
+              aria-label="ตั้งค่าข้อสอบ"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-line bg-bg2 text-muted hover:text-ink shrink-0"
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+            </button>
+          )}
+
+          {(!unansweredOnlyMode && cur < exam.total - 1) ||
+          (unansweredOnlyMode && unansweredIndices.length > 0) ? (
+            <button
+              type="button"
+              onClick={goNextQuestion}
+              className="inline-flex items-center justify-center gap-1 px-4 py-2 rounded-xl bg-brand text-white text-xs font-extrabold"
+            >
+              <span>{unansweredOnlyMode ? 'ข้ามถัดไป' : 'ข้อถัดไป'}</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          ) : mode !== 'review' ? (
+            <button
+              type="button"
+              onClick={openSubmitConfirmation}
+              className="inline-flex items-center justify-center gap-1 px-4 py-2 rounded-xl bg-teal text-white text-xs font-extrabold"
+            >
+              <Check className="w-4 h-4" />
+              <span>ส่งข้อสอบ</span>
+            </button>
+          ) : (
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center justify-center gap-1 px-4 py-2 rounded-xl bg-brand text-white text-xs font-extrabold"
+            >
+              <span>เสร็จสิ้น</span>
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile Palette Slide-up Drawer */}
+      {showMobilePalette && !focusMode && (
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end justify-center"
+          onClick={() => setShowMobilePalette(false)}
+        >
+          <div
+            className="w-full max-w-lg rounded-t-3xl bg-panel border-t border-line p-4 pb-6 shadow-2xl max-h-[82vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-extrabold">เลือกข้อสอบและตัวกรอง</span>
+              <button
+                type="button"
+                onClick={() => setShowMobilePalette(false)}
+                className="p-1.5 rounded-xl border border-line bg-bg2 text-muted hover:text-ink"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            {palettePanelContent}
+          </div>
+        </div>
+      )}
+
+      {/* Pre-Exam / Mid-Exam Setup Modal */}
+      {showSetupModal && mode !== 'review' && (
+        <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-panel border border-line rounded-card max-w-lg w-full p-5 sm:p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-brand/10 text-brand flex items-center justify-center shrink-0">
+                  <SlidersHorizontal className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-extrabold text-ink">ตั้งค่ารูปแบบการทำข้อสอบ</h3>
+                  <p className="text-xs text-muted mt-0.5">
+                    เลือกวิธีเฉลยคำตอบและการจับเวลาได้ตามต้องการ ({exam.total} ข้อ)
+                  </p>
+                </div>
+              </div>
+              {setupConfigured && (
+                <button
+                  type="button"
+                  onClick={() => setShowSetupModal(false)}
+                  className="p-1.5 rounded-xl text-muted hover:text-ink"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+
+            <div className="space-y-2.5">
+              <p className="text-xs font-extrabold uppercase tracking-wide text-muted">
+                1. รูปแบบการเฉลยคำตอบ
+              </p>
+              <div className="grid grid-cols-1 gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setDraftReveal('instant')}
+                  className={`text-left p-4 rounded-2xl border transition ${
+                    draftReveal === 'instant'
+                      ? 'border-brand bg-brand/10 ring-2 ring-brand/20'
+                      : 'border-line bg-bg2 hover:border-brand/40'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-extrabold text-sm text-ink inline-flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-brand" />
+                      <span>เฉลยข้อต่อข้อทันที</span>
+                    </span>
+                    <span
+                      className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
+                        draftReveal === 'instant' ? 'bg-brand text-white' : 'bg-panel text-muted'
+                      }`}
+                    >
+                      แนะนำสำหรับฝึกจำ
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted mt-1.5 leading-relaxed">
+                    คลิกตอบแล้วแสดงเฉลยพร้อมคำอธิบายและภาพประกอบทันที พร้อมสะสม Combo และ +XP
+                  </p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setDraftReveal('end')}
+                  className={`text-left p-4 rounded-2xl border transition ${
+                    draftReveal === 'end'
+                      ? 'border-teal bg-teal/10 ring-2 ring-teal/20'
+                      : 'border-line bg-bg2 hover:border-teal/40'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-extrabold text-sm text-ink inline-flex items-center gap-2">
+                      <Target className="w-4 h-4 text-teal-ink" />
+                      <span>เฉลยย้อนหลังเมื่อส่งข้อสอบ + วิเคราะห์จุดอ่อน</span>
+                    </span>
+                    <span
+                      className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
+                        draftReveal === 'end' ? 'bg-teal text-white' : 'bg-panel text-muted'
+                      }`}
+                    >
+                      วัดผลสมจริง
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted mt-1.5 leading-relaxed">
+                    ซ่อนเฉลยทั้งหมดระหว่างทำข้อสอบ เพื่อวัดความแม่นยำจริงและวิเคราะห์ว่าไม่ถนัดวิชาหรือหัวข้อใด
+                  </p>
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-2.5">
+              <p className="text-xs font-extrabold uppercase tracking-wide text-muted">
+                2. การจับเวลาสอบ
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setDraftTimer('timed')}
+                  className={`text-left p-3.5 rounded-2xl border transition ${
+                    draftTimer === 'timed'
+                      ? 'border-brand bg-brand/10 ring-2 ring-brand/20'
+                      : 'border-line bg-bg2 hover:border-brand/40'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 font-extrabold text-sm text-ink">
+                    <Timer className="w-4 h-4 text-brand" />
+                    <span>จับเวลาจริง</span>
+                  </div>
+                  <p className="text-xs text-muted mt-1">
+                    นับถอยหลัง {Math.max(1, Math.round(exam.durationSec / 60))} นาที
+                  </p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setDraftTimer('elapsed')}
+                  className={`text-left p-3.5 rounded-2xl border transition ${
+                    draftTimer === 'elapsed'
+                      ? 'border-brand bg-brand/10 ring-2 ring-brand/20'
+                      : 'border-line bg-bg2 hover:border-brand/40'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 font-extrabold text-sm text-ink">
+                    <Clock className="w-4 h-4 text-teal-ink" />
+                    <span>ไม่จำกัดเวลา</span>
+                  </div>
+                  <p className="text-xs text-muted mt-1">นับเวลาทำสะสมแบบไม่กดดัน</p>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-1">
+              {setupConfigured && (
+                <button
+                  type="button"
+                  onClick={() => setShowSetupModal(false)}
+                  className="px-4 py-2.5 rounded-btn border border-line font-bold text-sm"
+                >
+                  ยกเลิก
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => applySetupAndStart(draftReveal, draftTimer)}
+                className="w-full sm:w-auto px-6 py-2.5 rounded-btn bg-brand hover:bg-brand-dark text-white font-extrabold text-sm shadow-sm transition"
+              >
+                {setupConfigured ? 'บันทึกการตั้งค่า' : 'เริ่มทำข้อสอบ'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Submit Confirmation Modal */}
       {showSubmitModal && (
@@ -1170,37 +1691,85 @@ function ExamRunnerInner() {
               </button>
             </div>
             <div>
-              <h3 className="text-lg font-extrabold">ยืนยันการส่งข้อสอบ?</h3>
+              <h3 className="text-lg font-extrabold">แน่ใจแล้วใช่ไหมที่จะส่งข้อสอบ?</h3>
               <p className="text-sm text-muted mt-1">
                 คุณทำข้อสอบไปแล้ว{' '}
                 <span className="font-bold text-ink">
                   {answeredCount} / {exam.total} ข้อ
                 </span>
-                {answeredCount < exam.total && (
+                {unansweredIndices.length > 0 && (
                   <span className="text-accent font-semibold">
                     {' '}
-                    (ยังเหลืออีก {exam.total - answeredCount} ข้อที่ยังไม่ได้ตอบ)
+                    (ยังไม่ได้ทำ {unansweredIndices.length} ข้อ)
                   </span>
                 )}
               </p>
+
+              {unansweredIndices.length > 0 && (
+                <div className="mt-3 p-3 rounded-2xl border border-accent/30 bg-accent/5 space-y-2">
+                  <p className="text-xs font-bold text-accent">
+                    ระบบพาข้ามมาที่ข้อที่ยังไม่ได้ทำแล้ว คลิกเลขข้อหรือปุ่มด้านล่างเพื่อย้อนทำได้:
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {unansweredIndices.slice(0, 12).map((uIdx) => (
+                      <button
+                        key={uIdx}
+                        type="button"
+                        onClick={() => {
+                          setCur(uIdx);
+                          setShowSubmitModal(false);
+                        }}
+                        className="px-2.5 py-1 rounded-lg border border-accent/40 bg-panel text-xs font-mono font-bold text-accent hover:bg-accent hover:text-white transition"
+                      >
+                        ข้อ {uIdx + 1}
+                      </button>
+                    ))}
+                    {unansweredIndices.length > 12 && (
+                      <span className="px-2 py-1 text-xs font-bold text-muted">
+                        +{unansweredIndices.length - 12} ข้อ
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="flex items-center justify-end gap-2.5 pt-2">
+
+            <div className="flex flex-col gap-2.5 pt-2">
+              {unansweredIndices.length > 0 && (
+                <button
+                  type="button"
+                  disabled={submitting}
+                  onClick={() => {
+                    setUnansweredOnlyMode(true);
+                    setPaletteFilter('unanswered');
+                    setCur(unansweredIndices[0]);
+                    setShowSubmitModal(false);
+                  }}
+                  className="w-full px-4 py-2.5 rounded-btn border border-gold/50 bg-gold/15 text-gold-ink font-extrabold text-sm hover:bg-gold/25 transition"
+                >
+                  ย้อนทำเฉพาะข้อที่ยังไม่ได้ทำ ({unansweredIndices.length} ข้อ)
+                </button>
+              )}
               <button
                 type="button"
                 disabled={submitting}
-                onClick={() => setShowSubmitModal(false)}
-                className="px-4 py-2.5 rounded-btn border border-line font-bold text-sm"
+                onClick={() => {
+                  setUnansweredOnlyMode(false);
+                  setPaletteFilter('all');
+                  setShowSubmitModal(false);
+                }}
+                className="w-full px-4 py-2.5 rounded-btn border border-line bg-bg2 font-bold text-sm hover:border-brand/50 transition"
               >
-                กลับไปตรวจทาน
+                ย้อนดูข้อสอบทั้งหมด ({exam.total} ข้อ)
               </button>
               <button
                 type="button"
                 disabled={submitting}
                 onClick={() => handleSubmit()}
-                className="px-5 py-2.5 rounded-btn bg-brand hover:bg-brand-dark text-white font-extrabold text-sm flex items-center gap-2"
+                className="w-full px-5 py-2.5 rounded-btn bg-brand hover:bg-brand-dark text-white font-extrabold text-sm flex items-center justify-center gap-2"
               >
                 {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
-                <span>{submitting ? 'กำลังตรวจคะแนน...' : 'ส่งคำตอบทันที'}</span>
+                <span>{submitting ? 'กำลังตรวจคะแนน...' : 'ยืนยันส่งข้อสอบทันที'}</span>
               </button>
             </div>
           </div>

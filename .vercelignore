@@ -1,0 +1,7 @@
+.git
+.next
+out
+public/static-data
+node_modules
+data/dataset/questions/by-set/set-unassigned.json
+*.log

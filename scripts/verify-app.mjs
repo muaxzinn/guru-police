@@ -90,6 +90,13 @@ async function main() {
     const exam201 = await fetchJson('/api/exam/201');
     assert.equal(exam201.ok, true);
     assert.equal(exam201.data.items.length, 150, 'Set 201 should contain 150 items');
+    const urlOnlyRe = /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+)$/i;
+    for (const item of exam201.data.items) {
+      assert.equal(urlOnlyRe.test(String(item.b || '').trim()), false, `Raw image URL left in stem #${item.id}`);
+      for (const opt of item.opts || []) {
+        assert.equal(urlOnlyRe.test(String(opt || '').trim()), false, `Raw image URL left in opt #${item.id}`);
+      }
+    }
 
     const exam201Math = await fetchJson('/api/exam/201?subject=math');
     assert.equal(exam201Math.ok, true);
@@ -188,12 +195,36 @@ async function main() {
     }
 
     await page.goto(`${BASE_URL}/exam/201?mode=practice&fresh=1`, { waitUntil: 'networkidle' });
+    await page.waitForSelector('text=ตั้งค่ารูปแบบการทำข้อสอบ', { timeout: 10000 });
+    await page.locator('button:has-text("เริ่มทำข้อสอบ")').click();
     await page.waitForSelector('text=ข้อที่ 1.', { timeout: 10000 });
     await page.locator('button:has-text("กฎหมาย")').first().click();
     await page.waitForSelector('text=แยกทำเฉพาะวิชากฎหมาย', { timeout: 5000 });
     await page.locator('main span:text-is("ก")').first().click();
     await page.waitForSelector('text=เฉลยที่ถูกต้อง:', { timeout: 5000 });
-    console.log('   Verified /exam/201?mode=practice&fresh=1 subject jump & interactive runner');
+
+    await page.locator('header button:has-text("ส่งข้อสอบ")').click();
+    await page.waitForSelector('text=แน่ใจแล้วใช่ไหมที่จะส่งข้อสอบ?', { timeout: 5000 });
+    await page.waitForSelector('button:has-text("ย้อนทำเฉพาะข้อที่ยังไม่ได้ทำ")', { timeout: 5000 });
+    await page.waitForSelector('button:has-text("ย้อนดูข้อสอบทั้งหมด")', { timeout: 5000 });
+    await page.waitForSelector('button:has-text("ยืนยันส่งข้อสอบทันที")', { timeout: 5000 });
+    console.log('   Verified /exam/201 setup gate, subject jump, instant reveal & 3-button submit modal');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/dashboard`, { waitUntil: 'networkidle' });
+    const mobileDashOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 2
+    );
+    assert.equal(mobileDashOverflow, false, 'Mobile /dashboard should not overflow horizontally');
+    await page.waitForSelector('nav[aria-label="แถบนำทางมือถือ"]', { timeout: 5000 });
+
+    await page.goto(`${BASE_URL}/exam/201?mode=practice&fresh=1&autostart=1`, { waitUntil: 'networkidle' });
+    await page.waitForSelector('text=ข้อที่ 1.', { timeout: 10000 });
+    const mobileExamOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 2
+    );
+    assert.equal(mobileExamOverflow, false, 'Mobile /exam should not overflow horizontally');
+    console.log('   Verified mobile 390x844 layout & navigation');
 
     await context.close();
     assert.equal(pageErrors.length, 0, `Uncaught page errors: ${JSON.stringify(pageErrors)}`);
