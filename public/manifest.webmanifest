@@ -1,0 +1,24 @@
+{
+  "name": "GURU POLICE — ข้อสอบตำรวจ",
+  "short_name": "GURU POLICE",
+  "description": "ฝึกทำข้อสอบตำรวจเสมือนจริง พร้อมเฉลยละเอียด",
+  "start_url": "./dashboard/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#E60707",
+  "lang": "th",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

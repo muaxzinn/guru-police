@@ -1,0 +1,264 @@
+[
+  {
+    "id": 7000,
+    "b": "She enjoys _________ a shower in the morning.",
+    "opts": [
+      "taking",
+      "to take",
+      "take",
+      "takes"
+    ],
+    "c": 0,
+    "t": "Clauses and Verb Forms",
+    "subject": "eng"
+  },
+  {
+    "id": 6722,
+    "b": "This is _____ easy question for new students.",
+    "opts": [
+      "a",
+      "an",
+      "some",
+      "many"
+    ],
+    "c": 1,
+    "t": "Parts of Speech",
+    "subject": "eng"
+  },
+  {
+    "id": 6156,
+    "b": "Mike Brodsky is buying a ticket\nMike : A ticket to New York, please.\nClerk : ______?______.\nMike : Oh, one way.\nFill in the blank to complete.",
+    "opts": [
+      "Are you single?",
+      "One way or round trip?",
+      "Is it one way traffic?",
+      "Single or Double?"
+    ],
+    "c": 1,
+    "t": "Conversation",
+    "subject": "eng"
+  },
+  {
+    "id": 6777,
+    "b": "The road becomes very __________ after heavy rain.",
+    "opts": [
+      "danger",
+      "dangerous",
+      "dangerously",
+      "endanger"
+    ],
+    "c": 1,
+    "t": "Parts of Speech",
+    "subject": "eng"
+  },
+  {
+    "id": 7111,
+    "b": "",
+    "opts": [
+      "You can’t park your bicycle here",
+      "You can’t ride your bicycle here",
+      "You should leave your bicycle here",
+      "You should walk with your bicycle here"
+    ],
+    "c": 1,
+    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q956.png",
+    "t": "Reading",
+    "subject": "eng"
+  },
+  {
+    "id": 6893,
+    "b": "Both dad and mom _________ coming to the parent-teacher conference.",
+    "opts": [
+      "was",
+      "are",
+      "be",
+      "is"
+    ],
+    "c": 1,
+    "t": "Tenses and Passive voice",
+    "subject": "eng"
+  },
+  {
+    "id": 6571,
+    "b": "What kind of place is advertised?",
+    "opts": [
+      "A serviced apartment",
+      "A department store",
+      "A public library",
+      "A hospital"
+    ],
+    "c": 0,
+    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q416.png",
+    "t": "Reading",
+    "subject": "eng"
+  },
+  {
+    "id": 6611,
+    "b": "The human body continuously produces heat which derives from eating food. When a man is working, his body produces more heat than when he is at rest. But the body cannot store heat. The inner temperature of the body must remain constant at 37°C. People become ill if their temperature rises much above this.\nFrom the passage, heat is produced because ____________.",
+    "opts": [
+      "we have to work",
+      "we drink water",
+      "we eat food",
+      "the weather is hot"
+    ],
+    "c": 2,
+    "t": "Reading",
+    "subject": "eng"
+  },
+  {
+    "id": 6905,
+    "b": "You can’t fix my bike, _________?",
+    "opts": [
+      "can you",
+      "can’t you",
+      "do you",
+      "don’t you"
+    ],
+    "c": 0,
+    "t": "Tenses and Passive voice",
+    "subject": "eng"
+  },
+  {
+    "id": 6877,
+    "b": "In December, Christmas music ____________ on the radio.",
+    "opts": [
+      "hears",
+      "heard",
+      "is heard",
+      "has heard"
+    ],
+    "c": 2,
+    "t": "Tenses and Passive voice",
+    "subject": "eng"
+  },
+  {
+    "id": 6831,
+    "b": "Not only the workers ____ the managers are going to the union meeting.",
+    "opts": [
+      "or",
+      "but also",
+      "nor",
+      "and"
+    ],
+    "c": 1,
+    "t": "Connectors and Prepositions",
+    "subject": "eng"
+  },
+  {
+    "id": 6397,
+    "b": "I heard that the man who __________ the bank last week has been\narrested.",
+    "opts": [
+      "stole",
+      "attacked",
+      "robbed",
+      "kidnapped"
+    ],
+    "c": 2,
+    "t": "Vocabulary",
+    "subject": "eng"
+  },
+  {
+    "id": 6715,
+    "b": "There was ______ tsunami in Thailand.",
+    "opts": [
+      "a",
+      "an",
+      "much",
+      "-"
+    ],
+    "c": 0,
+    "t": "Parts of Speech",
+    "subject": "eng"
+  },
+  {
+    "id": 6221,
+    "b": "Conversation : Terry talks with Postal clerk\nTerry : A stamp for this postcard, please.\nOfficer : ___________________.\nTerry : Amsterdam.\nOfficer : Five euros, please.",
+    "opts": [
+      "How far is it?",
+      "How is it?",
+      "Where’s it going?",
+      "Where are you from?"
+    ],
+    "c": 2,
+    "t": "Conversation",
+    "subject": "eng"
+  },
+  {
+    "id": 6196,
+    "b": "A secretary is on the phone and wants to know the caller’s name so she asks politely, “_______, please?”",
+    "opts": [
+      "Who do you want to call",
+      "Who are you",
+      "Who is saying that",
+      "Who’s calling"
+    ],
+    "c": 3,
+    "t": "Conversation",
+    "subject": "eng"
+  },
+  {
+    "id": 7003,
+    "b": "I avoid _________ late because it leads to GERD.",
+    "opts": [
+      "to eat",
+      "eating",
+      "eat",
+      "eats"
+    ],
+    "c": 1,
+    "t": "Clauses and Verb Forms",
+    "subject": "eng"
+  },
+  {
+    "id": 6502,
+    "b": "The decrease in white blood cells seems to _________ the antibiotic is working.",
+    "opts": [
+      "comply",
+      "imply",
+      "reply",
+      "apply"
+    ],
+    "c": 1,
+    "t": "Vocabulary",
+    "subject": "eng"
+  },
+  {
+    "id": 6427,
+    "b": "Forces were ______ after an emergency to help the people.",
+    "opts": [
+      "gathered",
+      "depart",
+      "separate",
+      "nationality"
+    ],
+    "c": 0,
+    "t": "Vocabulary",
+    "subject": "eng"
+  },
+  {
+    "id": 6373,
+    "b": "Which is the odd one out?",
+    "opts": [
+      "complex",
+      "odd",
+      "unusual",
+      "strange"
+    ],
+    "c": 0,
+    "t": "Vocabulary",
+    "subject": "eng"
+  },
+  {
+    "id": 7059,
+    "b": "You can swim very well, _________?",
+    "opts": [
+      "can you",
+      "can't you",
+      "do you",
+      "don't you"
+    ],
+    "c": 1,
+    "t": "Special Grammar Points",
+    "subject": "eng"
+  }
+]

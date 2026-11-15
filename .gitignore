@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js build & types
+.next/
+out/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# Runtime state & transient build artifacts
+data/runtime-state.json
+.gh-pages-stash/
+public/static-data/
+
+# Large unused split dump (all-questions.json is complete source of truth)
+data/dataset/questions/by-set/set-unassigned.json
+
+# OS & Editor
+.DS_Store
+*.log
+.env*.local

@@ -1,0 +1,34 @@
+{
+  "origin": "https://examgurupolice.netlify.app",
+  "build_id": "lMK9S3c_2qebMoqcgvOv5",
+  "routes": [
+    { "path": "/", "group": "(marketing)", "auth": "public", "http_unauth": 200, "evidence": "OBSERVED_LIVE_HTML", "chunk": "/_next/static/chunks/app/(marketing)/page-fede579acdaf3cef.js" },
+    { "path": "/articles", "group": "(marketing)", "auth": "public", "http_unauth": 200, "evidence": "OBSERVED_LIVE_HTML", "chunk": "/_next/static/chunks/app/(marketing)/articles/page-a26b34071a1544c1.js" },
+    { "path": "/articles/[slug]", "group": "(marketing)", "auth": "public", "http_unauth": 200, "evidence": "OBSERVED_SSG_MANIFEST_AND_20_SLUGS", "chunk": "/_next/static/chunks/app/(marketing)/articles/%5Bslug%5D/page-a26b34071a1544c1.js" },
+    { "path": "/news", "group": "(marketing)", "auth": "public", "http_unauth": 200, "evidence": "OBSERVED_LIVE_HTML", "chunk": "/_next/static/chunks/app/(marketing)/news/page-a26b34071a1544c1.js" },
+    { "path": "/news/[slug]", "group": "(marketing)", "auth": "public", "http_unauth": 200, "evidence": "OBSERVED_SSG_MANIFEST_AND_1_SLUG", "chunk": "/_next/static/chunks/app/(marketing)/news/%5Bslug%5D/page-a26b34071a1544c1.js" },
+    { "path": "/login", "group": "(auth)", "auth": "public", "http_unauth": 200, "evidence": "OBSERVED_LIVE_HTML", "chunk": "/_next/static/chunks/app/(auth)/login/page-a5cae780674e346b.js", "query_params": ["kicked=1", "error=..."] },
+    { "path": "/register", "group": "(auth)", "auth": "public", "http_unauth": 200, "evidence": "OBSERVED_LIVE_HTML", "chunk": "/_next/static/chunks/app/(auth)/register/page-382ed8cf39778b46.js" },
+    { "path": "/auth/callback", "group": "(auth)", "auth": "oauth_callback", "http_unauth": 307, "evidence": "OBSERVED_LIVE_REDIRECT_AND_BUNDLE_MOD_6075_7722" },
+    { "path": "/api/health", "group": "api", "auth": "public", "http_unauth": 200, "evidence": "OBSERVED_LIVE_JSON" },
+    { "path": "/dashboard", "group": "(app)", "auth": "authenticated", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_4625_AND_375", "label_th": "ทำข้อสอบ" },
+    { "path": "/catalog", "group": "(app)", "auth": "authenticated", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375", "label_th": "คลังข้อสอบ" },
+    { "path": "/catalog/form", "group": "(app)", "auth": "authenticated", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375", "label_th": "ฟอร์มข้อสอบ" },
+    { "path": "/catalog/subject", "group": "(app)", "auth": "authenticated", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375_AND_BLOOM_FILTER", "label_th": "แยกรายวิชา" },
+    { "path": "/exam/[id]", "group": "(app)", "auth": "authenticated", "http_unauth": 307, "evidence": "OBSERVED_307_AND_BLOOM_FILTER_DYN_EXAM", "label_th": "ทำข้อสอบ" },
+    { "path": "/result/[id]", "group": "(app)", "auth": "authenticated", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375", "label_th": "ผลสอบ" },
+    { "path": "/history", "group": "(app)", "auth": "authenticated", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_4625_AND_CHUNK_200", "chunk": "/_next/static/chunks/app/(app)/history/page-b089d3fd56d7398b.js", "label_th": "ประวัติการทำ" },
+    { "path": "/reports", "group": "(app)", "auth": "authenticated", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_4625_AND_375_AND_BLOOM_FILTER", "label_th": "รายงานปัญหา" },
+    { "path": "/profile", "group": "(app)", "auth": "authenticated", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_4625_AND_BLOOM_FILTER", "label_th": "ข้อมูลของฉัน" },
+    { "path": "/admin", "group": "admin", "auth": "admin", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_5276_AND_375_AND_BLOOM_FILTER", "label_th": "Admin" },
+    { "path": "/admin/sets", "group": "admin", "auth": "admin", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375", "label_th": "ชุดข้อสอบ" },
+    { "path": "/admin/sets/create", "group": "admin", "auth": "admin", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375", "label_th": "สร้าง" },
+    { "path": "/admin/questions", "group": "admin", "auth": "admin", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375", "label_th": "คลังข้อสอบ" },
+    { "path": "/admin/questions/upload", "group": "admin", "auth": "admin", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375_AND_BLOOM_FILTER", "label_th": "อัปโหลด" },
+    { "path": "/admin/users", "group": "admin", "auth": "admin", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375_AND_BLOOM_FILTER", "label_th": "ผู้ใช้" },
+    { "path": "/admin/codes", "group": "admin", "auth": "admin", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375", "label_th": "โค้ด Premium" },
+    { "path": "/admin/reports", "group": "admin", "auth": "admin", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375_AND_BLOOM_FILTER", "label_th": "รายงานปัญหา" },
+    { "path": "/admin/analytics", "group": "admin", "auth": "admin", "http_unauth": 307, "evidence": "OBSERVED_307_AND_MOD_375", "label_th": "วิเคราะห์" }
+  ]
+}
+

@@ -1,0 +1,32 @@
+{
+  "projectName": "GuruPolice V2",
+  "archetype": "nextjs-fullstack",
+  "archetypeName": "Next.js 16 & React 19 Full-Stack (Modern Web / PWA)",
+  "description": "Next.js 15 Police Exam Prep Platform with 7,038 Questions & Pro Exam Runner",
+  "createdAt": "2026-11-13T08:26:32.487Z",
+  "skills": [
+    "impeccable",
+    "design-taste-frontend",
+    "better-typography",
+    "no-slop-ui",
+    "kennedy-practical-ui",
+    "shadcn-first",
+    "tailwind",
+    "react",
+    "nextjs",
+    "typescript",
+    "ui-design",
+    "web-design-guidelines",
+    "vercel-react-best-practices",
+    "vercel-composition-patterns",
+    "tanstack-query",
+    "react-hook-form",
+    "zod",
+    "feature-arch",
+    "tdd",
+    "vitest",
+    "playwright",
+    "security-audit-checklist"
+  ],
+  "skillsHubPath": "/Users/muaxzinn/Project/center-skill-agent/skills"
+}

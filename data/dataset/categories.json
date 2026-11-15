@@ -1,0 +1,94 @@
+{
+  "tracks": [
+    {
+      "name": "สายอำนวยการ / พิสูจน์หลักฐาน",
+      "subjects": [
+        "math",
+        "thai",
+        "eng",
+        "com",
+        "doc",
+        "law"
+      ],
+      "exam_date_label": "29 พ.ย. 2569",
+      "exam_date_iso": "2026-11-29T01:30:00.000Z"
+    },
+    {
+      "name": "ปราบปราม (บุคคลทั่วไป)",
+      "subjects": [
+        "math",
+        "thai",
+        "eng",
+        "com",
+        "law",
+        "soc"
+      ],
+      "exam_date_label": "17 ม.ค. 2570",
+      "exam_date_iso": "2027-01-17T01:30:00.000Z"
+    },
+    {
+      "name": "ปราบปราม (ทหารเกณฑ์)",
+      "subjects": [
+        "math",
+        "thai",
+        "eng",
+        "com",
+        "law",
+        "soc"
+      ],
+      "exam_date_label": "17 ม.ค. 2570",
+      "exam_date_iso": "2027-01-17T01:30:00.000Z"
+    }
+  ],
+  "subjects": [
+    {
+      "key": "math",
+      "name_th": "ความสามารถทั่วไป",
+      "icon": "🧮",
+      "color": "#14b8a6",
+      "grp": "general"
+    },
+    {
+      "key": "thai",
+      "name_th": "ภาษาไทย",
+      "icon": "📖",
+      "color": "#6366f1",
+      "grp": "general"
+    },
+    {
+      "key": "eng",
+      "name_th": "ภาษาอังกฤษ",
+      "icon": "🔤",
+      "color": "#0ea5e9",
+      "grp": "specific"
+    },
+    {
+      "key": "com",
+      "name_th": "คอมพิวเตอร์",
+      "icon": "💻",
+      "color": "#f59e0b",
+      "grp": "specific"
+    },
+    {
+      "key": "doc",
+      "name_th": "งานสารบรรณ + ลักษณะที่ 54",
+      "icon": "📋",
+      "color": "#ec4899",
+      "grp": "specific"
+    },
+    {
+      "key": "law",
+      "name_th": "กฎหมาย",
+      "icon": "⚖️",
+      "color": "#0891b2",
+      "grp": "specific"
+    },
+    {
+      "key": "soc",
+      "name_th": "สังคม",
+      "icon": "🌏",
+      "color": "#16a34a",
+      "grp": "specific"
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import {
+  BookMarked,
+  Check,
+  Database,
+  History,
+  Home,
+  Layers,
+  Menu,
+  Moon,
+  Palette,
+  PenLine,
+  ShieldCheck,
+  SlidersHorizontal,
+  Sun,
+  Wrench,
+  X,
+} from 'lucide-react';
+import { BRAND_PALETTES } from '@/lib/constants';
+import { useThemeAndBrand } from './ThemeAndBrandProvider';
+
+export function ThemeAndBrandControls() {
+  const { theme, brand, toggleTheme, setBrand } = useThemeAndBrand();
+  const [openPalette, setOpenPalette] = useState(false);
+  const popRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (popRef.current && !popRef.current.contains(e.target as Node)) {
+        setOpenPalette(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const activePalette = BRAND_PALETTES.find((p) => p.key === brand) || BRAND_PALETTES[0];
+
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={toggleTheme}
+        aria-label="สลับโหมดสว่างและมืด"
+        className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-panel text-ink transition-colors hover:border-brand/50 hover:text-brand"
+      >
+        {theme === 'dark' ? <Sun className="h-4 w-4 text-gold" /> : <Moon className="h-4 w-4" />}
+      </button>
+
+      <div className="relative" ref={popRef}>
+        <button
+          type="button"
+          onClick={() => setOpenPalette((o) => !o)}
+          aria-label="เปลี่ยนสีธีม"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-panel transition-colors hover:border-brand/50"
+        >
+          <span
+            className="h-4 w-4 rounded-full shadow-inner"
+            style={{ background: activePalette.gradient }}
+          />
+        </button>
+
+        {openPalette && (
+          <div className="absolute right-0 top-11 z-50 w-44 rounded-2xl border border-line bg-panel p-2 shadow-card">
+            <div className="mb-1 flex items-center gap-1.5 px-2 py-1 text-[11px] font-bold text-muted">
+              <Palette className="h-3.5 w-3.5" />
+              <span>เลือกโทนสีระบบ</span>
+            </div>
+            <div className="space-y-1">
+              {BRAND_PALETTES.map((p) => {
+                const selected = p.key === brand;
+                return (
+                  <button
+                    key={p.key}
+                    type="button"
+                    onClick={() => {
+                      setBrand(p.key);
+                      setOpenPalette(false);
+                    }}
+                    className={`flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-xs font-semibold transition-colors ${
+                      selected ? 'bg-brand/10 text-brand' : 'text-ink hover:bg-bg2'
+                    }`}
+                  >
+                    <span
+                      className="flex h-4 w-4 items-center justify-center rounded-full shadow-inner"
+                      style={{ background: p.gradient }}
+                    >
+                      {selected && <Check className="h-2.5 w-2.5 text-white stroke-[3]" />}
+                    </span>
+                    <span>{p.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const APP_NAV = [
+  { href: '/', label: 'หน้าหลัก', icon: Home },
+  { href: '/dashboard', label: 'แดชบอร์ด', icon: PenLine },
+  { href: '/catalog', label: 'ชุดข้อสอบ', icon: BookMarked },
+  { href: '/catalog/subject', label: 'แยกรายวิชา', icon: Layers },
+  { href: '/bank', label: 'คลัง 7,038 ข้อ', icon: Database },
+  { href: '/history', label: 'ประวัติ', icon: History },
+  { href: '/reports', label: 'รายงานปัญหา', icon: Wrench },
+  { href: '/admin', label: 'Admin', icon: SlidersHorizontal },
+];
+
+const PUBLIC_NAV = [
+  { href: '/#features', label: 'จุดเด่น' },
+  { href: '/#tracks', label: 'สายงานที่เปิดสอบ' },
+  { href: '/articles', label: 'บทความ' },
+  { href: '/news', label: 'ข่าวรับสมัคร' },
+  { href: '/bank', label: 'คลังข้อสอบ' },
+];
+
+export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-30 border-b border-line bg-panel/85 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+        <Link href="/" className="flex items-center gap-2.5 font-extrabold tracking-tight text-ink">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white shadow-sm">
+            <ShieldCheck className="h-5 w-5" />
+          </span>
+          <span className="text-base sm:text-lg">
+            GURU <span className="text-brand">POLICE</span>
+          </span>
+        </Link>
+
+        {mode === 'app' ? (
+          <nav className="hidden items-center gap-1 md:flex">
+            {APP_NAV.map((item) => {
+              const Icon = item.icon;
+              const active =
+                item.href === '/'
+                  ? pathname === '/'
+                  : item.href === '/catalog'
+                    ? pathname === '/catalog' || pathname.startsWith('/catalog/form')
+                    : pathname === item.href || pathname.startsWith(`${item.href}/`);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-semibold transition-colors ${
+                    active
+                      ? 'bg-brand/10 text-brand'
+                      : 'text-muted hover:bg-bg2 hover:text-ink'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+        ) : (
+          <nav className="hidden items-center gap-5 md:flex">
+            {PUBLIC_NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm font-semibold text-muted transition-colors hover:text-brand"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        )}
+
+        <div className="flex items-center gap-2.5">
+          <ThemeAndBrandControls />
+
+          {mode === 'public' ? (
+            <Link
+              href="/dashboard"
+              className="hidden items-center gap-2 rounded-btn bg-brand px-4 py-2 text-sm font-bold text-white transition-all hover:bg-brand-dark sm:inline-flex"
+            >
+              <BookMarked className="h-4 w-4" />
+              <span>เริ่มทำข้อสอบทันที</span>
+            </Link>
+          ) : (
+            <Link
+              href="/catalog"
+              className="hidden items-center gap-1.5 rounded-btn bg-brand px-3.5 py-2 text-xs font-bold text-white transition-all hover:bg-brand-dark sm:inline-flex"
+            >
+              <PenLine className="h-3.5 w-3.5" />
+              <span>เลือกชุดข้อสอบ</span>
+            </Link>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="เปิดเมนูมือถือ"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-panel text-ink md:hidden"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </div>
+
+      {mobileOpen && (
+        <div className="border-t border-line bg-panel px-4 py-3 md:hidden">
+          <div className="grid grid-cols-2 gap-2">
+            {(mode === 'app'
+              ? APP_NAV
+              : [...PUBLIC_NAV.map((p) => ({ ...p, icon: BookMarked })), { href: '/dashboard', label: 'เข้าทำข้อสอบ', icon: PenLine }]
+            ).map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 rounded-xl border border-line bg-bg2 px-3 py-2.5 text-xs font-semibold text-ink hover:border-brand/50 hover:text-brand"
+                >
+                  <Icon className="h-4 w-4 text-brand" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
+

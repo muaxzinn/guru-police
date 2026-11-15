@@ -1,0 +1,114 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ExamGuru Police (GURU POLICE) Recovered API",
+    "version": "1.0.0",
+    "description": "API specification recovered from examgurupolice.netlify.app Next.js chunks and Supabase PostgREST endpoints."
+  },
+  "servers": [
+    { "url": "https://examgurupolice.netlify.app", "description": "Next.js App Server (Netlify)" },
+    { "url": "https://wnsgsamwljlkzgtvyssx.supabase.co", "description": "Supabase Backend (PostgREST + GoTrue)" }
+  ],
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health and DB latency check",
+        "responses": {
+          "200": {
+            "description": "Healthy response",
+            "content": {
+              "application/json": {
+                "example": { "status": "ok", "db": "ok", "ms": 21, "ts": "2026-11-13T06:37:12.316Z" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/callback": {
+      "get": {
+        "summary": "Supabase OAuth code exchange callback",
+        "parameters": [
+          { "name": "code", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "307": { "description": "Redirects to /dashboard on success or /login?error=... on failure" }
+        }
+      }
+    },
+    "/rest/v1/subjects": {
+      "get": {
+        "summary": "List exam subjects",
+        "responses": {
+          "200": {
+            "description": "Array of subject objects",
+            "content": {
+              "application/json": {
+                "example": [{ "key": "math", "name_th": "ความสามารถทั่วไป", "icon": "🧮", "color": "#14b8a6", "grp": "general" }]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest/v1/exam_sets": {
+      "get": {
+        "summary": "List exam sets",
+        "responses": {
+          "200": {
+            "description": "Array of exam sets",
+            "content": {
+              "application/json": {
+                "example": [{ "id": 1, "track": "สายอำนวยการ / พิสูจน์หลักฐาน", "no": 1, "title": "ข้อสอบจำลองนายสิบตำรวจ สายอำนวยการ ชุดที่ 1", "total": 150, "time_minutes": 180, "subject_key": null }]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest/v1/profiles": {
+      "get": { "summary": "Read authenticated user profile (RLS protected)" },
+      "patch": { "summary": "Update profile fields or active_session UUID (RLS protected)" }
+    },
+    "/rest/v1/questions": {
+      "get": { "summary": "Fetch exam questions (RLS protected; requires authenticated session)" }
+    },
+    "/rest/v1/attempts": {
+      "get": { "summary": "Fetch user exam history/attempts (RLS protected)" },
+      "post": { "summary": "Submit exam attempt (RLS protected)" }
+    },
+    "/rest/v1/question_reports": {
+      "get": { "summary": "List reported question issues (RLS protected)" },
+      "post": { "summary": "Submit a question issue report (RLS protected)" }
+    },
+    "/rest/v1/redeem_codes": {
+      "get": { "summary": "Admin/user redeem codes (RLS protected)" }
+    },
+    "/rest/v1/error_logs": {
+      "post": {
+        "summary": "Insert client-side runtime/chunk/network error log",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": { "type": "string" },
+                  "user_id": { "type": ["string", "null"] },
+                  "path": { "type": "string" },
+                  "name": { "type": ["string", "null"] },
+                  "message": { "type": ["string", "null"] },
+                  "digest": { "type": ["string", "null"] },
+                  "stack": { "type": ["string", "null"] },
+                  "user_agent": { "type": ["string", "null"] },
+                  "stale_chunk": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

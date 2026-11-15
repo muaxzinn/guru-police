@@ -1,0 +1,91 @@
+{
+  "source_css": "/_next/static/css/a5f27ca245a4ed4a.css",
+  "typography": {
+    "font_family_primary": "Prompt",
+    "font_family_fallback": "Prompt Fallback (Arial metric-adjusted: ascent 97.38%, descent 37.70%, size-adjust 111.93%)",
+    "css_variable": "--font-body",
+    "weights_loaded": [400, 700, 800],
+    "subsets": ["thai", "vietnamese", "latin-ext", "latin"],
+    "h1_desktop": { "fontSize": "52px", "lineHeight": "56.16px", "fontWeight": "800" },
+    "body": { "fontSize": "16px", "lineHeight": "24px", "fontWeight": "400" }
+  },
+  "themes": {
+    "light": {
+      "--bg": "250 250 250",
+      "--bg2": "245 245 245",
+      "--panel": "255 255 255",
+      "--line": "238 238 238",
+      "--ink": "17 17 17",
+      "--muted": "102 102 102",
+      "--brand": "29 78 216",
+      "--brand-dark": "30 64 175",
+      "--accent": "230 7 7",
+      "--accent-dark": "184 5 5",
+      "--gold": "255 180 0",
+      "--teal": "0 180 176",
+      "--violet": "139 92 246",
+      "--pink": "236 72 153",
+      "--blue": "59 130 246",
+      "--gold-ink": "150 99 0",
+      "--teal-ink": "0 128 125"
+    },
+    "dark": {
+      "--bg": "14 16 20",
+      "--bg2": "20 23 29",
+      "--panel": "27 30 37",
+      "--line": "44 48 57",
+      "--ink": "236 238 242",
+      "--muted": "151 157 167",
+      "--brand": "59 130 246",
+      "--brand-dark": "37 99 235",
+      "--accent": "244 71 71",
+      "--accent-dark": "214 45 45",
+      "--gold": "255 190 46",
+      "--teal": "26 202 197",
+      "--violet": "160 130 250",
+      "--pink": "244 114 182",
+      "--blue": "96 165 250",
+      "--gold-ink": "255 202 92",
+      "--teal-ink": "60 220 210"
+    }
+  },
+  "brand_palettes": {
+    "blue": { "label_th": "น้ำเงิน", "dot": "#1d4ed8", "light": { "--brand": "29 78 216", "--brand-dark": "30 64 175" }, "dark": { "--brand": "59 130 246", "--brand-dark": "37 99 235" } },
+    "red": { "label_th": "แดง", "dot": "#e60707", "light": { "--brand": "230 7 7", "--brand-dark": "184 5 5" }, "dark": { "--brand": "244 71 71", "--brand-dark": "214 45 45" } },
+    "orange": { "label_th": "ส้ม", "dot": "#ea580c", "light": { "--brand": "234 88 12", "--brand-dark": "194 65 12" }, "dark": { "--brand": "251 146 60", "--brand-dark": "234 88 12" } },
+    "yellow": { "label_th": "เหลือง", "dot": "#a16207", "light": { "--brand": "161 98 7", "--brand-dark": "133 77 14" }, "dark": { "--brand": "202 138 4", "--brand-dark": "161 98 7" } },
+    "brown": { "label_th": "น้ำตาล", "dot": "#92400e", "light": { "--brand": "146 64 14", "--brand-dark": "120 53 15" }, "dark": { "--brand": "180 83 40", "--brand-dark": "146 64 14" } }
+  },
+  "subject_colors": {
+    "math": "#14b8a6",
+    "thai": "#6366f1",
+    "eng": "#0ea5e9",
+    "com": "#f59e0b",
+    "doc": "#ec4899",
+    "law": "#0891b2",
+    "soc": "#16a34a"
+  },
+  "radii": {
+    "rounded-card": "24px",
+    "rounded-btn": "18px",
+    "rounded-xl": "12px",
+    "rounded-2xl": "16px",
+    "rounded-3xl": "24px"
+  },
+  "external_brand_colors": {
+    "line_oa_green": "#06C755"
+  },
+  "animations": [
+    "gp-rise",
+    "gp-shimmer",
+    "gp-drift-a",
+    "gp-drift-b",
+    "gp-drift-c",
+    "gp-float",
+    "gp-ping",
+    "gp-marquee",
+    "gp-skeleton",
+    "gp-badge-shine"
+  ]
+}
+

@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "AGENTS.md": "markdown",
+    "PROJECT_MANIFEST.md": "markdown",
+    "CLAUDE.md": "markdown",
+    ".cursorrules": "markdown"
+  },
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
