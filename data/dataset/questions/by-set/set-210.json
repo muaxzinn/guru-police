@@ -29,18 +29,24 @@
     "id": 9006,
     "b": "รูปคลี่ข้อใดเป็นรูปคลี่ของพีระมิดฐานสี่เหลี่ยมผืนผ้า",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q130_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q130_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q130_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q130_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
     "c": 1,
     "t": "รูปภาพ",
-    "subject": "math"
+    "subject": "math",
+    "opt_imgs": [
+      "/question-svgs/84f376f3cf2d9e46.svg",
+      "/question-svgs/4369b688d04681ec.svg",
+      "/question-svgs/cb3e1a37e2aa8626.svg",
+      "/question-svgs/b21f184538a08a96.svg"
+    ]
   },
   {
     "id": 12843,
-    "b": "",
+    "b": "มีชั้นวางของทั้งหมด 3 ชั้น ได้แก่ ชั้นบน ชั้นกลาง และชั้นล่าง\nมีของ 5 ชิ้น : จาน, ช้อน, ถาด, แก้วน้ำ และชาม โดยมีเงื่อนไขดังนี้\n- จานกับช้อนวางอยู่ชั้นเดียวกัน\n- ถาดอยู่ติดกับแก้วน้ำแต่อยู่ใต้ช้อน\n- ชามอยู่ล่างแก้วน้ำ\n\nจากเงื่อนไขทั้งหมดของชิ้นใดอยู่ชั้นบนสุด",
     "opts": [
       "แก้วน้ำ",
       "จานกับช้อน",
@@ -48,35 +54,32 @@
       "ชาม"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q23.png",
     "t": "IQ",
     "subject": "math"
   },
   {
     "id": 9075,
-    "b": "",
+    "b": "$$\\frac{5}{7} \\div \\frac{3}{7} = ?$$",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q199_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q199_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q199_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q199_c4.png"
+      "$\\frac{5}{3}$",
+      "$\\frac{3}{5}$",
+      "$$\\frac{15}{3}$$",
+      "$7/3$"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q199.png",
     "t": "เลขพื้นฐาน",
     "subject": "math"
   },
   {
     "id": 9102,
-    "b": "",
+    "b": "$(k^3 u^9)(3k^2 u^2)$ มีค่าเท่ากับเท่าใด",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q226_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q226_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q226_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q226_c4.png"
+      "3(ก๖) (ข)",
+      "3(ก$^{12}$) (ข$^4$)",
+      "$3(k^5)(u^{11})$",
+      "$3(k^6)(u^{18})$"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q226.png",
     "t": "เลขยกกำลังและพหุนาม",
     "subject": "math"
   },
@@ -121,7 +124,7 @@
   },
   {
     "id": 9370,
-    "b": "ตลอดการเดินทาง 4 ชั่วโมง รถยนต์คันนี้มีอัตราเร็วเฉลี่ยกี่กิโลเมตรต่อชั่วโมง",
+    "b": "# กราฟระยะทาง-เวลาของรถยนต์คันหนึ่ง\n\nตลอดการเดินทาง 4 ชั่วโมง รถยนต์คันนี้มีอัตราเร็วเฉลี่ยกี่กิโลเมตรต่อชั่วโมง",
     "opts": [
       "40 กม./ชม.",
       "45 กม./ชม.",
@@ -129,13 +132,13 @@
       "60 กม./ชม."
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q494.png",
+    "img": "/question-svgs/93635f8875ec321e.svg",
     "t": "ร้อยละ (แผนภูมิ และ กาารเปลี่ยนแปลง)",
     "subject": "math"
   },
   {
     "id": 9489,
-    "b": "รูปสี่เหลี่ยมผืนผ้าด้านยาว ยาว 28 หน่วย และด้านกว้างยาว 14 หน่วย ดังรูป จงหาพื้นที่ส่วนที่แรเงา (กำหนด π = 22/7)",
+    "b": "รูปสี่เหลี่ยมผืนผ้าด้านยาว ยาว 28 หน่วย และด้านกว้างยาว 14 หน่วย ดังรูป\nจงหาพื้นที่ส่วนที่แรเงา (กำหนด $\\pi = \\frac{22}{7}$)\n\nรูปสี่เหลี่ยมผืนผ้าด้านยาว ยาว 28 หน่วย และด้านกว้างยาว 14 หน่วย ดังรูป จงหาพื้นที่ส่วนที่แรเงา (กำหนด π = 22/7)",
     "opts": [
       "72 ตารางหน่วย",
       "84 ตารางหน่วย",
@@ -143,7 +146,7 @@
       "112 ตารางหน่วย"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q613.png",
+    "img": "/question-svgs/aed2d301ecb8124e.svg",
     "t": "พื้นที่ และ ปริมาตร",
     "subject": "math"
   },
@@ -214,29 +217,33 @@
   },
   {
     "id": 9733,
-    "b": "",
+    "b": "พื้นที่แรเงาของ $(A \\cap C)' - B$ คือรูปในข้อใด\nเมื่อกำหนดเอกภพสัมพัทธ์ = $A \\cup B \\cup C$",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q857_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q857_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q857_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q857_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q857.png",
     "t": "เซต",
-    "subject": "math"
+    "subject": "math",
+    "opt_imgs": [
+      "/question-svgs/e7c5481d0e377bf2.svg",
+      "/question-svgs/3ea3ab5dd4c38432.svg",
+      "/question-svgs/cf1a900271d3a0c1.svg",
+      "/question-svgs/04d5d6370f01c466.svg"
+    ]
   },
   {
     "id": 12909,
-    "b": "",
+    "b": "กำหนดให้ $A = \\{1, 3, 5, 7\\}$\n$A \\cup B = \\{1, 2, 3, 5, 7, 8\\}$\n$A - B = \\{3, 7\\}$\n\nจงหาเซต $B$",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q89_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q89_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q89_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q89_c4.png"
+      "B = {1, 2, 5, 8}",
+      "B = {1, 5}",
+      "B = {2, 3, 7, 8}",
+      "B = {1, 2, 3, 5, 8}"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q89.png",
     "t": "เซต",
     "subject": "math"
   },
@@ -281,7 +288,7 @@
   },
   {
     "id": 5764,
-    "b": "สาระสำคัญของบทประพันธ์ข้างต้นคือข้อความใด",
+    "b": "\"พระสมุทรสุดลึกล้น คณนา\nสายดิ่งทิ้งทอดมา หยั่งได้\nเขาสูงอาจวัดวา กำหนด\nจิตมนุษย์นี้ไซร้ ยากแท้หยั่งถึง\"\n\nสาระสำคัญของบทประพันธ์ข้างต้นคือข้อความใด",
     "opts": [
       "พระสมุทรสุดลึกล้น คณนา",
       "สายดิ่งทิ้งทอดมา หยั่งได้",
@@ -289,7 +296,6 @@
       "จิตมนุษย์นี้ไซร้ ยากแท้หยั่งถึง"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q49.png",
     "t": "สาระสำคัญ",
     "subject": "thai"
   },
@@ -321,7 +327,7 @@
   },
   {
     "id": 13549,
-    "b": "ข้อคิดสำคัญตรงกับข้อใด",
+    "b": "ตำรวจนายหนึ่งมาถึงจุดเกิดเหตุก่อนเพื่อน เขาไม่รีบสรุปว่าใครเป็นฝ่ายผิด แม้ผู้ที่อยู่ในเหตุการณ์หลายคน จะชี้ไปที่ชายคนเดียวกัน แต่เลือกสอบถามพยานและตรวจสอบภาพจากกล้องวงจรปิดเสียก่อน\n\nข้อคิดสำคัญตรงกับข้อใด",
     "opts": [
       "เสียงของคนส่วนใหญ่มักถูกต้องเสมอ",
       "ผู้ปฏิบัติหน้าที่ควรตรวจสอบข้อเท็จจริงก่อนตัดสิน",
@@ -329,7 +335,6 @@
       "ตำรวจไม่ควรรับฟังความคิดเห็นของประชาชน"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-OUTPUT-0d829835/q21.png",
     "t": "วิเคราะห์ข้อคิด/แนวคิดที่ได้จากการอ่าน",
     "subject": "thai"
   },
@@ -348,7 +353,7 @@
   },
   {
     "id": 5869,
-    "b": "ข้อใดกล่าวผิดจากบทความข้างต้น",
+    "b": "\"วินัย” หมายถึง ระเบียบ กฎเกณฑ์ ข้อบังคับ สำหรับควบคุมความประพฤติทางกาย วาจา ของคนในสังคมให้เรียบร้อยดีงาม เป็นแบบแผนอันหนึ่งอันเดียวกัน จะได้อยู่ร่วมกันด้วยความสุขสบาย ไม่กระทบกระทั้งซึ่งกันและกัน วินัยช่วยให้คนในสังคมห่างไกลจากความชั่วทั้งหลาย การอยู่ร่วมกันเป็นหมูเหล่า ถ้าขาดระเบียบวินัยต่างคนต่างทำตามอำเภอใจ ความขัดแย้งและสักล้นก็จะเกิดขึ้น ยิ่งมากคนก็ยิ่งมากเรื่อง ไม่มีความสงบสุข การงานที่ทำก็จะเสียผล\n\nดอกไม้จำนวนมากที่วางรวมกัน หากวางอยู่ระเกะระกะกระจัดกระจายก็จะด้อยค่าลง ทั้งยังทำให้รกรุงรังอีกด้วย แต่เมื่อเรานำดอกไม้เหล่านี้มาร้อยรวมเข้าด้วยกันด้วยเส้นด้าย ดอกไม้เหล่านี้ก็จะกลายเป็นพวงมาลัยอันงดงาม เหมาะที่จะนำไปประดับตกแต่งให้เจริญตาเจริญใจ ถ้าประชาชนแต่ละคนเป็นเสมือนดอกไม้แต่ละดอกเส้นด้ายที่ใช้ร้อยดอกไม้ให้รวมกันอยู่อย่างมีระเบียบงดงามนั้นก็เป\n\nข้อใดกล่าวผิดจากบทความข้างต้น",
     "opts": [
       "วินัยทำให้สังคมไม่เกิดความขัดแย้ง",
       "สังคมที่มีวินัยจะงดงามเสมือนพวงมาลัยดอกไม้",
@@ -356,7 +361,6 @@
       "วินัยควบคุมคนไม่ให้นำความรู้ความสามารถออกมาใช้"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q154.png",
     "t": "การถามข้อมูลด้านใน",
     "subject": "thai"
   },
@@ -752,7 +756,7 @@
   },
   {
     "id": 8305,
-    "b": "",
+    "b": "จากรูปภาพด้านล่าง เป็นอุปกรณ์ที่ถูกเรียกว่าอะไร",
     "opts": [
       "Switch",
       "Personal Computer",
@@ -760,7 +764,7 @@
       "Server"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q339.png",
+    "img": "/question-svgs/a5cd7f70a42aa2b4.svg",
     "t": "ระบบเครือข่ายคอมพิวเตอร์",
     "subject": "com"
   },
@@ -909,7 +913,7 @@
   },
   {
     "id": 8499,
-    "b": "",
+    "b": "จากชุดเครื่องมือริบบอน(Ribbon) ใน Microsoft Word ตามภาพด้านล่างอยู่ในหมวดแถบคำสั่งใด",
     "opts": [
       "เมนูไฟล์ (File)",
       "เมนูหน้าแรก (Home)",
@@ -917,7 +921,7 @@
       "เมนูมุมมอง (View)"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q533.png",
+    "img": "/question-svgs/8aa01b12f8346755.svg",
     "t": "Word",
     "subject": "com"
   },
@@ -975,7 +979,7 @@
   },
   {
     "id": 8660,
-    "b": "",
+    "b": "จากรูปภาพด้านล่าง โปรแกรมกำลังทำขั้นตอนใดอยู่\n\n<table><tr><td>ปี 2662</td><td></td><td>C6 X</td></tr><tr><td>11,000</td><td>B Bus GuruPolice</td><td></td></tr><tr",
     "opts": [
       "วาดรูปร่างต่าง ๆ",
       "จัดแนวย่อหน้าให้ชิดขวา",
@@ -983,13 +987,12 @@
       "แทรกรูปภาพ"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q694.png",
     "t": "Excel",
     "subject": "com"
   },
   {
     "id": 8690,
-    "b": "",
+    "b": "จากไอคอน Icon ด้านล่าง เป็นสัญลักษณ์ของโปรแกรมใดต่อไปนี้",
     "opts": [
       "Microsoft Word",
       "Microsoft Excel",
@@ -997,7 +1000,7 @@
       "Microsoft Outlook"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q724.png",
+    "img": "/question-svgs/838166fa099d2422.svg",
     "t": "Powerpoint",
     "subject": "com"
   },
@@ -1037,13 +1040,13 @@
       "Skype"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q868.png",
+    "img": "/question-svgs/d83001fbcedbdd8f.svg",
     "t": "Social Media + พื้นฐานโปรแกรม",
     "subject": "com"
   },
   {
     "id": 8829,
-    "b": "",
+    "b": "จากรูปภาพไอคอนด้านล่าง คือลักษณะโลโก้ของใด",
     "opts": [
       "Google Meet",
       "Microsoft Teams",
@@ -1051,7 +1054,7 @@
       "Skype"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q863.png",
+    "img": "/question-svgs/f739bea9fd20a7f9.svg",
     "t": "Social Media + พื้นฐานโปรแกรม",
     "subject": "com"
   },
@@ -1772,7 +1775,7 @@
   },
   {
     "id": 13582,
-    "b": "",
+    "b": "Situation: At a cafe, ordering drinks and snacks.\nA: I'm trying to cut down on sugar for my health.\nB: Then you'd better avoid the caramel macchiato.\nA: I guess I'll just have a plain Americano then.\nB: That's a great choice. \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_?\nA: Yes, please. I'd love a piece of that.",
     "opts": [
       "Would you like a piece of our famous carrot cake?",
       "Shall we go to another cafe instead of this one?",
@@ -1780,7 +1783,6 @@
       "Could you please clean the table for us right now?"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-OUTPUT-6d67ec65/q18.png",
     "t": "Conversation",
     "subject": "eng"
   },
@@ -1838,7 +1840,7 @@
   },
   {
     "id": 6582,
-    "b": "",
+    "b": "<table><tr><td></td><td>hair salon</td><th colspan=\"2\">Central Park<td>book shop</td></th></tr><tr><td></td><td",
     "opts": [
       "Travel agency",
       "Internet Cafe",
@@ -1846,7 +1848,6 @@
       "Department store"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q427.png",
     "t": "Reading",
     "subject": "eng"
   },

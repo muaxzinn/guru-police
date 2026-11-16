@@ -24,6 +24,7 @@ import type { AttemptRecord, RunnerQuestion } from '@/lib/server-db';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SubjectIcon } from '@/components/SubjectIcon';
 import { ImageLightbox, isImageUrlString } from '@/components/ImageLightbox';
+import { RichExamContent } from '@/components/RichExamContent';
 import { computeAttemptXp } from '@/lib/gamification';
 
 type ReviewFilter = 'all' | 'wrong' | 'correct' | 'unanswered';
@@ -470,7 +471,10 @@ export function ResultDetailClient() {
                       : q.b;
                     return (
                       <>
-                        <p className="text-base font-semibold text-ink whitespace-pre-line">{stemText}</p>
+                        <RichExamContent
+                          text={stemText}
+                          className="text-base font-semibold text-ink"
+                        />
                         {stemImg && (
                           <ImageLightbox
                             src={stemImg}
@@ -498,7 +502,7 @@ export function ResultDetailClient() {
                         <div key={optIdx} className={`p-3 rounded-xl border text-sm flex items-start gap-2 ${cls}`}>
                           <span className="font-mono font-extrabold shrink-0">{label}.</span>
                           <div className="flex-1 min-w-0">
-                            {optDisplayText && <span>{optDisplayText}</span>}
+                            {optDisplayText && <RichExamContent text={optDisplayText} inline={true} />}
                             {optImg && (
                               <div className={optDisplayText ? 'mt-1.5' : ''}>
                                 <ImageLightbox
@@ -526,9 +530,10 @@ export function ResultDetailClient() {
                           คำอธิบายเฉลย (ตอบ {CHOICE_LABELS[q.c] || q.c + 1})
                         </p>
                         {(eText || !eImg) && (
-                          <p className="text-ink/90 whitespace-pre-line leading-relaxed">
-                            {eText || 'เฉลยตามคลังข้อมูลข้อสอบมาตรฐาน กูรูตำรวจ'}
-                          </p>
+                          <RichExamContent
+                            text={eText || 'เฉลยตามคลังข้อมูลข้อสอบมาตรฐาน กูรูตำรวจ'}
+                            className="text-ink/90 leading-relaxed"
+                          />
                         )}
                         {eImg && (
                           <ImageLightbox

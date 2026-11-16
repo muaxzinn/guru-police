@@ -30,12 +30,12 @@
     "b": "จากรูป ประกอบกันแล้วตรงกับข้อใด",
     "opts": [
       "",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q140_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q140_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q140_c4.png"
+      "",
+      "",
+      ""
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q140.png",
+    "img": "/question-svgs/3849f96834c77c53.svg",
     "optImgs": [
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/9d6caad7-cf4d-4d2a-bc09-aaeda8930740.png",
       null,
@@ -43,7 +43,13 @@
       null
     ],
     "t": "รูปภาพ",
-    "subject": "math"
+    "subject": "math",
+    "opt_imgs": [
+      "/question-svgs/4315f76d4b277771.svg",
+      "/question-svgs/be9d1d80eccb0213.svg",
+      "/question-svgs/6bc40d1ffca087e9.svg",
+      "/question-svgs/7e7bfa9b1cf7d62a.svg"
+    ]
   },
   {
     "id": 9031,
@@ -73,7 +79,7 @@
   },
   {
     "id": 9109,
-    "b": "",
+    "b": "กำหนดให้ $3^b = 9^5 \\times 27^3 \\times 81^5$ จงหาค่าของ $b \\div 3$",
     "opts": [
       "13",
       "14",
@@ -81,13 +87,12 @@
       "42"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q233.png",
     "t": "เลขยกกำลังและพหุนาม",
     "subject": "math"
   },
   {
     "id": 13520,
-    "b": "",
+    "b": "กำหนดให้ $X : Y = 2 : 5$, $Y : Z = 4 : 7$ ถ้า $Z = 70$ แล้ว $X$ เป็นเท่าใด",
     "opts": [
       "4",
       "8",
@@ -95,7 +100,6 @@
       "20"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-OUTPUT-09a7e5bc/q25.png",
     "t": "อัตราส่วน",
     "subject": "math"
   },
@@ -197,7 +201,7 @@
       "ฐานนิยม คือ ค่าของข้อมูลที่มีค่าความถี่สูงสุด",
       "พิสัย = ค่าสูงสุด - ค่าต่ำสุด",
       "สำหรับการแจกแจงแบบปกติ ค่าเฉลี่ย = มัธยฐาน = ฐานนิยม และอยู่ตรงกลางกราฟพอดี",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q821_c4.png"
+      "มัธยฐาน = $\\frac{N+1}{2}$"
     ],
     "c": 3,
     "t": "สถิติ",
@@ -205,7 +209,7 @@
   },
   {
     "id": 12810,
-    "b": "",
+    "b": "ให้ข้อมูลชุดหนึ่ง คือ 20, 5, 32, 14, 8, 29, 17, 2, 26, 11, 23 แล้ว D5 - Q3 มีค่าเท่ากับข้อใด",
     "opts": [
       "−7",
       "−8",
@@ -213,7 +217,6 @@
       "9"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-OUTPUT-1-edd88cd8/q7.png",
     "t": "สถิติ",
     "subject": "math"
   },
@@ -221,10 +224,10 @@
     "id": 9721,
     "b": "หาก B เป็นสับเซตของ A ข้อใดถูกต้อง",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q845_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q845_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q845_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q845_c4.png"
+      "$$B' = A - B$$",
+      "B-A=BUA",
+      "$$A - B = \\emptyset$$",
+      "B n A = B"
     ],
     "c": 3,
     "t": "เซต",
@@ -245,15 +248,14 @@
   },
   {
     "id": 9754,
-    "b": "",
+    "b": "ให้ p แทนประเทศไทยอยู่ทวีปเอเชีย และ q แทนปูซานอยู่ในประเทศจีน ข้อใดมีค่าความจริงเหมือน p $\\rightarrow$ q",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q878_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q878_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q878_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q878_c4.png"
+      "pvq",
+      "b~Vd",
+      "$$p \\sim q$$",
+      "$~p \\leftrightarrow q$"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q878.png",
     "t": "ตรรกศาสตร์",
     "subject": "math"
   },
@@ -298,7 +300,7 @@
   },
   {
     "id": 5773,
-    "b": "ข้อใดเป็นใจความสำคัญของข้อความต่อไปนี้",
+    "b": "\"หลายคนเชื่อว่าวิธีที่เราจะอยู่ในสังคมได้อย่างมีความสุขคือการอยู่ในสังคมที่ไม่มีปัญหา เราจึงมักคิดหา\nวิธีแก้ปัญหาต่าง ๆ มากมาย บ้างสามารถแก้ที่ต้นเหตุหรือบ้างก็แก้ที่ปลายเหตุ ยิ่งมีคำพูดที่ว่าทุกปัญหาย่อมแก้ไข\nได้ ยิ่งทำให้ทุกคนต่างคิดว่าท้ายที่สุดแล้วเราจะมีความสุขได้ เราจะต้องแก้ปัญหาทุกอย่างให้หมดไปได้ แต่ว่า\nปัญหาบางปัญหาเราไม่สามารถแก้ไขได้ อย่างนี้ชีวิตก็จะไม่มีความสุขอย่างนั้นหรือ ...... เปล่าเลย เมื่อปัญหามัน\nเป็นสิ่งที่แก้ไม่ได้ บางครั้งการเรียนรู้ที่จะอยู่ร่วมกับปัญหานั้น ๆ ก็เป็นวิธีหนึ่งที่ทำให้สังคมมีความสุขได้เช่นกัน\"\n\nข้อใดเป็นใจความสำคัญของข้อความต่อไปนี้",
     "opts": [
       "ทุกคนสามารถหาวิธีแก้ไขปัญหาต่าง ๆ ได้",
       "เราควรแก้ไขปัญหาทุกอย่างได้ไม่เช่นนั้นจะไม่สามารถอยู่ในสังคมได้อย่างมีความสุข",
@@ -306,7 +308,6 @@
       "การที่เราจะมีความสุขไม่ได้ขึ้นอยู่กับว่าเราแก้ไขปัญหาได้หรือไม่ได้"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q58.png",
     "t": "สาระสำคัญ",
     "subject": "thai"
   },
@@ -964,10 +965,10 @@
     "id": 8632,
     "b": "หากต้องการจะรู้ผลรวมของตัวเลขใน Column ทั้งหมด โดยต้องการสร้างเงื่อนไขเพิ่ม ควรใช้สูตรพื้นฐานในข้อใด ในการป้อนคำสั่งบนMicrosoft Excel",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q666_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q666_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q666_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q666_c4.png"
+      "=SUM()",
+      "=SUMIF()",
+      "=COUNT()",
+      "= AVERAGE()"
     ],
     "c": 1,
     "t": "Excel",
@@ -1833,7 +1834,7 @@
   },
   {
     "id": 6604,
-    "b": "",
+    "b": "Where can you see this sign?",
     "opts": [
       "Park",
       "Bank",
@@ -1841,7 +1842,7 @@
       "Intersection"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q449.png",
+    "img": "/question-svgs/f7ec8c6f9d7d2ec8.svg",
     "t": "Reading",
     "subject": "eng"
   },

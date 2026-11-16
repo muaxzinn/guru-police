@@ -29,19 +29,25 @@
     "id": 12838,
     "b": "จากความสัมพันธ์ในรูปที่ 1 กับ 2 จงหาว่ารูปที่ 3 มีความสัมพันธ์แบบใดกับรูปที่ 4",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q18_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q18_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q18_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q18_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q18.png",
+    "img": "/question-svgs/66938a28debc8ed3.svg",
     "t": "รูปภาพ",
-    "subject": "math"
+    "subject": "math",
+    "opt_imgs": [
+      "/question-svgs/68c8637f7c2c1a65.svg",
+      "/question-svgs/3070775378fc03bb.svg",
+      "/question-svgs/d0b0e320273909f5.svg",
+      "/question-svgs/c7398b2b513d488f.svg"
+    ]
   },
   {
     "id": 12842,
-    "b": "",
+    "b": "มีบ้านเรียงกัน 5 หลัง โดยที่ บ้านหลังสีขาวจะอยู่ทางซ้ายของบ้านหล",
     "opts": [
       "สีส้ม",
       "สีฟ้า",
@@ -49,13 +55,12 @@
       "สีเขียว"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q22.png",
     "t": "IQ",
     "subject": "math"
   },
   {
     "id": 12847,
-    "b": "",
+    "b": "$1 + 3 \\times 5 - 2 \\times 4 + 14 \\div 2$ มีค่าเท่ากับข้อใด",
     "opts": [
       "15",
       "23",
@@ -63,7 +68,6 @@
       "43"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q27.png",
     "t": "เลขพื้นฐาน",
     "subject": "math"
   },
@@ -121,7 +125,7 @@
   },
   {
     "id": 9350,
-    "b": "นักเรียนที่เลือกชมรมกีฬาคิดเป็นร้อยละเท่าใดของนักเรียนทั้งหมด",
+    "b": "จำนวนนักเรียนที่เลือกชมรม (รวม 600 คน)\n\nนักเรียนที่เลือกชมรมกีฬาคิดเป็นร้อยละเท่าใดของนักเรียนทั้งหมด",
     "opts": [
       "ร้อยละ 25",
       "ร้อยละ 28",
@@ -129,7 +133,7 @@
       "ร้อยละ 32"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q474.png",
+    "img": "/question-svgs/92fdb781acd0a4b5.svg",
     "t": "ร้อยละ (แผนภูมิ และ กาารเปลี่ยนแปลง)",
     "subject": "math"
   },
@@ -150,10 +154,10 @@
     "id": 9500,
     "b": "พื้นที่ผิวทั้งหมดของทรงกระบอกที่มีหน้าตัดกว้าง 14.8 หน่วย และสูง 4.6 หน่วย เป็นเท่าใด",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q624_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q624_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q624_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q624_c4.png"
+      "172.6π ตารางหน่วย",
+      "175.6π ตารางหน่วย",
+      "179.6π ตารางหน่วย",
+      "177.6π ตารางหน่วย"
     ],
     "c": 3,
     "t": "พื้นที่ และ ปริมาตร",
@@ -176,10 +180,10 @@
     "id": 12894,
     "b": "สุ่มหยิบไพ่จากสำรับซึ่งมี 52 ใบ โดยหยิบจำนวน 2 ใบ ซึ่งจะหยิบแล้วไม่ใส่คืน \nความน่าจะเป็นที่หยิบใบแรกได้โพแดง และใบที่สองได้โพดำคือเท่าไร",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q74_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q74_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q74_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q74_c4.png"
+      "$$\\frac{1}{2}$$",
+      "$$\\frac{26}{51}$$",
+      "$\\frac{13}{204}$",
+      "$\\frac{13}{208}$"
     ],
     "c": 2,
     "t": "ความน่าจะเป็น",
@@ -200,7 +204,7 @@
   },
   {
     "id": 12809,
-    "b": "",
+    "b": "ให้ข้อมูลชุดหนึ่ง คือ 42, 18, 30, 12, 36, 24, 15, 27, 33, 21, 39 จงหา P65",
     "opts": [
       "30.9",
       "31.5",
@@ -208,7 +212,6 @@
       "33"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-OUTPUT-1-edd88cd8/q6.png",
     "t": "สถิติ",
     "subject": "math"
   },
@@ -240,7 +243,7 @@
   },
   {
     "id": 12817,
-    "b": "",
+    "b": "กำหนดให้\n\nก. เหตุ 1. $p \\rightarrow q$\n2. $q$\n\nผล $p$\n\nข. เหตุ 1. $p \\rightarrow q$\n2. $\\sim q$\n\nผล $\\sim p$\n\nข้อใดถูกต้อง",
     "opts": [
       "ก. สมเหตุสมผล และ ข. สมเหตุสมผล",
       "ก. สมเหตุสมผล และ ข. ไม่สมเหตุสมผล",
@@ -248,7 +251,6 @@
       "ก. ไม่สมเหตุสมผล และ ข. ไม่สมเหตุสมผล"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-OUTPUT-1-edd88cd8/q14.png",
     "t": "ตรรกศาสตร์",
     "subject": "math"
   },
@@ -293,7 +295,7 @@
   },
   {
     "id": 5766,
-    "b": "เนื้อหาหลักของบทความดังกล่าว ตรงกับข้อใด",
+    "b": "\"หลังจากการตื่นนอน หลายคนส่วนใหญ่มักจะพบกับปัญหาการปวดเมื่อย โดยเฉพาะบริเวณต้นคอ ซึ่งเป็นปัญหาที่เกิดมาจากหลายสาเหตุด้วยกัน แต่สาเหตุหลักล้วนมาจากการเลือกใช้หมอนหนุนที่ไม่มีคุณภาพ ส่งผลให้เกิดอาการเจ็บปวดได้จากการนอน ดังนั้นการเลือกใช้ \"หมอนยางพารา\" จึงเป็นอีกทางเลือกหนึ่งที่ตอบโจทย์ทุกไลฟ์สไตล์ของคนรักสุขภาพได้เป็นอย่างดี และปัจจุบันนี้ก็กำลังเริ่มเป็นที่นิยมกันมากขึ้น และได้ออกแบบมาเพื่อสุขภาพที่ดีของการนอนโดยเฉพาะ ด้วยคุณสมบัติที่โดดเด่นหลากหลายประการของหมอนยางพารา จึงทำให้ผู้ใช้ได้สัมผัสประสบการณ์ใหม่เพื่อสุขภาพที่ดีแห่งการนอน\"\n\nเนื้อหาหลักของบทความดังกล่าว ตรงกับข้อใด",
     "opts": [
       "ปัญหาปวดเมื่อยจากการนอน",
       "การนอนอย่างมีคุณภาพ",
@@ -301,7 +303,6 @@
       "คุณสมบัติของหมอนยางพารา"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q51.png",
     "t": "สาระสำคัญ",
     "subject": "thai"
   },
@@ -333,7 +334,7 @@
   },
   {
     "id": 12544,
-    "b": "จุดประสงค์หลักของบทความนี้คือข้อใด",
+    "b": "\"การเร่งรีบทำตามเป้าหมายจนละเลยการหยุดพักเปรียบเสมือนการฝืนใช้งานเครื่องจักรเกินกำลัง แม้ในระยะสั้น\nอาจจะได้ผลผลิตมหาศาล แต่ในระยะยาวเครื่องจักรนั้นย่อมพังทลายลงก่อนเวลาอันควร การรู้จักให้โอกาสตัวเองได้หยุดนิ่ง\nและชื่นชมความสำเร็จเล็ก ๆ ระหว่างทาง จึงไม่ใช่การเสียเวลา แต่คือการเติมพลังงานเพื่อให้เราสามารถเดินทางต่อได้ไกล\nและยั่งยืนกว่าเดิม\"\n\nจุดประสงค์หลักของบทความนี้คือข้อใด",
     "opts": [
       "เพื่อเตือนสติให้คนรู้จักหาความสมดุลระหว่างการทำงานและการพักผ่อน",
       "เพื่อเปรียบเทียบข้อดีข้อเสียของการทำงานหนัก",
@@ -341,13 +342,12 @@
       "เพื่อรายงานผลกระทบของการทำงานเกินเวลาที่มีต่อเศรษฐกิจ"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-6-4c3e96bb/q24.png",
     "t": "จุดประสงค์/ความรู้สึก/น้ำเสียง",
     "subject": "thai"
   },
   {
     "id": 5864,
-    "b": "ข้อใดต่อไปนี้ไม่ใช่ประโยชน์ของเก๋ากี้",
+    "b": "เก๋ากี้ มีชื่อภาษาอังกฤษว่า Chinese Wolfberry บางตำราเรียกทับศัพท์ว่า โกจิเบอร์รี่ จัดอยู่ในกลุ่มผลไม้ชนิดหนึ่งในตระกูลเบอร์รี่ มีรสชาติหวาน มีฤทธิ์เป็นกลางไม่ร้อนไม่เย็นจนเกินไป และไม่มีพิษ การแพทย์แผนจีนใช้เก๋ากี้เป็นยามานานกว่า 2,000 ปี สรรพคุณของเก๋ากี้มีหลายประการ เช่น บำรุงเลือด ตับ ไต หัวใจ ปอด และระบบประสาท ช่วยบำรุงสายตา ลดความเสี่ยงอาการตาบอดกลางคืน ช่วยป้องกันและรักษาตาแห้ง นอกจากนี้แพทย์จีนส่วนใหญ่นิยมใช้บรรเทาและรักษาอาการของผู้ป่วยโรคเบาหวานในตำรายาจีนมีข้อมูลว่าเก๋ากี้ช่วยบำรุงร่างกายของเพศชายได้ดี\n\nข้อใดต่อไปนี้ไม่ใช่ประโยชน์ของเก๋ากี้",
     "opts": [
       "ช่วยบำรุงสายตา และรักษาตาแห้ง",
       "ช่วยบำรุงเลือดและระบบประสาท",
@@ -355,13 +355,12 @@
       "ช่วยป้องกันระบบภูมิคุ้มกันบกพร่อง"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q149.png",
     "t": "การถามข้อมูลด้านใน",
     "subject": "thai"
   },
   {
     "id": 5874,
-    "b": "ข้อใดกล่าวไม่สอดคล้องกับข้อมูลในบทความ",
+    "b": "\"สัมตำมีต้นกำเนิดไม่ชัดเจน แต่สันนิษฐานว่ามีที่มาที่ไปจากทางภาคอีสานของไทยราว ๆ 50 ปีก่อนหน้านี้เท่านั้น เพราะในช่วงสมัยดังกล่าวเป็นช่วงสงครามเวียดนาม มีการสร้างสะพานมิตรภาพขึ้นเพื่อลำเลียงยุทโธปกรณ์ต่าง ๆ พร้อมทั้งนำเมล็ดพันธุ์มะละกอมาปลูกทั้งสองข้างทางของถนนมิตรภาพ ด้วยเหตุนี้มะละกอจึงเป็นพืชที่ปลูกทั่วไปในภาคอีสาน และด้วยภูมิปัญญาของชาวอีสานจึงได้คิดค้นอาหารรสแซ่บจากมะละกอจนนี้ขึ้นมานั่นเอง ส้มตำจึงไม่ใช่อาหารดั้งเดิมแต่โบราณของไทยหรือลาวอย่างที่หลายคนเข้าใจ เพราะวัตถุดิบหลายอย่าง ทั้งมะละกอ พริก ต่างก็ได้รับมาจากต่างประเทศ ส่วนน้ำปลาก็ต้องใช้ปลาทะเลในการทำ แต่ไม่ว่าส้มตำจะเป็นอาหารโบราณหรืออาหารที่เพิ่งคิดค้นขึ้นใหม่ ก็ไม่มีใครปฏิเสธได้ว่าอาหารจานแซ่บนี้เป็นเจ้าประจำของการจัดอันดับอาหารที่ได้รับการโหวตว่าอร่อยที่สุดในโลกจากบรรดานักท่องเที่ยวท\n\nข้อใดกล่าวไม่สอดคล้องกับข้อมูลในบทความ",
     "opts": [
       "สันนิษฐานว่าส้มตำมีที่มาจากภาคอีสานของไทยเมื่อประมาณ 50 ปีก่อน",
       "นักท่องเที่ยวทั่วโลกยอมรับว่าส้มตำเป็นอาหารไทย",
@@ -369,7 +368,6 @@
       "การปลูกมะละกอเริ่มเป็นที่นิยมในภาคอีสานเมื่อราว 50 ปีก่อน"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q159.png",
     "t": "การถามข้อมูลด้านใน",
     "subject": "thai"
   },
@@ -702,14 +700,20 @@
     "id": 8235,
     "b": "สัญลักษณ์ Flowchart ในข้อใดหมายถึง ประมวลผลข้อมูล (Process)",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
     "c": 1,
     "t": "Procedure",
-    "subject": "com"
+    "subject": "com",
+    "opt_imgs": [
+      "/question-svgs/084211dbec90ecce.svg",
+      "/question-svgs/5ba9d568bbb62850.svg",
+      "/question-svgs/f730b79f707b61e2.svg",
+      "/question-svgs/adc1257e292317b8.svg"
+    ]
   },
   {
     "id": 8245,
@@ -1831,7 +1835,7 @@
   },
   {
     "id": 13223,
-    "b": "Directions: Read the news report and answer the questions.",
+    "b": "# Police Seize Illegal Weapons in Major City Crackdown\n\nIn a large-scale operation codenamed \"Safe Streets,\" police officers raided several locations across the capital early Sunday morning. The operation resulted in the arrest of twelve suspects and the seizure of over twenty illegal firearms and various types of ammunition.\n\nAccording to the Police Chief, the raid was the result of a month-long undercover investigation into an organized crime group. \"Our goal is to reduce violent crimes and ensure the safety of our community,\" the Chief stated during a press conference.\n\nThe suspects are currently in custody and face multiple charges, including illegal possession of weapons and conspiracy. Police are expanding their investigation to find the source of the illegal arms. All seized items will be used as evidence in court.\n\n## What was the main objective of the \"Safe Streets\" operation?\n\nDirections: Read the news report and answer the questions.",
     "opts": [
       "To recruit new undercover agents.",
       "To confiscate illegal weapons and reduce crime.",
@@ -1839,13 +1843,12 @@
       "To open a new police station in the capital."
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-4-1-e2cc9da9/q57.png",
     "t": "Reading",
     "subject": "eng"
   },
   {
     "id": 7181,
-    "b": "",
+    "b": "What does this sign mean?",
     "opts": [
       "School crossing",
       "Pedestrian crossing ahead",
@@ -1853,7 +1856,7 @@
       "Railroad crossing ahead with barriers"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q1026.png",
+    "img": "/question-svgs/000fa0bd66341186.svg",
     "t": "Reading",
     "subject": "eng"
   },

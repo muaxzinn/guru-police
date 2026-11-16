@@ -5,6 +5,7 @@ import { execSync } from 'node:child_process';
 const ROOT_DIR = process.cwd();
 const DATASET_DIR = path.join(ROOT_DIR, 'data', 'dataset');
 const Q_IMAGES_DIR = path.join(ROOT_DIR, 'public', 'question-images');
+const Q_SVGS_DIR = path.join(ROOT_DIR, 'public', 'question-svgs');
 const STATIC_DATA_DIR = path.join(ROOT_DIR, 'public', 'static-data');
 const STASH_DIR = path.join(ROOT_DIR, '.gh-pages-stash');
 const OUT_DIR = path.join(ROOT_DIR, 'out');
@@ -33,7 +34,7 @@ const DEFAULT_LEADERBOARD = [
 ];
 
 const IMAGE_URL_ONLY_RE =
-  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
+  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/question-svgs\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
 
 /**
  * @param {string | null | undefined} raw
@@ -44,7 +45,7 @@ function resolveLocalImageUrl(raw, urlMap) {
   if (!raw || typeof raw !== 'string') return null;
   const trimmed = raw.trim();
   if (!trimmed) return null;
-  if (trimmed.startsWith('/question-images/')) return trimmed;
+  if (trimmed.startsWith('/question-images/') || trimmed.startsWith('/question-svgs/')) return trimmed;
 
   const direct = urlMap.get(trimmed);
   if (direct) return direct;
@@ -209,7 +210,13 @@ function generateStaticDataset() {
   }
 
   const articlesData = JSON.parse(fs.readFileSync(path.join(DATASET_DIR, 'articles-and-news.json'), 'utf8'));
-  const imageCount = fs.existsSync(Q_IMAGES_DIR) ? fs.readdirSync(Q_IMAGES_DIR).length : 0;
+  const svgCount = fs.existsSync(Q_SVGS_DIR)
+    ? fs.readdirSync(Q_SVGS_DIR).filter((f) => f.endsWith('.svg')).length
+    : 0;
+  const rasterCount = fs.existsSync(Q_IMAGES_DIR)
+    ? fs.readdirSync(Q_IMAGES_DIR).filter((f) => !f.startsWith('.')).length
+    : 0;
+  const imageCount = svgCount + rasterCount;
 
   const meta = {
     examSets,

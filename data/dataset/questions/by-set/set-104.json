@@ -131,7 +131,7 @@
   },
   {
     "id": 8348,
-    "b": "",
+    "b": "จากรูปภาพด้านล่าง การเชื่อมต่อระบบเครือข่ายแบบนี้เรียกว่าอะไร",
     "opts": [
       "Bus Topology",
       "Ring Topology",
@@ -139,7 +139,7 @@
       "Mesh Topology"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q382.png",
+    "img": "/question-svgs/e701c0e1973a74ca.svg",
     "t": "ระบบเครือข่ายคอมพิวเตอร์",
     "subject": "com"
   },
@@ -238,14 +238,20 @@
     "id": 8235,
     "b": "สัญลักษณ์ Flowchart ในข้อใดหมายถึง ประมวลผลข้อมูล (Process)",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
     "c": 1,
     "t": "Procedure",
-    "subject": "com"
+    "subject": "com",
+    "opt_imgs": [
+      "/question-svgs/084211dbec90ecce.svg",
+      "/question-svgs/5ba9d568bbb62850.svg",
+      "/question-svgs/f730b79f707b61e2.svg",
+      "/question-svgs/adc1257e292317b8.svg"
+    ]
   },
   {
     "id": 13038,

@@ -61,7 +61,7 @@
       "You should walk with your bicycle here"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q956.png",
+    "img": "/question-svgs/6b61815ec7c5a5c5.svg",
     "t": "Reading",
     "subject": "eng"
   },
@@ -80,7 +80,7 @@
   },
   {
     "id": 6571,
-    "b": "What kind of place is advertised?",
+    "b": "WORLD RESIDENCE\nSERVICED APARTMENT\n\n\"FEEL LIKE HOME IN BANGKOK\" a quality apt., Just minutes away from Silom & Sathorn Rd., F/F, laundry service, hot water, fitness gym, bar & restaurant, business center, Daily Fr. 900 Bht. Incl. B/F, Monthly Fr27,000 Bht. For reservation\n\nTel. 866-0382, 862-1443 Fax. 802-1255\nEmail : worldres @ infonews.co.th.\n\nWhat kind of place is advertised?",
     "opts": [
       "A serviced apartment",
       "A department store",
@@ -88,7 +88,6 @@
       "A hospital"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q416.png",
     "t": "Reading",
     "subject": "eng"
   },

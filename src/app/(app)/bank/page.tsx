@@ -15,7 +15,8 @@ import {
 } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SubjectIcon } from '@/components/SubjectIcon';
-import { ImageLightbox } from '@/components/ImageLightbox';
+import { ImageLightbox, isImageUrlString } from '@/components/ImageLightbox';
+import { RichExamContent } from '@/components/RichExamContent';
 import { CHOICE_LABELS, SUBJECT_MAP, SUBJECTS, type SubjectKey } from '@/lib/constants';
 import type { QuestionRecord } from '@/lib/server-db';
 
@@ -24,8 +25,6 @@ interface TopicOption {
   subjectKey: SubjectKey;
   count: number;
 }
-
-const IMAGE_PAT = /^(https?:\/\/|\/question-images\/)\S+\.(png|jpe?g|webp|gif)/i;
 
 export default function QuestionBankPage() {
   const [subject, setSubject] = useState<string>('');
@@ -279,10 +278,10 @@ export default function QuestionBankPage() {
                   </div>
 
                   <div className="mt-3 font-exam text-[16px] leading-relaxed text-ink">
-                    {q.stem && IMAGE_PAT.test(q.stem.trim()) ? (
+                    {q.stem && isImageUrlString(q.stem) ? (
                       <ImageLightbox src={q.stem.trim()} alt={`ภาพโจทย์ #${q.id}`} />
                     ) : (
-                      <p className="whitespace-pre-wrap">{q.stem}</p>
+                      <RichExamContent text={q.stem} />
                     )}
                     {q.img && (
                       <div className="mt-3">
@@ -312,10 +311,10 @@ export default function QuestionBankPage() {
                             {CHOICE_LABELS[idx] || idx + 1}
                           </span>
                           <div className="min-w-0 font-exam">
-                            {opt && IMAGE_PAT.test(opt.trim()) ? (
+                            {opt && isImageUrlString(opt) ? (
                               <ImageLightbox src={opt.trim()} alt={`ตัวเลือก ${CHOICE_LABELS[idx]}`} className="max-h-24 rounded-lg bg-white" />
                             ) : (
-                              <span>{opt}</span>
+                              <RichExamContent text={opt} inline={true} />
                             )}
                             {optImg && (
                               <div className="mt-1">
@@ -334,11 +333,11 @@ export default function QuestionBankPage() {
                         เฉลยข้อ {q.correct_label}
                       </div>
                       {q.explanation && (
-                        <div className="mt-1 whitespace-pre-wrap font-exam leading-relaxed text-ink">
-                          {IMAGE_PAT.test(q.explanation.trim()) ? (
+                        <div className="mt-1 font-exam leading-relaxed text-ink">
+                          {isImageUrlString(q.explanation) ? (
                             <ImageLightbox src={q.explanation.trim()} alt="ภาพคำอธิบายเฉลย" />
                           ) : (
-                            q.explanation
+                            <RichExamContent text={q.explanation} />
                           )}
                         </div>
                       )}

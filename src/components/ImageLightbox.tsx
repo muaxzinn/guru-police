@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Maximize2, RefreshCw, X } from 'lucide-react';
 
 export const IMAGE_URL_ONLY_RE =
-  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
+  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/question-svgs\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
 
 export function isImageUrlString(val?: string | null): boolean {
   if (!val) return false;
@@ -42,6 +42,7 @@ export function ImageLightbox({
 
   const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || '').replace(/\/$/, '');
   const trimmed = src.trim();
+  const isSvg = trimmed.toLowerCase().endsWith('.svg') || trimmed.startsWith('/question-svgs/');
   const resolvedSrc =
     basePath && trimmed.startsWith('/') && !trimmed.startsWith(`${basePath}/`)
       ? `${basePath}${trimmed}`
@@ -78,7 +79,7 @@ export function ImageLightbox({
             e.stopPropagation();
             setZoom(true);
           }}
-          className={`${className} ${
+          className={`${className} ${isSvg ? '!bg-white text-slate-900 p-2' : ''} ${
             selectOnImageClick ? 'cursor-pointer' : 'cursor-zoom-in'
           } transition-opacity hover:opacity-95`}
         />
@@ -109,7 +110,7 @@ export function ImageLightbox({
           <img
             src={effectiveSrc}
             alt={alt}
-            className="max-h-[92vh] max-w-[95vw] rounded-xl bg-white shadow-2xl"
+            className="max-h-[92vh] max-w-[95vw] rounded-xl bg-white p-2 shadow-2xl"
           />
           <button
             type="button"

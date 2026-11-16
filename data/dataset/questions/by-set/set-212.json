@@ -35,13 +35,13 @@
       "กรวย"
     ],
     "c": 0,
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/2ff25de0-fefc-421b-b80a-e6f363416020.png",
+    "img": "/question-svgs/da69f75887aa40cf.svg",
     "t": "รูปภาพ",
     "subject": "math"
   },
   {
     "id": 11259,
-    "b": "จากความสัมพันธ์ดังกล่าว จงหาว่า A มีค่าเป็นเท่าใด",
+    "b": "<table><tr><td>7</td><td>1</td><td>3</td></tr><tr><td>0</td><td>6</td><td>3</td></tr><tr><td>1</td><td>1</td><td>A</td></tr></table>\n\nจากความสัมพันธ์ดังกล่าว จงหาว่า A มีค่าเป็นเท่าใด",
     "opts": [
       "1",
       "6",
@@ -49,13 +49,12 @@
       "27"
     ],
     "c": 3,
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/99bd5e37-de0e-45ca-81d8-8269f28d104f.png",
     "t": "IQ",
     "subject": "math"
   },
   {
     "id": 13501,
-    "b": "",
+    "b": "$24 - 4 \\times (6 \\div 2) + (18 - 6) \\div 3 + 7 - (5 \\times 0)$ มีค่าเท่ากับข้อใด",
     "opts": [
       "15",
       "19",
@@ -63,7 +62,6 @@
       "35"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-OUTPUT-09a7e5bc/q6.png",
     "t": "เลขพื้นฐาน",
     "subject": "math"
   },
@@ -121,7 +119,7 @@
   },
   {
     "id": 9371,
-    "b": "ปีใดมีอัตราการเพิ่มขึ้นของจำนวนสมาชิกจากปีก่อนหน้าสูงที่สุด",
+    "b": "# จำนวนสมาชิกห้องสมุดรายปี\n\nปีใดมีอัตราการเพิ่มขึ้นของจำนวนสมาชิกจากปีก่อนหน้าสูงที่สุด",
     "opts": [
       "ปีที่ 2",
       "ปีที่ 3",
@@ -129,7 +127,7 @@
       "ปีที่ 5"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q495.png",
+    "img": "/question-svgs/76ee5a214b52ed12.svg",
     "t": "ร้อยละ (แผนภูมิ และ กาารเปลี่ยนแปลง)",
     "subject": "math"
   },
@@ -137,9 +135,9 @@
     "id": 9578,
     "b": "ปองกุลกำลังหมอบราบอยู่กับพื้นและเล็งขีปนาวุธไปยังอากาศยานด้วยมุมเงย 30 องศา ขณะนั้นเป็นเวลาเที่ยงตรง เงาของอากาศยานลำนั้นอยู่ห่างจากปองกุลเป็นระยะทาง 1.2 กิโลเมตร ถามว่าอากาศยานกำลังบินที่ระดับสูงจากพื้นดินกี่เมตร",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q702_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q702_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q702_c3.png",
+      "400√3",
+      "800\\sqrt{3}",
+      "$1200\\sqrt{3}$",
       "1600"
     ],
     "c": 0,
@@ -151,9 +149,9 @@
     "b": "นสต.อาชาออกเดินทางไกลไปทางทิศตะวันตก 25 กิโลเมตร จากนั้นเดินทางลงทิศใต้อีก 20 กิโลเมตร และเดินไปทางทิศตะวันตกอีก 10 กิโลเมตรจึงถึงจุดหมาย ถามว่า นสต.อาชาอยู่ห่างจากจุดเริ่มต้นเท่าใด",
     "opts": [
       "40 กิโลเมตร",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q639_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q639_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q639_c4.png"
+      "26√6 กิโลเมตร",
+      "25√5 กิโลเมตร",
+      "5√65 กิโลเมตร"
     ],
     "c": 3,
     "t": "สามเหลี่ยม",
@@ -176,10 +174,10 @@
     "id": 9636,
     "b": "โยนลูกเต๋าสองลูกพร้อมกัน จงหาความน่าจะเป็นที่ผลรวมของแต้มบนหน้าลูกเต๋ามีค่ามากกว่า 9",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q760_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q760_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q760_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q760_c4.png"
+      "$\\frac{1}{6}$",
+      "$\\frac{1}{9}$",
+      "$\\frac{1}{12}$",
+      "$$\\frac{1}{36}$$"
     ],
     "c": 0,
     "t": "ความน่าจะเป็น",
@@ -213,15 +211,14 @@
   },
   {
     "id": 11279,
-    "b": "",
+    "b": "กำหนดให้ U เป็นเซตของจำนวนเต็มบวก โดยที่\n$A = \\{x \\mid 5 \\le x < 9\\}$\n$B = \\{x \\mid 2 < x \\le 6\\}$\n$C = \\{x \\mid 3 < x < 7\\}$\nข้อใดคือ $A - (B \\cup C)$",
     "opts": [
-      "",
-      "",
-      "",
-      ""
+      "{x | 7 < x < 9}",
+      "$$ \\{ x | 7 \\leq x \\leq 9 \\} $$",
+      "$$ \\{ x | 7 < x \\leq 9 \\} $$",
+      "$$ \\{ x | 7 \\leq x < 9 \\} $$"
     ],
     "c": 3,
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/0f23e4ae-e775-4341-867b-1609fb0b049d.png",
     "optImgs": [
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/383545c4-81d1-49e0-a87c-c6b062b87f35.png",
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/91e9ea97-9ddc-44d7-8160-cc6c9c1746f2.png",
@@ -246,7 +243,7 @@
   },
   {
     "id": 9768,
-    "b": "",
+    "b": "ข้อใดถูกต้อง\n\nก. $p \\rightarrow (p \\lor s)$ เป็นสัจนิรันดร์\n\nข. $(p \\rightarrow \\neg s) \\lor (s \\land r)$ ไม่เป็นสัจนิรันดร์",
     "opts": [
       "ก.ผิด ข.ถูก",
       "ก.ถูก ข.ผิด",
@@ -254,7 +251,6 @@
       "ก.ผิด ข.ผิด"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q892.png",
     "t": "ตรรกศาสตร์",
     "subject": "math"
   },
@@ -325,7 +321,7 @@
   },
   {
     "id": 5828,
-    "b": "บทประพันธ์นี้ สื่อความหมายตามข้อใด",
+    "b": "\"ชื่นชีวันเมื่อฉันและเธอชิดใกล้\nช่างไม่มีน้ำใจใยดี\nเริ่มแต่วันที่เราคบกันคล้ายเพื่อน\nปล่อยให้รุมสุมทรวงนานวัน\nไม่เคยเผยความในใจ\nเฝ้าคอยแต่หลงละเมอ\n\nแต่ฉันเธอห่างฉันไปทุกที\nต่อไมตรีสัมพันธ์\nแต่ดูเหมือนมีสิ่งเร้าใจไหวหวั่น\nเปลี่ยนเป็นฉันรักเธอ\nหากวันใด เผยใจกลัวเก้อ\nยามเมื่อเธอห่างไป\"\n\nบทประพันธ์นี้ สื่อความหมายตามข้อใด",
     "opts": [
       "ความรักข้างเดียว",
       "คนรักที่อยู่ห่างไกล",
@@ -333,7 +329,6 @@
       "การผิดหวังจากความรัก"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q113.png",
     "t": "วิเคราะห์ข้อคิด/แนวคิดที่ได้จากการอ่าน",
     "subject": "thai"
   },
@@ -958,7 +953,7 @@
       "Review"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q706.png",
+    "img": "/question-svgs/3eb376eeb18efd38.svg",
     "t": "Excel",
     "subject": "com"
   },
@@ -1029,7 +1024,7 @@
   },
   {
     "id": 8791,
-    "b": "",
+    "b": "จากรูป เป็นไอคอนของสื่อสังคมออนไลน์ที่มีชื่อว่าอะไร",
     "opts": [
       "Messenger",
       "TikTok",
@@ -1037,7 +1032,6 @@
       "Telegram"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q825.png",
     "t": "Social Media + พื้นฐานโปรแกรม",
     "subject": "com"
   },
@@ -1110,10 +1104,10 @@
     "id": 10621,
     "b": "การพิมพ์ที่ตั้งของส่วนราชการเจ้าของหนังสือภายใน หนังสือภายนอก ข้อใดถูกต้อง",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/06-1-1bf5c724/q103_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/06-1-1bf5c724/q103_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/06-1-1bf5c724/q103_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/06-1-1bf5c724/q103_c4.png"
+      "สำนักงานตำรวจแห่งชาติ\nถนนพระรามที่ ๑ ปทุมวัน\nกรุงเทพมหานคร ๑๐๓๓๐",
+      "สำนักงานตำรวจแห่งชาติ\nถนนพระรามที่ ๑ เขตปทุมวัน\nกรุงเทพฯ ๑๐๓๓๐",
+      "สำนักงานตำรวจแห่งชาติ\nถนนพระรามที่ ๑ เขตปทุมวัน\nกรุงเทพมหานคร ๑๐๓๓๐",
+      "สำนักงานตำรวจแห่งชาติ\nถนนพระรามที่ ๑ ปทุมวัน\nกรุงเทพฯ ๑๐๓๓๐"
     ],
     "c": 2,
     "t": "นอก+ใน+ประทับตรา",
@@ -1836,7 +1830,7 @@
   },
   {
     "id": 7170,
-    "b": "",
+    "b": "What does this sign mean?",
     "opts": [
       "Speed limit",
       "Height restriction ahead",
@@ -1844,13 +1838,13 @@
       "Motorway begins in 50 m."
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q1015.png",
+    "img": "/question-svgs/643ebfdfd5863bd1.svg",
     "t": "Reading",
     "subject": "eng"
   },
   {
     "id": 13227,
-    "b": "Directions: Read the weather forecast and answer the questions.",
+    "b": "# WEEKEND WEATHER OUTLOOK\n\nThe Meteorological Department has released the forecast for the upcoming weekend. A **high-pressure system** from the north is moving across the region, resulting in a significant drop in temperature.\n\n**Saturday:** Most areas will experience **chilly weather** in the early morning with some light fog. However, the skies will be clear and sunny during the afternoon. The maximum temperature will be around 25℃.\n\n**Sunday:** The weather will become more **unpredictable**. There is a 60% chance of isolated thunderstorms and heavy rain in the evening. Residents are advised to carry an umbrella and drive with caution due to slippery roads. Small boats should remain ashore as strong winds are expected in coastal areas.\n\nWhat is the weather like on Saturday morning?\n\nDirections: Read the weather forecast and answer the questions.",
     "opts": [
       "Hot and humid.",
       "Rainy and windy.",
@@ -1858,7 +1852,6 @@
       "Cloudy with no sun."
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-4-1-e2cc9da9/q61.png",
     "t": "Reading",
     "subject": "eng"
   },

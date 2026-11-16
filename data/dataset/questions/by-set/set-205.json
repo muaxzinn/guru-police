@@ -35,7 +35,7 @@
       ""
     ],
     "c": 2,
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/a63f6b58-b646-43cf-ace9-5ff04ce5a120.png",
+    "img": "/question-svgs/994f876c63cbc31b.svg",
     "optImgs": [
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/69b86a81-d3fe-4378-8ea7-ec64a33075ef.png",
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/169ef3d3-4da7-428c-b663-701077192a63.png",
@@ -43,7 +43,13 @@
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/7fc50c94-3884-4ca2-8cc2-a7330305f430.png"
     ],
     "t": "รูปภาพ",
-    "subject": "math"
+    "subject": "math",
+    "opt_imgs": [
+      "/question-svgs/2016e4f21c171f03.svg",
+      "/question-svgs/cdc3e0685f47050c.svg",
+      "/question-svgs/8931ad8793c6fa28.svg",
+      "/question-svgs/6e9bd7720b6d82aa.svg"
+    ]
   },
   {
     "id": 9061,
@@ -86,7 +92,7 @@
   },
   {
     "id": 9259,
-    "b": "",
+    "b": "จงหาผลคูณของค่าของ 3 ใน 201314 กับ 315",
     "opts": [
       "27",
       "70",
@@ -94,7 +100,6 @@
       "215"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q383.png",
     "t": "เลขฐาน",
     "subject": "math"
   },
@@ -152,7 +157,7 @@
   },
   {
     "id": 9567,
-    "b": "",
+    "b": "ถ้า $\\cos A = \\frac{\\tan 45^\\circ}{\\cos ec 30^\\circ}$ แล้ว $A = ?$",
     "opts": [
       "0°",
       "30°",
@@ -160,7 +165,6 @@
       "60°"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q691.png",
     "t": "สามเหลี่ยม",
     "subject": "math"
   },
@@ -181,10 +185,10 @@
     "id": 9651,
     "b": "ถุงทึบใบหนึ่งมีลูกบอลสีแดงอยู่ 2 ลูก และลูกบอลสีอื่น ๆ อีก 4 ลูก จงหาความน่าจะเป็นที่จะหยิบลูกบอลออกมาวางทีละลูก 2 ครั้ง แล้วพบว่าบอลทั้ง 2 ครั้งเป็นสีแดง",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q775_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q775_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q775_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q775_c4.png"
+      "$\\frac{1}{5}$",
+      "$\\frac{1}{9}$",
+      "$\\frac{1}{10}$",
+      "$\\frac{1}{15}$"
     ],
     "c": 3,
     "t": "ความน่าจะเป็น",
@@ -205,7 +209,7 @@
   },
   {
     "id": 12807,
-    "b": "",
+    "b": "ให้ข้อมูล 5, 17, 8, 11, 26, 14, 20, 32, 23, 29, 35 จงหา D7",
     "opts": [
       "24.8",
       "25.4",
@@ -213,7 +217,6 @@
       "27.2"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-OUTPUT-1-edd88cd8/q4.png",
     "t": "สถิติ",
     "subject": "math"
   },
@@ -221,13 +224,13 @@
     "id": 9732,
     "b": "",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q856_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q856_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q856_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q856_c4.png"
+      "MnN",
+      "MUN",
+      "N'",
+      "M - N"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q856.png",
+    "img": "/question-svgs/fe0ac9d8a04119f5.svg",
     "t": "เซต",
     "subject": "math"
   },
@@ -235,10 +238,10 @@
     "id": 9744,
     "b": "ในงานเลี้ยงปีใหม่แห่งหนึ่งมีผู้เข้าร่วมงานเลี้ยงทั้งหมด 150 คน โดยเป็นครู 90 คน เป็นตำรวจ 45 คน เป็นทั้งครูและตำรวจ 5 คน ถ้าสุ่มเลือกตัวแทนขึ้นมาจับฉลากของขวัญ 1 คน แล้วความน่าจะเป็นที่ตัวแทนนี้ จะไม่เป็นครูและไม่เป็นตำรวจเท่ากับข้อใดต่อไปนี้",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q868_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q868_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q868_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q868_c4.png"
+      "$\\frac{1}{20}$",
+      "$\\frac{17}{20}$",
+      "$$\\frac{13}{15}$$",
+      "$\\frac{2}{15}$"
     ],
     "c": 3,
     "t": "เซต",
@@ -246,7 +249,7 @@
   },
   {
     "id": 12918,
-    "b": "",
+    "b": "ข้อใดต่อไปนี้เป็นสัจนิรันดร์\n\nก. $p \\rightarrow (\\sim p \\lor q)$\nข. $(p \\rightarrow \\sim q) \\lor (q \\lor r)$",
     "opts": [
       "ก. เป็น  ข. เป็น",
       "ก. เป็น  ข. ไม่เป็น",
@@ -254,7 +257,6 @@
       "ก. ไม่เป็น  ข. ไม่เป็น"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q98.png",
     "t": "ตรรกศาสตร์",
     "subject": "math"
   },
@@ -286,7 +288,7 @@
   },
   {
     "id": 13547,
-    "b": "ข้อความใดสรุปสาระสำคัญได้ถูกต้อง",
+    "b": "การรับแจ้งเบาะแสจากประชาชนช่วยให้ตำรวจได้รับข้อมูลเกี่ยวกับพื้นที่ได้รวดเร็วขึ้น แต่ข้อมูลที่ได้รับยังต้องผ่านการตรวจสอบ เพราะผู้แจ้งอาจเห็นเหตุการณ์เพียงบางส่วนหรือเข้าใจคลาดเคลื่อนได้\n\nข้อความใดสรุปสาระสำคัญได้ถูกต้อง",
     "opts": [
       "ประชาชนไม่ควรแจ้งเบาะแสหากไม่เห็นเหตุการณ์ทั้งหมด",
       "ข้อมูลจากประชาชนมีประโยชน์ แต่ต้องตรวจสอบก่อนนำไปใช้",
@@ -294,7 +296,6 @@
       "การรับแจ้งเบาะแสทำให้เจ้าหน้าที่ทำงานล่าช้า"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-OUTPUT-0d829835/q19.png",
     "t": "สาระสำคัญ",
     "subject": "thai"
   },
@@ -365,7 +366,7 @@
   },
   {
     "id": 5875,
-    "b": "ข้อใดไม่สอดคล้องกับบทความข้างต้น",
+    "b": "\"การพัฒนาตนเอง พัฒนาการทำงาน เป็นสิ่งที่ต้องกระทำอยู่ตลอดเวลา เพื่อให้ก้าวไปทันกับความเจริญของวิทยาการและเทคโนโลยีที่ค้นคว้าด้วยวิธีต่างๆ อยู่สม่ำเสมอ ให้มีความรอบรู้ที่กว้างขวางและถูกต้องทั่วถึง ทั้งโดยทางทฤษฎีและวิธีปฏิบัติ ส่วนการพัฒนาการทำงานนั้น ย่อมเป็นผลสืบเนื่องมาจากการพัฒนาตนเอง ดังกล่าว คือ เมื่อได้พัฒนาระบบวิธีการทำงานให้มีประสิทธิภาพสูงขึ้น ส่งผลให้งานที่ทำสำเร็จประโยชน์อย่างสมบูรณ์\"\n\nข้อใดไม่สอดคล้องกับบทความข้างต้น",
     "opts": [
       "การพัฒนาตนเอง ส่งผลให้เกิดการพัฒนาการทำงานตามมา",
       "เราควรมีความรอบรู้เรื่องเทคโนโลยีใหม่ ๆ",
@@ -373,7 +374,6 @@
       "ความรู้ที่ถูกต้อง หมายถึงถูกทั้งในทางทฤษฎีและปฏิบัติ"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q160.png",
     "t": "การถามข้อมูลด้านใน",
     "subject": "thai"
   },
@@ -509,7 +509,7 @@
   },
   {
     "id": 6126,
-    "b": "คำประพันธ์นี้บาทใดเกี่ยวกับสถาปัตยกรรม",
+    "b": "เรืองเรืองไตรรัตน์พัน พันแสง\nรินรสพระธรรมแสดง ค่ำเช้า\nเจดีย์ระตะแซง เสียดยอด\nยลยิ่งแสงแก้วเก้า แก่นหล้าหลากสวรรค์\n\nคำประพันธ์นี้บาทใดเกี่ยวกับสถาปัตยกรรม",
     "opts": [
       "บาทที่ 1",
       "บาทที่ 2",
@@ -517,7 +517,6 @@
       "บาทที่ 4"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q411.png",
     "t": "อื่น ๆ",
     "subject": "thai"
   },
@@ -757,7 +756,7 @@
   },
   {
     "id": 8352,
-    "b": "",
+    "b": "จากรูปภาพด้านล่าง การเชื่อมต่อระบบเครือข่าย Network แบบนี้ถูกเรียกว่าอะไร",
     "opts": [
       "Bus Topology",
       "Ring Topology",
@@ -765,7 +764,7 @@
       "Mesh Topology"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q386.png",
+    "img": "/question-svgs/87a46ac760549c5a.svg",
     "t": "ระบบเครือข่ายคอมพิวเตอร์",
     "subject": "com"
   },
@@ -927,7 +926,7 @@
   },
   {
     "id": 8547,
-    "b": "",
+    "b": "การใช้โปรแกรม Microsoft Word หากต้องการแทรก ควรเลือกคำสั่งตามข้อใดต่อไปนี้",
     "opts": [
       "คลิกตำแหน่งที่ต้องการสร้าง -> Home -> Shapes",
       "คลิกตำแหน่งที่ต้องการสร้าง -> Insert -> Shapes",
@@ -935,7 +934,6 @@
       "คลิกตำแหน่งที่ต้องการสร้าง -> Layout -> Shapes"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q581.png",
     "t": "Word",
     "subject": "com"
   },
@@ -943,10 +941,10 @@
     "id": 8546,
     "b": "การใช้โปรแกรม Microsoft Word หากต้องการแทรกเลขลำดับหน้าหัวข้อ ควรเลือกคำสั่งตามข้อใด",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q580_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q580_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q580_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q580_c4.png"
+      "1. คลิกเลือกข้อความที่ต้องการ -> Home -> แถบ Paragraph ->",
+      "2. คลิกเลือกข้อความที่ต้องการ -> Home -> แถบ Paragraph ->",
+      "3. คลิกเลือกข้อความที่ต้องการ -> Home -> แถบ Paragraph ->",
+      "4. คลิกเลือกข้อความที่ต้องการ -> Home -> แถบ Paragraph ->"
     ],
     "c": 0,
     "t": "Word",
@@ -1008,18 +1006,24 @@
     "id": 8688,
     "b": "การใช้โปรแกรม Microsoft PowerPoint ข้อใดคือเครื่องมือในการนำพื้นหลังออกจากรูปภาพ",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q722_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q722_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q722_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q722_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
     "c": 1,
     "t": "Powerpoint",
-    "subject": "com"
+    "subject": "com",
+    "opt_imgs": [
+      "/question-svgs/f44d79723204dba0.svg",
+      "/question-svgs/82ac1c43a691acf3.svg",
+      "/question-svgs/4c3e99b26a3da8f7.svg",
+      "/question-svgs/c496ec3097294093.svg"
+    ]
   },
   {
     "id": 8682,
-    "b": "",
+    "b": "การใช้โปรแกรม Microsoft PowerPoint เมนูนี้ เป็นการทำให้ข้อความ หรือวัตถุเคลื่อนไหวแบบใด",
     "opts": [
       "ลอยเข้า",
       "ขยายแล้วหมุน",
@@ -1027,7 +1031,6 @@
       "กวาดข้อความ"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q716.png",
     "t": "Powerpoint",
     "subject": "com"
   },
@@ -1839,7 +1842,7 @@
   },
   {
     "id": 13220,
-    "b": "Directions: Read the following incident report and answer the questions.",
+    "b": "**Incident Report Date:** October 12, 2023\n**Location:** Central Railway Station\n\nAt approximately 10:30 AM, a passenger named Mr. Robert Smith reported that his black leather briefcase was stolen while he was purchasing a ticket. He stated that he had placed his bag on the floor next to him. When he turned back after paying, the bag had disappeared.\n\nThe briefcase contained a laptop, important legal documents, and a small amount of cash. Security officers immediately reviewed the CCTV footage. The footage showed a suspicious man wearing a gray hoodie picking up the bag and exiting through the North Gate. The police are currently identifying the suspect.\n\n**What happened to Mr. Robert Smith at the railway station?**\n\nDirections: Read the following incident report and answer the questions.",
     "opts": [
       "He lost his way.",
       "His briefcase was stolen.",
@@ -1847,7 +1850,6 @@
       "He missed his train."
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-4-1-e2cc9da9/q54.png",
     "t": "Reading",
     "subject": "eng"
   },
@@ -1861,7 +1863,7 @@
       "You should be quiet in this area."
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-4-1-e2cc9da9/q69.jpeg",
+    "img": "/question-svgs/d29125ab6eb0fb66.svg",
     "t": "Reading",
     "subject": "eng"
   },

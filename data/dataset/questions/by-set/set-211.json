@@ -35,7 +35,7 @@
       ""
     ],
     "c": 0,
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/68ad9766-c774-4f9b-bf5c-0b75f7925ef6.png",
+    "img": "/question-svgs/98ea1875899c1e4c.svg",
     "optImgs": [
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/7f8725e9-9b9c-4f4e-b0a3-5d31bdbfe930.png",
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/143416bb-0548-4643-8c25-93658a220129.png",
@@ -43,7 +43,13 @@
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/42bb3907-2109-4545-a62f-d373962c84b1.png"
     ],
     "t": "รูปภาพ",
-    "subject": "math"
+    "subject": "math",
+    "opt_imgs": [
+      "/question-svgs/8a5868d26380b810.svg",
+      "/question-svgs/d4a74117a0e1047c.svg",
+      "/question-svgs/a03763dd0291f90b.svg",
+      "/question-svgs/2db5da7e617e0e9a.svg"
+    ]
   },
   {
     "id": 9047,
@@ -88,10 +94,10 @@
     "id": 9256,
     "b": "53 มีค่าเท่ากับข้อใด",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q380_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q380_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q380_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q380_c4.png"
+      "3134",
+      "3114",
+      "3034",
+      "3014"
     ],
     "c": 1,
     "t": "เลขฐาน",
@@ -138,15 +144,15 @@
   },
   {
     "id": 9544,
-    "b": "",
+    "b": "จากรูปสี่เหลี่ยม ABCD ให้ด้าน CA ยาว 6 หน่วย และด้าน CD ยาว 4 หน่วย แล้วด้าน BC ยาวกี่หน่วย",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q668_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q668_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q668_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q668_c4.png"
+      "$2\\sqrt{6}$",
+      "$2\\sqrt{3}$",
+      "$3\\sqrt{6}$",
+      "$3\\sqrt{3}$"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q668.png",
+    "img": "/question-svgs/5c8260c7f50cede3.svg",
     "t": "สามเหลี่ยม",
     "subject": "math"
   },
@@ -180,10 +186,10 @@
     "id": 9625,
     "b": "โยนเหรียญ 1 เหรียญ 3 ครั้ง ความน่าจะเป็นของเหตุการณ์ที่เหรียญออกหัวติดกัน มีค่าเท่าใด",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q749_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q749_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q749_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q749_c4.png"
+      "$\\frac{1}{2}$",
+      "$\\frac{1}{4}$",
+      "$\\frac{1}{8}$",
+      "$\\frac{3}{8}$"
     ],
     "c": 3,
     "t": "ความน่าจะเป็น",
@@ -269,7 +275,7 @@
   },
   {
     "id": 5733,
-    "b": "จากบทความนี้ ข้อใดไม่ถูกต้อง",
+    "b": "\"ไม่มีใครที่จะประสบผลสำเร็จได้ด้วยตัวเอง ไม่ว่าเราจะจำหรือนึกได้หรือไม่ เราก็เคยได้รับโอกาสจากคนอื่น ๆ มาก่อนเสมอ คนเหล่านั้นมองเห็นอนาคตในตัวเรา เขาอาจจะไม่รู้จักเราเลยก็ได้ แต่ว่าเขาเห็นสิ่งที่เราทำ เห็นสิ่งที่เราสามารถทำได้ และเขาเหล่านั้นก็ให้โอกาสเรามา และสิ่งที่เราทำได้ก็คือ ส่งต่อความโชคดีและให้โอกาสแก่คนอื่น ๆ ต่อไป\"\n\nจากบทความนี้ ข้อใดไม่ถูกต้อง",
     "opts": [
       "ทุกคนสามารถประสบความสำเร็จได้ด้วยตนเอง",
       "มีคนที่เรานึกไม่ถึงมองเห็นโอกาสในตัวเรา",
@@ -277,13 +283,12 @@
       "เราควรพยายามมองเห็นโอกาสในตัวคนอื่น"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q18.png",
     "t": "การอนุมาน",
     "subject": "thai"
   },
   {
     "id": 5787,
-    "b": "ข้อใดสรุปได้ตรงประเด็นของคำประพันธ์ข้างต้น",
+    "b": "อันชาติใดไร้ศานติสุขสงบ ณ ชาตินั้นนรชนไม่สนใจ\nแต่ชาติใดรุ่งเรืองเมืองสงบ ย่อมจำนงศิลปาสง่างาม\nต้องมัวรบราญรอนหาผ่อนไม่ ในกิจศิลปะวิไลละวาดงาม\nว่างการรบอริพลอันล้นหลาม เพื่ออร่ามเรืองระยับประดับประดา\n\nข้อใดสรุปได้ตรงประเด็นของคำประพันธ์ข้างต้น",
     "opts": [
       "ความวุ่นวายในประเทศเกิดจากประชาชนไม่สนใจงานศิลป์",
       "ความสงบสุขในประเทศเกิดจากประชาชนสนใจศิลปะ",
@@ -291,13 +296,12 @@
       "ประเทศที่ผู้คนสนใจศิลปะวัฒนธรรม จะรุ่งเรืองสุขสงบ"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q72.png",
     "t": "สาระสำคัญ",
     "subject": "thai"
   },
   {
     "id": 5757,
-    "b": "สาระสำคัญของบทประพันธ์นี้ ตรงกับข้อใด",
+    "b": "\"ไทยรวมกำลังตั้งมั่น จะสามารถป้องกันขันแข็ง\nถึงแม้ว่าศัตรูผู้มีแรง มายุทธ์แย้งก็จะประลาศไป\nขอแต่เพียงไทยเราอย่าพลาญญาติ ร่วมชาติร่วมจิตเป็นข้อใหญ่\nไทยอย่ามุ่งร้ายทำลายไทย จงพร้อมใจพร้อมกำลังระวังเมือง\"\n\nสาระสำคัญของบทประพันธ์นี้ ตรงกับข้อใด",
     "opts": [
       "ชาวไทยอย่าทะเลาะกัน",
       "ชาวไทยต้องปกป้องแผ่นดิน",
@@ -305,7 +309,6 @@
       "ชาวไทยควรให้ความสำคัญกับประเทศชาติ"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q42.png",
     "t": "สาระสำคัญ",
     "subject": "thai"
   },
@@ -350,7 +353,7 @@
   },
   {
     "id": 13552,
-    "b": "ข้อใดกล่าวถูกต้องตามประกาศ",
+    "b": "# ใช้ข้อความต่อไปนี้ตอบข้อ\n\nประกาศรับสมัครโครงการเครือข่ายประชาชนป้องกันอาชญากรรม สถานีตำรวจเปิดรับประชาชนที่มีอายุ\nตั้งแต่ 20 ปี แต่ไม่เกิน 60 ปี และมีภูมิลำเนาอยู่ในพื้นที่รับผิดชอบ เข้าร่วมอบรมในวันที่ 10 ธันวาคม\nเวลา 08.30-15.30 น. รับจำนวน 50 คน ผู้สมัครต้องยื่นสำเนาบัตรประจำตัวประชาชนและสำเนาทะเบียนบ้าน\nภายในวันที่ 5 ธันวาคม ณ สถานีตำรวจ\n\nข้อใดกล่าวถูกต้องตามประกาศ",
     "opts": [
       "ผู้สมัครสามารถยื่นเอกสารได้ถึงวันอบรม",
       "ผู้สมัครต้องมีอายุเกิน 20 ปีบริบูรณ์เท่านั้น",
@@ -358,7 +361,6 @@
       "ผู้สมัครใช้เพียงบัตรประจำตัวประชาชนในการสมัคร"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-OUTPUT-0d829835/q24.png",
     "t": "การถามข้อมูลด้านใน",
     "subject": "thai"
   },
@@ -377,7 +379,7 @@
   },
   {
     "id": 5917,
-    "b": "บทความข้างต้นใช้โวหารการเขียนประเภทใด",
+    "b": "\"เขาใช้แขนยันพื้นดิน อาการเหนื่อยอ่อน กลิ่นน้ำฝนบนใบหญ้าและกลิ่นไอดินโซยเข้าจมูกวาบหวิว\nอยากให้มีใครสักคนผ่านมาพบ เพื่อพาเขากลับไปหาหมอในหมู่บ้าน มดหลายตัวเดินสวนขบวนผ่านไปมา มันไม่มี\nที่ท่าจะสนใจเขาเลยแม้แต่น้อย เขามองดูมันอย่างเลื่อนลอยทำไมมัน จึงเฉยเมยกับฉัน มันคงรู้แน่ ฉันอยากให้มัน\nเป็นคนจริง ๆ ฉันจะต้องกลับบ้านให้ได้ เขาคิดพลางเหม่อมองดูยอดสนของหมู่บ้าน หาดเสี้ยวเห็นอยู่ไม่ไกล ดวง\nอาทิตย์สีแดงเข้มกำลังคล้อยลงเหนือยอดไม้ทางทิศตะวันตก\"\n\nบทความข้างต้นใช้โวหารการเขียนประเภทใด",
     "opts": [
       "พรรณนาโวหาร",
       "เทศนาโวหาร",
@@ -385,7 +387,6 @@
       "สาธกโวหาร"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q202.png",
     "t": "โวหารการเขียน, ภาพพจน์",
     "subject": "thai"
   },
@@ -729,7 +730,7 @@
   },
   {
     "id": 8350,
-    "b": "",
+    "b": "ระบบเครือข่าย Network ตามรูปภาพ เป็นรูปแบบเครือข่ายประเภทใด",
     "opts": [
       "Bus Topology",
       "Ring Topology",
@@ -737,7 +738,7 @@
       "Mesh Topology"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q384.png",
+    "img": "/question-svgs/bfaabf4b664a161d.svg",
     "t": "ระบบเครือข่ายคอมพิวเตอร์",
     "subject": "com"
   },
@@ -795,7 +796,7 @@
   },
   {
     "id": 8353,
-    "b": "",
+    "b": "ระบบเครือข่าย Network ตามรูปด้านล่างเป็นรูปแบบเครือข่ายประเภทใด",
     "opts": [
       "Bus Topology",
       "Ring Topology",
@@ -803,7 +804,7 @@
       "Mesh Topology"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q387.png",
+    "img": "/question-svgs/0dbff6a1b5489911.svg",
     "t": "ระบบเครือข่ายคอมพิวเตอร์",
     "subject": "com"
   },
@@ -954,10 +955,10 @@
     "id": 8630,
     "b": "การหาผลรวมในช่วงเซลล์ B3 และ B7 จนถึง B10 ต้องพิมพ์สูตรคำนวณในโปรแกรม MS Excel อย่างไร",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q664_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q664_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q664_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q664_c4.png"
+      "=SUM(B3:B7, B10)",
+      "=SUM(B3,B7,B10)",
+      "=SUM(B3,B7:B10)",
+      "SUM(B3:B7:B10)"
     ],
     "c": 2,
     "t": "Excel",
@@ -1030,7 +1031,7 @@
   },
   {
     "id": 8863,
-    "b": "",
+    "b": "จากรูปภาพไอคอนด้านล่าง เป็นเครื่องมือในโปรแกรมใด",
     "opts": [
       "Microsoft Outlook",
       "Microsoft Visual Studio",
@@ -1038,7 +1039,7 @@
       "Microsoft Word"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q897.png",
+    "img": "/question-svgs/21e48138aa3cd9f9.svg",
     "t": "Social Media + พื้นฐานโปรแกรม",
     "subject": "com"
   },
@@ -1772,7 +1773,7 @@
   },
   {
     "id": 13580,
-    "b": "",
+    "b": "Situation: Two friends are talking about a sports event.\nA: Did you watch the football match last night?\nB: Yes! The match was _______.\nA: I know, right? I was on the edge of my seat the whole time!",
     "opts": [
       "completely predictable",
       "extremely terrible",
@@ -1780,7 +1781,6 @@
       "absolutely breathtaking"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-OUTPUT-6d67ec65/q16.png",
     "t": "Conversation",
     "subject": "eng"
   },
@@ -1838,7 +1838,7 @@
   },
   {
     "id": 6607,
-    "b": "",
+    "b": "What time will the train arrive in Pattaya?\n\n**TRAIN TICKET**\n\nTicket No: 1212312121\n\nSLEEPER TRAIN",
     "opts": [
       "7.00 a.m.",
       "9.00 a.m.",
@@ -1846,7 +1846,7 @@
       "5-May-23"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q452.png",
+    "img": "/question-svgs/83db8121dbdb718d.svg",
     "t": "Reading",
     "subject": "eng"
   },

@@ -1365,8 +1365,8 @@
     "set_id": null,
     "title": "ข้อมูลและสารสนเทศ",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "จากรูปเป็นรูปแบบของรหัสใด ของภาษาโปรแกรมคอมพิวเตอร์",
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/feba2a61-1b8e-41dd-a999-544542792ef8.png",
+    "stem": "<table><tr><td>01000111</td><td>01010101</td></tr><tr><td>010\n\nจากรูปเป็นรูปแบบของรหัสใด ของภาษาโปรแกรมคอมพิวเตอร์",
+    "img": null,
     "opts": [
       "รหัส ASCII",
       "รหัส EBCDIC",
@@ -4768,16 +4768,16 @@
     "stem": "ข้อมูลจำนวน 1 TB มีค่าเท่ากับกี่ Byte",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q239_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q239_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q239_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q239_c4.png"
+      "2<sup>10</sup> Byte",
+      "2$^{20}$ Byte",
+      "230 Byte",
+      "240 Byte"
     ],
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q239_ex.png"
+    "explanation": "คำตอบที่ถูกต้องคือ: 4\n\nเพราะ $1 \\text{ TB}$ มีค่าเท่ากับ $1024 \\text{ GB} = 2^{40} \\text{ Byte}$\n\nส่วน\n1. $2^{10} \\text{ Byte}$ มีค่า",
+    "explanation_img": null
   },
   {
     "id": 8206,
@@ -4788,16 +4788,16 @@
     "stem": "ข้อมูลจำนวน 1 MB มีค่าเท่ากับกี่ Byte",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q240_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q240_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q240_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q240_c4.png"
+      "2<sup>10</sup> Byte",
+      "2$^{20}$ Byte",
+      "230 Byte",
+      "240 Byte"
     ],
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q240_ex.png"
+    "explanation": "เพราะ 1 MB มีค่าเท่ากับ $1024 \\text{ KB} = 2^{20} \\text{ Byte}$\n\nส่วน\n1. $2^{10} \\text{ Byte}$ มีค่า",
+    "explanation_img": null
   },
   {
     "id": 8207,
@@ -4876,8 +4876,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q244_ex.png"
+    "explanation": "เพราะ 1024 KB มีค่าเท่ากับ 1 MB\n\nดังนั้น 2048 KB มีค่าเท่ากับ $\\frac{2048}{1024} = 2$ MB",
+    "explanation_img": null
   },
   {
     "id": 8211,
@@ -4936,8 +4936,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": "1 KB = 1,024 Byte = 2¹⁰ Byte (2²⁰ = 1 MB, 2³⁰ = 1 GB, 2⁴⁰ = 1 TB)",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q247_ex.png"
+    "explanation": "1 KB = 1,024 Byte = 2¹⁰ Byte (2²⁰ = 1 MB, 2³⁰ = 1 GB, 2⁴⁰ = 1 TB)\n\n* เพราะ 1 KB มีค่าเท่ากับ $2^{10}$ Byte\n* ส่วน 2. $2^{20}$ Byte มีค่าเท่ากับ",
+    "explanation_img": null
   },
   {
     "id": 8214,
@@ -4976,8 +4976,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q249_ex.png"
+    "explanation": "* เพราะ 1024 TB มีค่าเท่ากับ 1 PB\n* ดังนั้น 2048 TB มีค่าเท่ากับ $\\frac{2048}{1024} = 2$ PB",
+    "explanation_img": null
   },
   {
     "id": 8216,
@@ -5028,16 +5028,16 @@
     "stem": "ข้อมูลจำนวน 1 GB มีค่าเท่ากับกี่ Byte",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q252_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q252_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q252_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q252_c4.png"
+      "2<sup>10</sup> Byte",
+      "2$^{20}$ Byte",
+      "230 Byte",
+      "240 Byte"
     ],
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q252_ex.png"
+    "explanation": "ข้อมูลจำนวน 1 GB มีค่าเท่ากับ $1024 \\text{ MB} 2^{30} \\text{ Byte}$\n\nโดยมีรายละเอียดประกอบดังนี้:\n\n*   $2^{10} \\text{ Byte}$ มีค่า",
+    "explanation_img": null
   },
   {
     "id": 8219,
@@ -5056,8 +5056,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q253_ex.png"
+    "explanation": "* เพราะ 1024 Byte มีค่าเท่ากับ 1 KB\n* ดังนั้น 2048 Byte มีค่าเท่ากับ $\\frac{2048}{1024} = 2$ KB",
+    "explanation_img": null
   },
   {
     "id": 8220,
@@ -5116,8 +5116,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q256_ex.png"
+    "explanation": "* 1 TB มีค่าเท่ากับ $1,024$ GB = $2^{40}$ Byte",
+    "explanation_img": null
   },
   {
     "id": 8223,
@@ -5225,8 +5225,8 @@
     "set_id": null,
     "title": "Procedure",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q262.png",
+    "stem": "สัญลักษณ์ (Flowchart)",
+    "img": "/question-svgs/e7ab9e5dfcd78bb8.svg",
     "opts": [
       "Document",
       "Terminal",
@@ -5237,7 +5237,7 @@
     "correct_index": 0,
     "correct_label": "ก",
     "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q262_ex.png"
+    "explanation_img": "/question-svgs/625195a4738fc109.svg"
   },
   {
     "id": 8229,
@@ -5245,8 +5245,8 @@
     "set_id": null,
     "title": "Procedure",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q263.png",
+    "stem": "สัญลักษณ์ (Flowchart) มีชื่อเรียกว่าอย่างไร",
+    "img": null,
     "opts": [
       "Connector",
       "Display",
@@ -5257,7 +5257,7 @@
     "correct_index": 0,
     "correct_label": "ก",
     "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q263_ex.png"
+    "explanation_img": "/question-svgs/50be043606f97943.svg"
   },
   {
     "id": 8230,
@@ -5308,16 +5308,21 @@
     "stem": "สัญลักษณ์ Flowchart ในข้อใดหมายถึง เงื่อนไข (Decision)",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q266_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q266_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q266_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q266_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
-    "opt_imgs": null,
+    "opt_imgs": [
+      "/question-svgs/d396c52559934fd9.svg",
+      "/question-svgs/afbd374eac98ba14.svg",
+      "/question-svgs/12d76b19104346da.svg",
+      "/question-svgs/e0ee0df54bf8a951.svg"
+    ],
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q266_ex.png"
+    "explanation": "<table><tr><td></td><td>Decision หมายถึง เงื่อนไข</td></tr><tr><td></td",
+    "explanation_img": null
   },
   {
     "id": 8233,
@@ -5368,16 +5373,21 @@
     "stem": "สัญลักษณ์ Flowchart ในข้อใดหมายถึง ประมวลผลข้อมูล (Process)",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
-    "opt_imgs": null,
+    "opt_imgs": [
+      "/question-svgs/084211dbec90ecce.svg",
+      "/question-svgs/5ba9d568bbb62850.svg",
+      "/question-svgs/f730b79f707b61e2.svg",
+      "/question-svgs/adc1257e292317b8.svg"
+    ],
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q269_ex.png"
+    "explanation": "<table><tr><td></td><td>Process หมายถึง การดำเนินการ/ประมวลผลข้อมูล</td></tr><tr><td></td><td>Input/Output (Data) หมายถึง ใช้ในการรับแสดงผล ข้อมูลโดยไม่ระบุอุปกรณ์</td></tr><tr><td>Decision หมายถึง เงื่อนไข</td><td></td></tr><tr><td>Terminal หมายถึง จุดเริ่มต้น และจุดสิ้นสุด</td><td></td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 8236,
@@ -5388,16 +5398,21 @@
     "stem": "สัญลักษณ์ (Flowchart)ในข้อใดหมายถึงการดำเนินการ/ประมวลผลข้อมูล",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q270_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q270_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q270_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q270_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
-    "opt_imgs": null,
+    "opt_imgs": [
+      "/question-svgs/fe0abfbd28788703.svg",
+      "/question-svgs/87e524293dbebce4.svg",
+      "/question-svgs/74a3b454c378ae5e.svg",
+      "/question-svgs/b94f2fb7f91acc2e.svg"
+    ],
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q270_ex.png"
+    "explanation": "<table><tr><td>☐</td><td>Process หมายถึง การดำเนินการ/ประมวลผลข้อมูล</td></tr><tr><td>☐</td><td>Document หมายถึง ต้องการระบุให้แสดงข้อมูลบน เครื่องพิมพ์</td></tr><tr><td>☐</td><td>Manual Input หมายถึง การรับข้อมูลจากผู้ใช้</td></tr><tr><td>◇</td><td>Decision หมายถึง เงื่อนไข</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 8237,
@@ -5405,8 +5420,8 @@
     "set_id": null,
     "title": "Procedure",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q271.png",
+    "stem": "สัญลักษณ์ (Flowchart) แสดงการทำงานอะไร",
+    "img": null,
     "opts": [
       "แสดงเงื่อนไข",
       "แสดงการเตรียมทำงานลำดับถัดไป",
@@ -5417,7 +5432,7 @@
     "correct_index": 3,
     "correct_label": "ง",
     "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q271_ex.png"
+    "explanation_img": "/question-svgs/aa7c5617e8fdcca6.svg"
   },
   {
     "id": 8238,
@@ -5445,8 +5460,8 @@
     "set_id": null,
     "title": "Procedure",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q273.png",
+    "stem": "สัญลักษณ์ (Flowchart) ☐ มีความหมายตรงกับข้อใด",
+    "img": null,
     "opts": [
       "เงื่อนไข",
       "จุดเริ่มต้นและจุดสิ้นสุดการทำงาน",
@@ -5457,7 +5472,7 @@
     "correct_index": 1,
     "correct_label": "ข",
     "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q273_ex.png"
+    "explanation_img": "/question-svgs/d66488dc36f45295.svg"
   },
   {
     "id": 8240,
@@ -5476,8 +5491,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q274_ex.png"
+    "explanation": "Start\n\nเพราะ Beginning block ใช้วาดลงไปเป็นอันดับแรกของ Diagram ใช้เป็นจุดเริ่มต้นของ Flowchart ดังรูป",
+    "explanation_img": null
   },
   {
     "id": 8241,
@@ -5488,16 +5503,21 @@
     "stem": "สัญลักษณ์ Flowchart ในข้อใดหมายถึง Input/Output (Data)",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q275_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q275_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q275_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q275_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
-    "opt_imgs": null,
+    "opt_imgs": [
+      "/question-svgs/9ada58e3be921003.svg",
+      "/question-svgs/ac19de206378df07.svg",
+      "/question-svgs/70a97f84e654c2d6.svg",
+      "/question-svgs/232eb6e491e8425d.svg"
+    ],
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q275_ex.png"
+    "explanation": "<table><tr><td></td><td>Input/Output (Data) หมายถึง ใช้ในการรับแสดงผล ข้อมูลโดยไม่ระบุอุปกรณ์</td></tr><tr><td></td><td>Process หมายถึง การดำเนินการ/ประมวลผลข้อมูล</td></tr><tr><td>Decision หมายถึง เงื่อนไข</td><td></td></tr><tr><td>Terminal หมายถึง จุดเริ่มต้น และจุดสิ้นสุด</td><td></td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 8242,
@@ -5508,16 +5528,21 @@
     "stem": "สัญลักษณ์ Flowchart ในข้อใดหมายถึง จุดเริ่มต้น",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q276_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q276_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q276_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q276_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
-    "opt_imgs": null,
+    "opt_imgs": [
+      "/question-svgs/f9eba6fa1ab9a2c9.svg",
+      "/question-svgs/c1da6a442da455bd.svg",
+      "/question-svgs/ad8fa60cea610ee7.svg",
+      "/question-svgs/4ab78f68049405d4.svg"
+    ],
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q276_ex.png"
+    "explanation": "<table><tr><td></td><td>Terminal หมายถึง จุดเริ่มต้น และจุดสิ้นสุด</td></tr><tr><td></td><td>Input/Output (Data) หมายถึง ใช้ในการรับแสดงผล ข้อมูลโดยไม่ระบุอุปกรณ์</td></tr><tr><td></td><td>Process หมายถึง การดำเนินการ/ประมวลผลข้อมูล</td></tr><tr><td>Decision หมายถึง เงื่อนไข</td><td></td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 8243,
@@ -6765,8 +6790,8 @@
     "set_id": null,
     "title": "ระบบเครือข่ายคอมพิวเตอร์",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q339.png",
+    "stem": "จากรูปภาพด้านล่าง เป็นอุปกรณ์ที่ถูกเรียกว่าอะไร",
+    "img": "/question-svgs/a5cd7f70a42aa2b4.svg",
     "opts": [
       "Switch",
       "Personal Computer",
@@ -7436,8 +7461,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q372_ex.png"
+    "explanation": "เพราะ การเชื่อมต่อระหว่างเครือข่ายภายในเขตรั้วมหาวิทยาลัย เป็นระบบ MAN\n\n<table><tr><td>ข้อเปรียบเทียบ</td><td>PAN</td><td>LAN</td><td>MAN</td><td WAN</td></tr><tr><td>ตัวอย่างการใช้งาน</td><td>การปล่อย Hotspot</td><td>ในอาคารหรือศึกเดียวกัน, Home Network, โรงเรียน, โรงแรม, โรงพยาบาล</td><td>ต่างอาคาร, เขตเมือง ชนบท, เขตรั้ว, มหาวิทยาลัยบริษัท, หรือองค์กรใหญ่</td><td>อินเทอร์เน็ต, ดาวเทียม, เครือข่าย มือถือ</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 8339,
@@ -7625,8 +7650,8 @@
     "set_id": null,
     "title": "ระบบเครือข่ายคอมพิวเตอร์",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q382.png",
+    "stem": "จากรูปภาพด้านล่าง การเชื่อมต่อระบบเครือข่ายแบบนี้เรียกว่าอะไร",
+    "img": "/question-svgs/e701c0e1973a74ca.svg",
     "opts": [
       "Bus Topology",
       "Ring Topology",
@@ -7665,8 +7690,8 @@
     "set_id": null,
     "title": "ระบบเครือข่ายคอมพิวเตอร์",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q384.png",
+    "stem": "ระบบเครือข่าย Network ตามรูปภาพ เป็นรูปแบบเครือข่ายประเภทใด",
+    "img": "/question-svgs/bfaabf4b664a161d.svg",
     "opts": [
       "Bus Topology",
       "Ring Topology",
@@ -7705,8 +7730,8 @@
     "set_id": null,
     "title": "ระบบเครือข่ายคอมพิวเตอร์",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q386.png",
+    "stem": "จากรูปภาพด้านล่าง การเชื่อมต่อระบบเครือข่าย Network แบบนี้ถูกเรียกว่าอะไร",
+    "img": "/question-svgs/87a46ac760549c5a.svg",
     "opts": [
       "Bus Topology",
       "Ring Topology",
@@ -7725,8 +7750,8 @@
     "set_id": null,
     "title": "ระบบเครือข่ายคอมพิวเตอร์",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q387.png",
+    "stem": "ระบบเครือข่าย Network ตามรูปด้านล่างเป็นรูปแบบเครือข่ายประเภทใด",
+    "img": "/question-svgs/0dbff6a1b5489911.svg",
     "opts": [
       "Bus Topology",
       "Ring Topology",
@@ -7756,8 +7781,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q388_ex.png"
+    "explanation": "เพราะ สัญญาณข้อมูลจะส่งไปในทิศทางเดียวกัน เป็นระบบเครือข่ายแบบวงแหวน (Ring Topology)",
+    "explanation_img": "/question-svgs/fc1807bd67234992.svg"
   },
   {
     "id": 8355,
@@ -8045,8 +8070,8 @@
     "set_id": null,
     "title": "ระบบอินเทอร์เน็ต",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q403.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง คือลักษณะโลโก้ของเว็บเบราว์เซอร์ในข้อใด",
+    "img": "/question-svgs/e9ec9ca2113553c3.svg",
     "opts": [
       "Google Chrome",
       "Safari",
@@ -10645,8 +10670,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q533.png",
+    "stem": "จากชุดเครื่องมือริบบอน(Ribbon) ใน Microsoft Word ตามภาพด้านล่างอยู่ในหมวดแถบคำสั่งใด",
+    "img": "/question-svgs/8aa01b12f8346755.svg",
     "opts": [
       "เมนูไฟล์ (File)",
       "เมนูหน้าแรก (Home)",
@@ -10665,8 +10690,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q534.png",
+    "stem": "จากไอคอนต่อไปนี้ คือหัวข้อเครื่องมือใด",
+    "img": "/question-svgs/3190b26b872b0d91.svg",
     "opts": [
       "Font",
       "Paragraph",
@@ -11065,8 +11090,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q554.png",
+    "stem": "จากชุดเครื่องมือริบบอน(Ribbon) ใน Microsoft Word ตามภาพด้านล่างอยู่ในหมวดแถบคำสั่งใด",
+    "img": "/question-svgs/a79181f02604e30b.svg",
     "opts": [
       "เมนูไฟล์ (File)",
       "เมนูหน้าแรก (Home)",
@@ -11085,8 +11110,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q555.png",
+    "stem": "จากชุดเครื่องมือริบบอน(Ribbon) ใน Microsoft Word ตามภาพด้านล่างอยู่ในหมวดแถบคำสั่งใด",
+    "img": "/question-svgs/98757ba77efbd409.svg",
     "opts": [
       "Layout",
       "Design",
@@ -11105,8 +11130,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q556.png",
+    "stem": "จากชุดเครื่องมือริบบอน (Ribbon) ใน Microsoft Word ตามภาพด้านล่าง อยู่ในหมวดแถบคำสั่งใด",
+    "img": "/question-svgs/cee5377f241b321d.svg",
     "opts": [
       "Layout",
       "Design",
@@ -11165,8 +11190,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q559.png",
+    "stem": "จากรูปภาพด้านล่าง จัดเป็นชุดเครื่องมือในหมวดใดต่อไปนี้",
+    "img": "/question-svgs/4112ddf34c9f6238.svg",
     "opts": [
       "Home",
       "Design",
@@ -11185,8 +11210,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q560.png",
+    "stem": "จากรูปภาพด้านล่าง จัดเป็นชุดเครื่องมือในหมวดใดต่อไปนี้\n\n*   Smart Researcher\n*   Insert Citation\n*   APA\n*   Bibliography\n*   Insert Caption\n*   Insert Table of Figures",
+    "img": null,
     "opts": [
       "Design",
       "Mailings",
@@ -11448,10 +11473,10 @@
     "stem": "การใช้โปรแกรม Microsoft Word หากต้องการทำอักษรให้เป็นตัวหนา ต้องเลือกเมนูตามข้อใด",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q573_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q573_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q573_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q573_c4.png"
+      "B",
+      "1",
+      "I",
+      "A^+"
     ],
     "opt_imgs": null,
     "correct_index": 0,
@@ -11468,12 +11493,17 @@
     "stem": "การใช้โปรแกรม Microsoft Word หากต้องการเปลี่ยนข้อความที่เลือกทั้งหมดเป็นตัวพิมพ์ใหญ่ หรือตัวพิมพ์เล็ก ต้องเลือกเมนูตามข้อใด",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q574_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q574_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q574_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q574_c4.png"
+      "A^+",
+      "Aa .",
+      "A^+",
+      ""
     ],
-    "opt_imgs": null,
+    "opt_imgs": [
+      null,
+      null,
+      null,
+      "/question-svgs/9864d886b8240c08.svg"
+    ],
     "correct_index": 1,
     "correct_label": "ข",
     "explanation": "เพราะ ข้อ 2 คือ เปลี่ยนข้อความที่เลือกทั้งหมดเป็นตัวพิมพ์ใหญ่ หรือตัวพิมพ์เล็ก\nส่วน ข้อ 1 คือ เพิ่มขนาดตัวอักษรหรือข้อความ\nข้อ 3 คือ ลดขนาดตัวอักษรหรือข้อความ\nข้อ 4 คือ ใส่ลักษณะพิเศษให้กับตัวอักษรหรือข้อความ",
@@ -11485,8 +11515,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "การใช้โปรแกรม Microsoft Word ปุ่มคำสั่งต่อไปนี้ คือการทำงานในลักษณะใด",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q575.png",
+    "stem": "A\n\nการใช้โปรแกรม Microsoft Word ปุ่มคำสั่งต่อไปนี้ คือการทำงานในลักษณะใด",
+    "img": null,
     "opts": [
       "เปลี่ยนแบบตัวอักษรหรือข้อความ",
       "เปลี่ยนขนาดตัวอักษรหรือข้อความ",
@@ -11525,8 +11555,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "การใช้โปรแกรม Microsoft Word ปุ่มคำสั่งต่อไปนี้ คือการทำงานในลักษณะใด",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q577.png",
+    "stem": "1\n2\n3\n\nการใช้โปรแกรม Microsoft Word ปุ่มคำสั่งต่อไปนี้ คือการทำงานในลักษณะใด",
+    "img": null,
     "opts": [
       "เพิ่มเลขลำดับอัตโนมัติ",
       "เพิ่มสัญลักษณ์แสดงหัวข้อย่อย",
@@ -11588,10 +11618,10 @@
     "stem": "การใช้โปรแกรม Microsoft Word หากต้องการแทรกเลขลำดับหน้าหัวข้อ ควรเลือกคำสั่งตามข้อใด",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q580_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q580_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q580_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q580_c4.png"
+      "1. คลิกเลือกข้อความที่ต้องการ -> Home -> แถบ Paragraph ->",
+      "2. คลิกเลือกข้อความที่ต้องการ -> Home -> แถบ Paragraph ->",
+      "3. คลิกเลือกข้อความที่ต้องการ -> Home -> แถบ Paragraph ->",
+      "4. คลิกเลือกข้อความที่ต้องการ -> Home -> แถบ Paragraph ->"
     ],
     "opt_imgs": null,
     "correct_index": 0,
@@ -11605,8 +11635,8 @@
     "set_id": null,
     "title": "Word",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q581.png",
+    "stem": "การใช้โปรแกรม Microsoft Word หากต้องการแทรก ควรเลือกคำสั่งตามข้อใดต่อไปนี้",
+    "img": null,
     "opts": [
       "คลิกตำแหน่งที่ต้องการสร้าง -> Home -> Shapes",
       "คลิกตำแหน่งที่ต้องการสร้าง -> Insert -> Shapes",
@@ -13248,16 +13278,16 @@
     "stem": "หากต้องการจะรู้จำนวนช่องที่มีอักขระหรือตัวเลขใน Column ทั้งหมด ควรใช้สูตรพื้นฐานในข้อใด ในการป้อนคำสั่ง บน Microsoft Excel",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q663_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q663_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q663_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q663_c4.png"
+      "=SUM()",
+      "=SUMIFQ()",
+      "=COUNTA()",
+      "= AVERAGE()"
     ],
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q663_ex.png"
+    "explanation": "เพราะ =COUNTA() ใช้เมื่อต้องการนับจำนวนช่องที่มีอักขระหรือตัวเลข",
+    "explanation_img": null
   },
   {
     "id": 8630,
@@ -13268,10 +13298,10 @@
     "stem": "การหาผลรวมในช่วงเซลล์ B3 และ B7 จนถึง B10 ต้องพิมพ์สูตรคำนวณในโปรแกรม MS Excel อย่างไร",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q664_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q664_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q664_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q664_c4.png"
+      "=SUM(B3:B7, B10)",
+      "=SUM(B3,B7,B10)",
+      "=SUM(B3,B7:B10)",
+      "SUM(B3:B7:B10)"
     ],
     "opt_imgs": null,
     "correct_index": 2,
@@ -13308,10 +13338,10 @@
     "stem": "หากต้องการจะรู้ผลรวมของตัวเลขใน Column ทั้งหมด โดยต้องการสร้างเงื่อนไขเพิ่ม ควรใช้สูตรพื้นฐานในข้อใด ในการป้อนคำสั่งบนMicrosoft Excel",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q666_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q666_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q666_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q666_c4.png"
+      "=SUM()",
+      "=SUMIF()",
+      "=COUNT()",
+      "= AVERAGE()"
     ],
     "opt_imgs": null,
     "correct_index": 1,
@@ -13356,8 +13386,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q668_ex.png"
+    "explanation": "เพราะ เครื่องหมาย > หมายถึง มากกว่า ซึ่งเป็นสูตรในการเปรียบเทียบ (Comparison Formula)\nผลลัพธ์ที่แสดงออกมาจะมีอยู่ 2 ค่า คือ\n1. เมื่อผลลัพธ์นั้นมีค่าเป็น \"จริง\" จะแสดงผลเป็น TRUE\n2. เมื่อผลลัพธ์นั้นมีค่าเป็น \"เท็จ\" จะแสดงผลเป็น FALSE\n\nและสูตรในการเปรียบเทียบ (Comparison Formula) มีดังนี้\n\n<table><tr><td>เครื่องหมาย</td><td>ความหมาย</td><td>ตัวอย่าง</td></tr><tr><td>=</td><td>เท่ากับ</td><td>=20=10 ผลลัพธ์ FALSE</td></",
+    "explanation_img": null
   },
   {
     "id": 8635,
@@ -13385,8 +13415,8 @@
     "set_id": null,
     "title": "Excel",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q670.png",
+    "stem": "จากรูปภาพเครื่องมือด้านล่าง เครื่องมือในโปรแกรมใด",
+    "img": "/question-svgs/63885a6812160453.svg",
     "opts": [
       "Microsoft Excel",
       "Microsoft Access",
@@ -13396,8 +13426,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q670_ex.png"
+    "explanation": "# เพราะ จากรูปภาพ จัดเป็นชุดเครื่องมือในโปรแกรม \"Microsoft Excel\"",
+    "explanation_img": "/question-svgs/7d66de93149210a4.svg"
   },
   {
     "id": 8637,
@@ -13457,7 +13487,7 @@
     "correct_index": 1,
     "correct_label": "ข",
     "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q673_ex.png"
+    "explanation_img": "/question-svgs/02bdcc89eed99773.svg"
   },
   {
     "id": 8640,
@@ -13505,8 +13535,8 @@
     "set_id": null,
     "title": "Excel",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q676.png",
+    "stem": "จากตารางวิธีการใช้งานเครื่องหมายด้านล่าง เป็นเครื่องหมายประเภทใด\n\n<table><tr><td>เครื่องหมาย</td><td>ความหมาย</td><td>ตัวอย่างสูตร</td></tr><tr><td>=</td><td>เท่ากับ</td><td>=a1>=100 ถ้า a1 มีค่ามากกว่าหรือเท่ากับ 100 จะได้ผลลัพธ์ True แต่ถ้า a1 มีค่าน้อยกว่า 100 จะได้ผลลัพธ์ False</td></tr><tr><td>></td><td>มากกว่า</td><td></td></tr><tr",
+    "img": null,
     "opts": [
       "เครื่องหมายคำนวณทางคณิตศาสตร์ (Arithmetic Formula)",
       "เครื่องหมายในการเปรียบเทียบ (Comparison Formula)",
@@ -13556,8 +13586,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q678_ex.png"
+    "explanation": "เพราะ เครื่องหมาย > หมายถึง มากกว่า ซึ่งเป็นสูตรในการเปรียบเทียบ (Comparison Formula) ผลลัพธ์ที่แสดงออกมาจะมีอยู่ 2 ค่า คือ\n1. เมื่อผลลัพธ์นั้นมีค่าเป็น \"จริง\" จะแสดงผลเป็น TRUE\n2. เมื่อผลลัพธ์นั้นมีค่าเป็น \"เท็จ\" จะแสดงผลเป็น FALSE\nและสูตรในการเปรียบเทียบ (Comparison Formula) มีดังนี้\n\n<table><tr><td>เครื่องหมาย</td><td>ความหมาย</td><td>ตัวอย่าง</td></tr><tr><td>=</td><td>เท่ากับ</td><td>=20=10 ผลลัพธ์ FALSE</td></",
+    "explanation_img": null
   },
   {
     "id": 8645,
@@ -13765,8 +13795,8 @@
     "set_id": null,
     "title": "Excel",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "จากภาพคือชุดเครื่องมือจากแท็บใดใน Microsoft Excel",
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/015387fc-6b5b-474a-b576-e2cd264dc4e8.png",
+    "stem": "<table><tr><td>Translate</td></tr></table>\n\n*   **Recommended**\n    *   Table\n        *   Pivot Tables\n\nจากภาพคือชุดเครื่องมือจากแท็บใดใน Microsoft Excel",
+    "img": null,
     "opts": [
       "Home",
       "Insert",
@@ -13776,8 +13806,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": "อยู่ใน แท็บ insert ใน microsoft excel",
-    "explanation_img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/40c03af8-84b7-4700-85c7-56c4f9a3bc67.png"
+    "explanation": "อยู่ใน แท็บ insert ใน microsoft excel\n\nHome | Insert | Draw | Page Layout | Formulas | Data | Review | View | Automate | Acrobat\n---|---|---|---|---|---|---|---|---|---\n\n**Plot**\n*   Plot Recommended\n*   Table\n\n**Forms**\n*   Forms from Picture\n\n**Checkbox**\n*   Checkbox Recommended\n*   Map\n\n**Sparks**\n*   Sparks Chart\n\n**Timeline**\n*   Timeline\n\n**Link**\n*   Link\n*   New Comment\n\n**Text Box**\n*   text Box\n*   Header & Footer\n*   Symbol\n\n**Equation**\n*   Equation\n\n---\n\nBook1",
+    "explanation_img": null
   },
   {
     "id": 8656,
@@ -13845,8 +13875,8 @@
     "set_id": null,
     "title": "Excel",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q693.png",
+    "stem": "จากรูปภาพไอคอน $\\sum$ เป็นเครื่องมือในโปรแกรมใด",
+    "img": null,
     "opts": [
       "Microsoft Access",
       "Microsoft Word",
@@ -13865,8 +13895,8 @@
     "set_id": null,
     "title": "Excel",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q694.png",
+    "stem": "จากรูปภาพด้านล่าง โปรแกรมกำลังทำขั้นตอนใดอยู่\n\n<table><tr><td>ปี 2662</td><td></td><td>C6 X</td></tr><tr><td>11,000</td><td>B Bus GuruPolice</td><td></td></tr><tr",
+    "img": null,
     "opts": [
       "วาดรูปร่างต่าง ๆ",
       "จัดแนวย่อหน้าให้ชิดขวา",
@@ -13968,10 +13998,10 @@
     "stem": "หากต้องการแสดงวันที่ 5 มกราคม 2568 (ค.ศ. 2025) ลงในเซลล์ของโปรแกรม Microsoft Excel ควรใช้สูตรใด",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q699_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q699_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q699_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q699_c4.png"
+      "=DATE(2025,1,5)",
+      "=DATE(5,1,2025)",
+      "=DATE(1,5,2025)",
+      "=DATE(2568,1,5)"
     ],
     "opt_imgs": null,
     "correct_index": 0,
@@ -14028,10 +14058,10 @@
     "stem": "หากเซลล์ A2 มีข้อความ \"บัส\" และเซลล์ B2 มีข้อความ \"กูรู\" ต้องใช้สูตรใดเพื่อให้ได้ผลลัพธ์ \"บัส กูรู\" ในเซลล์เดียว",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q702_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q702_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q702_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q702_c4.png"
+      "=TRIM(A2,B2)",
+      "=LEN(A2,B2)",
+      "=SUM(A2,B2)",
+      "=CONCAT(A2,\"\",B2)"
     ],
     "opt_imgs": null,
     "correct_index": 3,
@@ -14065,8 +14095,8 @@
     "set_id": null,
     "title": "Excel",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "จากรูปภาพเครื่องมือด้านล่าง เป็นชุดเครื่องมือจากแท็บใดในโปรแกรม Microsoft Excel",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q704.png",
+    "stem": "<table><tr><td>Width:</td><td>Automatic</td></tr><tr><td>Height:</td><td>Automatic</td></tr></table>\n\nจากรูปภาพเครื่องมือด้านล่าง เป็นชุดเครื่องมือจากแท็บใดในโปรแกรม Microsoft Excel",
+    "img": null,
     "opts": [
       "Review",
       "Page Layout",
@@ -14106,7 +14136,7 @@
     "title": "Excel",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
     "stem": "เครื่องมือในภาพด้านล่างนี้ อยู่ในแท็บใดของโปรแกรม Microsoft Excel",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q706.png",
+    "img": "/question-svgs/3eb376eeb18efd38.svg",
     "opts": [
       "Data",
       "View",
@@ -14296,8 +14326,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": "ปุ่ม Convert to SmartArt Graphic อยู่ในแท็บ Home ในกลุ่มคำสั่ง Paragraph (กลุ่มเดียวกับปุ่ม Bullets, Numbering) เมื่อเลือกข้อความที่เป็น Bullet ไว้แล้ว คลิกปุ่มนี้จะแปลงข้อความเป็นแผนผัง SmartArt ให้ทันที (หรือคลิกขวาที่ข้อความก็มีตัวเลือกนี้เช่นกัน)\n2. Insert — แท็บนี้ใช้สำหรับแทรกสิ่งใหม่ เช่น รูปภาพ, SmartArt ใหม่, ตาราง, กราฟ ฯลฯ แต่ไม่ใช่ที่อยู่ของคำสั่งแปลงข้อความที่มีอยู่แล้วให้เป็น SmartArt\n3. Draw — แท็บนี้เกี่ยวกับเครื่องมือวาดด้วยปากกา/ดินสอ (Ink), ไฮไลต์ ไม่เกี่ยวกับข้อความหรือ SmartArt\n4. Design — แท็บนี้ใช้ปรับธีม/สไตล์การออกแบบของสไลด์โดยรวม เช่น เปลี่ยนธีมสี พื้นหลัง ไม่ใช่คำสั่งแปลงข้อความเฉพาะจุด",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q715_ex.png"
+    "explanation": "ปุ่ม Convert to SmartArt Graphic อยู่ในแท็บ Home ในกลุ่มคำสั่ง Paragraph (กลุ่มเดียวกับปุ่ม Bullets, Numbering) เมื่อเลือกข้อความที่เป็น Bullet ไว้แล้ว คลิกปุ่มนี้จะแปลงข้อความเป็นแผนผัง SmartArt ให้ทันที (หรือคลิกขวาที่ข้อความก็มีตัวเลือกนี้เช่นกัน)\n2. Insert — แท็บนี้ใช้สำหรับแทรกสิ่งใหม่ เช่น รูปภาพ, SmartArt ใหม่, ตาราง, กราฟ ฯลฯ แต่ไม่ใช่ที่อยู่ของคำสั่งแปลงข้อความที่มีอยู่แล้วให้เป็น SmartArt\n3. Draw — แท็บนี้เกี่ยวกับเครื่องมือวาดด้วยปากกา/ดินสอ (Ink), ไฮไลต์ ไม่เกี่ยวกับข้อความหรือ SmartArt\n4. Design — แท็บนี้ใช้ปรับธีม/สไตล์การออกแบบของสไลด์โดยรวม เช่น เปลี่ยนธีมสี พื้นหลัง ไม่ใช่คำสั่งแปลงข้อความเฉพาะจุด\n\nการเปลี่ยนข้อความแบบ Bullet เป็นแผนผัง (SmartArt) มีขั้นตอนดังนี้\n1.  เลือก Text ข้อความ Bullet\n2.  ไปที่เมนู Home >> convert to SmartArt\n3.  เลือก SmartArt ที่ต้องการ",
+    "explanation_img": "/question-svgs/278047bc337e6593.svg"
   },
   {
     "id": 8682,
@@ -14305,8 +14335,8 @@
     "set_id": null,
     "title": "Powerpoint",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q716.png",
+    "stem": "การใช้โปรแกรม Microsoft PowerPoint เมนูนี้ เป็นการทำให้ข้อความ หรือวัตถุเคลื่อนไหวแบบใด",
+    "img": null,
     "opts": [
       "ลอยเข้า",
       "ขยายแล้วหมุน",
@@ -14316,8 +14346,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q716_ex.png"
+    "explanation": "เพราะ ข้อ 1 ผิด : ⭐ เป็นการทำให้ข",
+    "explanation_img": null
   },
   {
     "id": 8683,
@@ -14428,12 +14458,17 @@
     "stem": "การใช้โปรแกรม Microsoft PowerPoint ข้อใดคือเครื่องมือในการนำพื้นหลังออกจากรูปภาพ",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q722_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q722_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q722_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q722_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
-    "opt_imgs": null,
+    "opt_imgs": [
+      "/question-svgs/f44d79723204dba0.svg",
+      "/question-svgs/82ac1c43a691acf3.svg",
+      "/question-svgs/4c3e99b26a3da8f7.svg",
+      "/question-svgs/c496ec3097294093.svg"
+    ],
     "correct_index": 1,
     "correct_label": "ข",
     "explanation": "เพราะ ข้อ 2 ถูกต้อง : Remove Background คือเครื่องมือในการนำพื้นหลังออกจากรูปภาพ\nข้อ 1 ผิด : Transparency คือการทำให้รูปภาพโปร่งใส\nข้อ 3 ผิด : Color คือการเปลี่ยนโทนสีรูปภาพ\nข้อ 4 ผิด : Artistic Effects คือ ลักษณะพิเศษแนวศิลป์ให้กับรูปภาพ",
@@ -14445,8 +14480,8 @@
     "set_id": null,
     "title": "Powerpoint",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q723.png",
+    "stem": "จากรูปภาพชุดเครื่องมือด้านล่าง จัดอยู่ในหมวดใด และโปรแกรมใด",
+    "img": null,
     "opts": [
       "Layout ในโปรแกรม Microsoft PowerPoint",
       "Insert ในโปรแกรม Microsoft PowerPoint",
@@ -14456,8 +14491,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q723_ex.png"
+    "explanation": "# เพราะ Design ในโปรแกรม Microsoft PowerPoint",
+    "explanation_img": "/question-svgs/19836fb5fd594bd2.svg"
   },
   {
     "id": 8690,
@@ -14465,8 +14500,8 @@
     "set_id": null,
     "title": "Powerpoint",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q724.png",
+    "stem": "จากไอคอน Icon ด้านล่าง เป็นสัญลักษณ์ของโปรแกรมใดต่อไปนี้",
+    "img": "/question-svgs/838166fa099d2422.svg",
     "opts": [
       "Microsoft Word",
       "Microsoft Excel",
@@ -14496,8 +14531,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q725_ex.png"
+    "explanation": "การแทรกวิดีโอสดจากกล้องคอมพิวเตอร์ลงในสไลด์ มีขั้นตอนดังนี้\n\n1. ให้คลิกเลือกแท็บ Insert (แทรก) >> Cameo\n2. เลือกไอคอน แสดงตัวอย่าง Ⓞ ในพื้นที่ที่สำรองไว้เพื่อเปิดฟีดกล้อง",
+    "explanation_img": "/question-svgs/4d0b42e00dc232fc.svg"
   },
   {
     "id": 8692,
@@ -14505,8 +14540,8 @@
     "set_id": null,
     "title": "Powerpoint",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q726.png",
+    "stem": "การใช้โปรแกรม Microsoft PowerPoint ปุ่มคำสั่ง เป็นการแทรกข้อมูลใน\nลักษณะใด",
+    "img": null,
     "opts": [
       "รูปร่าง",
       "รูปภาพ",
@@ -14516,8 +14551,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q726_ex.png"
+    "explanation": "เพราะข้อ 1 ผิด : รูปร่าง",
+    "explanation_img": "/question-svgs/408d9ca8add736cc.svg"
   },
   {
     "id": 8693,
@@ -14525,8 +14560,8 @@
     "set_id": null,
     "title": "Powerpoint",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q727.png",
+    "stem": "จากภาพด้านล่าง เป็นโปรแกรมใดต่อไปนี้",
+    "img": "/question-svgs/0345181e245376bf.svg",
     "opts": [
       "Microsoft Word",
       "Microsoft PowerPoint",
@@ -14576,8 +14611,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q729_ex.png"
+    "explanation": "เพราะ ความสามารถพื้นฐานของ Microsoft PowerPoint มีดังนี้\n\n*   สำหรับนำเสนอข้อมูลในรูปแบบของ ข้อความ รูปภาพ เสียง ภาพเคลื่อนไหว\n*   สามารถตกแต่งตัวอักษรให้สวยๆด้วย WordArt\n*   การทำงานจะแบ่งออกเป็นหน้าๆ แต่ละหน้าเรียกว่า Slide การสร้างจะมี Slide Layout ช่วยในการออกแบบและใส่ข้อมูล\n*   รูปแบบหรือ Themes จะมี Design สำหรับรูปช่วยให้สร้าง Presentation ได้สะดวกมากขึ้น\n*   รองรับไฟล์ข้อมูลประเภทต่างๆ เช่น ตารางจาก Microsoft Excel\n*   รองรับภาพเคลื่อนไหว\n*   สามารถสั่งรันแบบอัตโนมัติได้\n*   สามารถสั่งพิมพ์ในรูปแบบต่าง ๆ",
+    "explanation_img": null
   },
   {
     "id": 8696,
@@ -14725,8 +14760,8 @@
     "set_id": null,
     "title": "Powerpoint",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q737.png",
+    "stem": "# จากรูปภาพด้านล่าง คือชุดเครื่องมือที่อยู่ในโปรแกรมใด\n\n<table><tr><td>Preview</td><td>Entrance Effects</td><td>Emphasis Effects</td><td>Exit Effects</td><td>Path Animation</td><td>Animation Pane</td></tr><tr><td></td><td></td><td",
+    "img": null,
     "opts": [
       "Microsoft Access",
       "Microsoft Excel",
@@ -14785,8 +14820,8 @@
     "set_id": null,
     "title": "Powerpoint",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q740.png",
+    "stem": "# จากรูปภาพชุดเครื่องมือด้านล่าง จัดอยู่แถบเครื่องมือในโปรแกรม Microsoft Power Point",
+    "img": "/question-svgs/9d13a865d213935a.svg",
     "opts": [
       "Layout",
       "Insert",
@@ -14937,7 +14972,7 @@
     "correct_index": 0,
     "correct_label": "ก",
     "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q747_ex.png"
+    "explanation_img": "/question-svgs/fde7e8af6f3f0386.svg"
   },
   {
     "id": 8714,
@@ -15097,7 +15132,7 @@
     "correct_index": 0,
     "correct_label": "ก",
     "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q755_ex.png"
+    "explanation_img": "/question-svgs/3d6b6f16adb1457d.svg"
   },
   {
     "id": 8722,
@@ -16005,8 +16040,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q801.png",
+    "stem": "in เป็นไอคอนของสื่อสังคมออนไลน์ที่มีชื่อว่าอะไร",
+    "img": null,
     "opts": [
       "Messenger",
       "TikTok",
@@ -16016,8 +16051,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q801_ex.png"
+    "explanation": "เพราะ 1. Messenger",
+    "explanation_img": "/question-svgs/96f31d439de868a0.svg"
   },
   {
     "id": 8768,
@@ -16297,7 +16332,7 @@
     "correct_index": 2,
     "correct_label": "ค",
     "explanation": "เพราะ ข้อเสีย FACEBOOK มีดังนี้\n- ใช้เวลาในการเล่น Facebook มากเกินไป จะทำให้เสียการเรียน\n- Facebook อาจเป็นแรงขับให้มีการพบปะทางสังคมในโลกแห่งความเป็นจริงที่น้อยลงได้ เนื่องจาก\n- ทราบความเคลื่อนไหวของผู้ที่อยู่ในเครือข่ายอย่างตลอดเวลา\n- การเปิดเผยข้อมูลส่วนตัวทั้งหมดให้กับบุคคลภายนอก",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q815_ex.png"
+    "explanation_img": "/question-svgs/c5890b64533a4dbd.svg"
   },
   {
     "id": 8782,
@@ -16485,8 +16520,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q825.png",
+    "stem": "จากรูป เป็นไอคอนของสื่อสังคมออนไลน์ที่มีชื่อว่าอะไร",
+    "img": null,
     "opts": [
       "Messenger",
       "TikTok",
@@ -16496,8 +16531,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q825_ex.png"
+    "explanation": "เพราะ 1. Messenger",
+    "explanation_img": "/question-svgs/c116eeacceb9662b.svg"
   },
   {
     "id": 8792,
@@ -16585,8 +16620,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q830.png",
+    "stem": "จากรูป เป็นไอคอนของสื่อสังคมออนไลน์ที่มีชื่อว่าอะไร",
+    "img": null,
     "opts": [
       "Messenger",
       "TikTok",
@@ -16596,8 +16631,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q830_ex.png"
+    "explanation": "เพราะ 1. Messenger",
+    "explanation_img": "/question-svgs/95235aa11caabc82.svg"
   },
   {
     "id": 8797,
@@ -16705,8 +16740,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "บริการข้อใดของ Line สำหรับจำหน่ายสติกเกอร์, ธีม ของ Line",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q836.png",
+    "stem": "LINE STORE\n\nบริการข้อใดของ Line สำหรับจำหน่ายสติกเกอร์, ธีม ของ Line",
+    "img": null,
     "opts": [
       "Line Store",
       "Line Melody",
@@ -16785,8 +16820,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q840.png",
+    "stem": "ในช่องทางการประชุม หากปรากฏไอคอมด้านล่างจะมีความหมายตรงกับข้อใด",
+    "img": "/question-svgs/400dc5b644efa6d1.svg",
     "opts": [
       "เปิดเสียงจากไมโครโฟนอยู่",
       "ปิดเสียงจากลำโพงอยู่",
@@ -16845,8 +16880,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q843.png",
+    "stem": "จากรูปภาพดังกล่าว YouTube เป็นเว็บไซต์มีบทบาทตรงกับข้อใด",
+    "img": "/question-svgs/d914ea5cbfd6c9fa.svg",
     "opts": [
       "เป็นเว็บไซต์ที่ให้บริการขนสิ่งสินค้าระหว่างผู้ใช้งาน",
       "เป็นเว็บไซต์ที่ให้บริการแลกเปลี่ยนสิ่งของระหว่างผู้ใช้งาน",
@@ -16937,7 +16972,7 @@
     "correct_index": 2,
     "correct_label": "ค",
     "explanation": "เพราะ Google Scholar คือ แพลตฟอร์มของ Google ที่ใช้ในการค้นหาผลงานด้านวิชาการ สิ่งพิมพ์ เหมาะสำหรับนักศึกษา นักวิจัย นิสิตปริญญาโท ปริญญาเอก ที่ต้องการข้อมูลในเชิงวิชาการ มีที่อ้างอิงเชื่อถือได้ ส่วน\nข้อ 1. Google Translate คือ เป็นบริการแปลภาษา สามารถออกเสียงคำหรือประโยคได้\nข้อ 2. Google Classroom ใช้จัดการชั้นเรียน งาน และการสื่อสารระหว่างครูกับผู้เรียน\nข้อ 4. Google Docs คือ การสร้างเอกสารออนไลน์ ใช้งานคล้ายกับ Microsoft Word",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q847_ex.png"
+    "explanation_img": "/question-svgs/94e7cffe91354e70.svg"
   },
   {
     "id": 8814,
@@ -17026,7 +17061,7 @@
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
     "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q852.png",
+    "img": "/question-svgs/9b00891853366588.svg",
     "opts": [
       "Microsoft Excel",
       "Microsoft PowerPoint",
@@ -17045,8 +17080,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q853.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง คือลักษณะโลโก้ของใด",
+    "img": "/question-svgs/310053ac832b10e1.svg",
     "opts": [
       "Google Meet",
       "Microsoft Teams",
@@ -17117,7 +17152,7 @@
     "correct_index": 0,
     "correct_label": "ก",
     "explanation": "1) Canva\nเพราะ Canva เป็นเครื่องมือออกแบบกราฟิกออนไลน์ ส่วน\nข้อ 2. Kahoot เป็นโปรแกรมการเรียนรู้ผ่านเกม\nข้อ 3. Google slide เป็นเว็บไซต์ที่ให้บริการนำเสนอออนไลน์ คล้ายกับ MS PowerPoint\nข้อ 4. MS Teams เป็นโปรแกรมการประชุมออนไลน์",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q856_ex.jpeg"
+    "explanation_img": "/question-svgs/53ad9aab1ceccbd4.svg"
   },
   {
     "id": 8823,
@@ -17245,8 +17280,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q863.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง คือลักษณะโลโก้ของใด",
+    "img": "/question-svgs/f739bea9fd20a7f9.svg",
     "opts": [
       "Google Meet",
       "Microsoft Teams",
@@ -17306,7 +17341,7 @@
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
     "stem": "จากรูปภาพเป็นโลโก้ของโปรแกรมใด",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q866.png",
+    "img": "/question-svgs/61cc7c21d0757e29.svg",
     "opts": [
       "Google Meet",
       "Microsoft Teams",
@@ -17326,7 +17361,7 @@
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
     "stem": "ไอคอนดังกล่าวหมายถึงสถานะใด",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q867.png",
+    "img": "/question-svgs/507814b5f5cf59e5.svg",
     "opts": [
       "เปิดเสียงจากไมโครโฟนอยู่",
       "ปิดเสียงจากลำโพงอยู่",
@@ -17346,7 +17381,7 @@
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
     "stem": "จากรูปภาพเป็นโลโก้ของโปรแกรมใด",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q868.png",
+    "img": "/question-svgs/d83001fbcedbdd8f.svg",
     "opts": [
       "Google Meet",
       "Microsoft Teams",
@@ -17356,8 +17391,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q868_ex.png"
+    "explanation": "เพราะ จากรูปภาพไอคอน คือ ลักษณะโลโก้ของ Skype\nข้อ 1 ผิด เพราะ Google Meet ลักษณะโลโก้ คือ\nข้อ 2 ผิด เพราะ Microsoft Team ลักษณะโลโก้ คือ\nข้อ 3 ผิด เพราะ zoom.us ลักษณะโลโก้ คือ",
+    "explanation_img": null
   },
   {
     "id": 8835,
@@ -17785,8 +17820,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q890.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง เป็นเครื่องมือของโปรแกรม Microsoft OneNote ที่อยู่ในแถบเครื่องมือใด",
+    "img": "/question-svgs/211ed40a5a1dd21c.svg",
     "opts": [
       "Home",
       "Insert",
@@ -17796,8 +17831,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q890_ex.png"
+    "explanation": "เพราะ จากรูปภาพไอคอนเป็นเครื่องมือในโปรแกรม Microsoft OneNote อยู่ในแถบเครื่องมือ Home",
+    "explanation_img": "/question-svgs/a98985bfaba794b2.svg"
   },
   {
     "id": 8857,
@@ -17845,8 +17880,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q893.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง เป็นเครื่องมือของโปรแกรม Microsoft OneNote ที่อยู่ในแถบเครื่องมือใด",
+    "img": "/question-svgs/848751884df307ff.svg",
     "opts": [
       "Home",
       "Insert",
@@ -17856,8 +17891,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q893_ex.png"
+    "explanation": "เพราะ จากรูปภาพไอคอนเป็นเครื่องมือ ในโปรแกรม Microsoft OneNote อยู่ในแถบเครื่องมือ Insert",
+    "explanation_img": "/question-svgs/956c2218eba1e667.svg"
   },
   {
     "id": 8860,
@@ -17905,8 +17940,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q896.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง เป็นเครื่องมือของโปรแกรม Microsoft OneNote ที่อยู่ในแถบเครื่องมือใด",
+    "img": "/question-svgs/b7d7fd83d89b6bd7.svg",
     "opts": [
       "Home",
       "Insert",
@@ -17916,8 +17951,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q896_ex.png"
+    "explanation": "เพราะ จากรูปภาพไอคอนเป็นเครื่องมือในโปรแกรม Microsoft OneNote อยู่ในแถบเครื่องมือ View",
+    "explanation_img": "/question-svgs/a563ad1fd16eb5e4.svg"
   },
   {
     "id": 8863,
@@ -17925,8 +17960,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q897.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง เป็นเครื่องมือในโปรแกรมใด",
+    "img": "/question-svgs/21e48138aa3cd9f9.svg",
     "opts": [
       "Microsoft Outlook",
       "Microsoft Visual Studio",
@@ -17965,8 +18000,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q899.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง เป็นโลโก้ของโปรแกรมใด",
+    "img": "/question-svgs/add6ddac5491ed20.svg",
     "opts": [
       "Microsoft Outlook",
       "Microsoft Visual Studio",
@@ -17985,8 +18020,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q900.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง เป็นเครื่องมือในโปรแกรมใด\n\n<table><tr><td>☐ Inbox</td><td>1</td></tr><tr><td>🖃 Drafts</td><td></td></tr><tr",
+    "img": null,
     "opts": [
       "Microsoft Outlook",
       "Microsoft Visual Studio",
@@ -18006,7 +18041,7 @@
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
     "stem": "จากรูปภาพด้านล่าง เป็นไอคอนของโปรแกรมใด",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q901.png",
+    "img": "/question-svgs/47cebc36aaebbf42.svg",
     "opts": [
       "Microsoft Outlook",
       "Microsoft Visual Studio",
@@ -18025,8 +18060,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q902.png",
+    "stem": "จากรูปภาพด้านล่าง เคยเป็นโลโก้ของโปรแกรมในข้อใด",
+    "img": "/question-svgs/fb67165ab3bc1c3b.svg",
     "opts": [
       "Microsoft Access",
       "Microsoft Excel",
@@ -18065,8 +18100,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q904.png",
+    "stem": "จากรูปภาพด้านล่าง เคยเป็นโลโก้ของโปรแกรมในข้อใด",
+    "img": "/question-svgs/ea5ea5614d277744.svg",
     "opts": [
       "Microsoft Access",
       "Microsoft Excel",
@@ -18086,7 +18121,7 @@
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
     "stem": "จากรูปภาพด้านล่าง เป็นโลโก้ของโปรแกรมในข้อใด",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q905.png",
+    "img": "/question-svgs/b238bbe94806b2af.svg",
     "opts": [
       "Illustrator",
       "Photoshop",
@@ -18105,8 +18140,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q906.png",
+    "stem": "จากรูปภาพไอคอนด้านล่าง เป็นเครื่องมือในโปรแกรมใด",
+    "img": "/question-svgs/64477a5b6f96425f.svg",
     "opts": [
       "Microsoft Outlook",
       "Microsoft Visual Studio",
@@ -18165,8 +18200,8 @@
     "set_id": null,
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q909.png",
+    "stem": "Sent\n\nจากรูปภาพไอคอน เป็นเครื่องมือในโปรแกรมใด",
+    "img": null,
     "opts": [
       "Microsoft Outlook",
       "Microsoft Visual Studio",
@@ -18186,7 +18221,7 @@
     "title": "Social Media + พื้นฐานโปรแกรม",
     "batch": "05_วิชาคอม_ลงครั้งที่1",
     "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q910.png",
+    "img": "/question-svgs/2cd5a2d659556f7c.svg",
     "opts": [
       "Microsoft Word",
       "Microsoft Excel",
@@ -18196,8 +18231,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q910_ex.png"
+    "explanation": "เพราะจากไอคอน Icon เป็นสัญลักษณ์ของโปรแกรม Microsoft Outlook ส่วน Microsoft Word มีไอคอนเป็น W\nMicrosoft Excel มีไอคอนเป็น X\nMicrosoft PowerPoint มีไอคอนเป็น P",
+    "explanation_img": null
   },
   {
     "id": 13008,
@@ -18416,8 +18451,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": "รับข้อมูล (input) คอมพิวเตอร์จะทำหน้าที่รับข้อมูลเพื่อนำไปประมวลผล\nประมวลผล (process) เมื่อคอมพิวเตอร์รับข้อมูลเข้าสู่ระบบแล้ว จะทำการประมวลผลตามโปรแกรมหรือคำสั่งที่กำหนดไว้\nแสดงผล (output) คอมพิวเตอร์จะแสดงผลลัพธ์ที่ได้จากการประมวลผลไปยังหน่วยแสดงผล\nจัดเก็บข้อมูล (storage) คอมพิวเตอร์จะทำการจัดเก็บข้อมูลลงในอุปกรณ์เก็บข้อมูลแบ่งเป็นหน่วยความจำหลักประกอบด้วย RAM , ROM และหน่วยความจำสำรอง",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q11_ex.png"
+    "explanation": "รับข้อมูล (input) คอมพิวเตอร์จะทำหน้าที่รับข้อมูลเพื่อนำไปประมวลผล\nประมวลผล (process) เมื่อคอมพิวเตอร์รับข้อมูลเข้าสู่ระบบแล้ว จะทำการประมวลผลตามโปรแกรมหรือคำสั่งที่กำหนดไว้\nแสดงผล (output) คอมพิวเตอร์จะแสดงผลลัพธ์ที่ได้จากการประมวลผลไปยังหน่วยแสดงผล\nจัดเก็บข้อมูล (storage) คอมพิวเตอร์จะทำการจัดเก็บข้อมูลลงในอุปกรณ์เก็บข้อมูลแบ่งเป็นหน่วยความจำหลักประกอบด้วย RAM , ROM และหน่วยความจำสำรอง\n\n# IPOS Cycle\n\n*   Input Units → Processing Units → Output Units\n    *   Processing Units also feed into Storage Units, which then provide data to both Input and Output Units.",
+    "explanation_img": null
   },
   {
     "id": 13019,
@@ -18436,8 +18471,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q12_ex.png"
+    "explanation": "<table><tr><td>หน่วยรับข้อมูล (Input Devices)</td><td>รับข้อมูลจากภายนอกเข้าสู่ระบบคอมพิวเตอร์ เพื่อประมวลผล</td><td>แป้นพิมพ์ (Keyboard), เมาส์ (Mouse), สแกนเนอร์ (Scanner), ไมโครโฟน (Microphone), กล้องเว็บแคม (Webcam), ปากกาดิจิทัล (Digital Pen)</td></tr><tr><td>หน่วยแสดงผล (Output Devices)</td><td>นำผลลัพธ์ที่ได้จากการประมวลผล มาแสดงให้ผู้ใช้รับทราบ</td><td>จอภาพ (Monitor), เครื่องพิมพ์ (Printer), ลำโพง (Speaker), หูฟัง (Headphones), โปรเจคเตอร์ (Projector)</td></tr><tr><td>หน่วยรับและแสดงผล (Input/Output Devices)</td><td>ทำหน้าที่ทั้งรับข้อมูลเข้าและส่งข้อมูลออก ในชิ้นเดียว</td><td>หน้าจอสัมผัส (Touch Screen), เครื่องพิมพ์แบบ All-in-one</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 13020,
@@ -18496,8 +18531,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q15_ex.png"
+    "explanation": "<table><tr><td>หน่วยรับข้อมูล (Input Devices)</td><td>รับข้อมูลจากภายนอกเข้าสู่ระบบคอมพิวเตอร์ เพื่อประมวลผล</td><td>แป้นพิมพ์ (Keyboard), เมาส์ (Mouse), สแกนเนอร์ (Scanner), ไมโครโฟน (Microphone), กล้องเว็บแคม (Webcam), ปากกาดิจิทัล (Digital Pen)</td></tr><tr><td>หน่วยแสดงผล (Output Devices)</td><td>นำผลลัพธ์ที่ได้จากการประมวลผล มาแสดงให้ผู้ใช้รับทราบ</td><td>จอภาพ (Monitor), เครื่องพิมพ์ (Printer), ลำโพง (Speaker), หูฟัง (Headphones), โปรเจคเตอร์ (Projector)</td></tr><tr><td>หน่วยรับและแสดงผล (Input/Output Devices)</td><td>ทำหน้าที่ทั้งรับข้อมูลเข้าและส่งข้อมูลออก ในชิ้นเดียว</td><td>หน้าจอสัมผัส (Touch Screen), เครื่องพิมพ์แบบ All-in-one</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 13023,
@@ -18556,8 +18591,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": "ข้อที่ 3)\tHard Disk Drive (HDD) เป็น หน่วยเก็บข้อมูลถาวร ใช้เก็บระบบปฏิบัติการ โปรแกรม และไฟล์ต่าง ๆ เมื่อปิดเครื่อง ข้อมูลไม่หาย\nข้อที่ 4)\tSolid State Drive (SSD) เป็นหน่วยเก็บข้อมูลถาวรแบบ Non-Volatile เหมือน HDD เพียงแต่ทำงานเร็วกว่า และข้อมูลยังคงอยู่แม้ปิดเครื่อง",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q18_ex.png"
+    "explanation": "ข้อที่ 3)\tHard Disk Drive (HDD) เป็น หน่วยเก็บข้อมูลถาวร ใช้เก็บระบบปฏิบัติการ โปรแกรม และไฟล์ต่าง ๆ เมื่อปิดเครื่อง ข้อมูลไม่หาย\nข้อที่ 4)\tSolid State Drive (SSD) เป็นหน่วยเก็บข้อมูลถาวรแบบ Non-Volatile เหมือน HDD เพียงแต่ทำงานเร็วกว่า และข้อมูลยังคงอยู่แม้ปิดเครื่อง\n\n<table><tr><td></td><td>RAM</td><td>ROM</td></tr><tr><td rowspan=\"2\">ชื่อเต็ม / หน้าที่หลัก</td><td>Random Access Memory<br/>พื้นที่ทำงาน (Working Space)<br/>เก็บข้อมูลของ program / app ที่กำลังทำงานอยู่</td><td>Read-Only Memory<br/>เก็บข้อมูลถาวร เช่น OS / โปรแกรมพื้นฐานของเครื่อง</td></tr><tr><td>ประเภท<br/>หน่วยความจำชั่วคราว (Volatile Memory)</td><td>หน่วยความจำถาวร (Non-Volatile Memory)</td></tr><tr><td>ไฟดับ/ปิดเครื่อง</td><td>ข้อมูลหายทันที</td><td>ข้อมูลยังอยู่</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 13026,
@@ -18676,8 +18711,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": "ซอฟต์แวร์ระบบ (System Software หรือ Operating System : OS) หมายถึง โปรแกรมที่ทำหน้าที่ประสานการทำงาน ติดต่อการทำงาน ระหว่างฮาร์ดแวร์กับซอฟต์แวร์ประยุกต์เพื่อให้ผู้ใช้สามารถใช้ Software ได้อย่างมีประสิทธิภาพ และทำหน้าที่ในการจัดการระบบดูแลรักษาเครื่อง การแปลภาษาระดับต่ำหรือระดับสูงให้เป็นภาษาเครื่องเพื่อให้เครื่องอ่านได้เข้าใจ ซอฟต์แวร์ระบบ แบ่งได้ 4 ชนิด ดังนี้\nระบบปฏิบัติการ (Operating System) คือ ชุดโปรแกรมที่อยู่ระหว่างฮาร์ดแวร์และซอฟต์แวร์ประยุกต์มีหน้าที่ควบคุมการปฏิบัติงานของฮาร์ดแวร์ และสนับสนุนคำสั่งสำหรับควบคุมการทำงานของฮาร์ดแวร์ให้กับซอฟต์แวร์ประยุกต์\nยูทิลิตี้ (Utility Program) เป็นโปรแกรมที่ทำหน้าที่เพิ่มประสิทธิภาพของเครื่องคอมพิวเตอร์ ทำให้เครื่องทำงานง่ายขึ้นเร็วขึ้น และการป้องกันการรบกวนโดยโปรแกรมที่ไม่พึงประสงค์\nตัวแปลภาษา (Language Translator) คือ โปรแกรมที่ทำหน้าที่แปลภาษาระดับต่ำหรือระดับสูงเพื่อให้เครื่องคอมพิวเตอร์เข้าใจว่าต้องการให้ทำอะไร เช่น เมื่อโปรแกรมเมอร์ได้เขียนโปรแกรมเสร็จโดยเขียนในลักษณะภาษาระดับต่ำ (Assembly) หรือภาษาระดับสูง (โปรแกรมภาษา C) เสร็จก็ต้องมีตัวแปลภาษาเพื่อให้เครื่องคอมพิวเตอร์อ่านเข้าใจ เพราะเครื่องคอมพิวเตอร์จะเข้าใจเฉพาะตัวเลข 0,1 เท่านั้น ซึ่งการแปลภาษาด้วยตัวแปลภาษาจะมี 3 ลักษณะ ดังนี้\nตัวควบคุมอุปกรณ์ (Device Driver) คือ โปรแกรมที่ช่วยในการติดตั้งระบบเพื่อให้คอมพิวเตอร์สามารถติดต่อ\nหรือใช้งานอุปกรณ์ต่าง ๆ ได้ ตัวอย่างโปรแกรมขับอุปกรณ์ เช่น printer driver, scanner driver, sound driver",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q24_ex.png"
+    "explanation": "ซอฟต์แวร์ระบบ (System Software หรือ Operating System : OS) หมายถึง โปรแกรมที่ทำหน้าที่ประสานการทำงาน ติดต่อการทำงาน ระหว่างฮาร์ดแวร์กับซอฟต์แวร์ประยุกต์เพื่อให้ผู้ใช้สามารถใช้ Software ได้อย่างมีประสิทธิภาพ และทำหน้าที่ในการจัดการระบบดูแลรักษาเครื่อง การแปลภาษาระดับต่ำหรือระดับสูงให้เป็นภาษาเครื่องเพื่อให้เครื่องอ่านได้เข้าใจ ซอฟต์แวร์ระบบ แบ่งได้ 4 ชนิด ดังนี้\nระบบปฏิบัติการ (Operating System) คือ ชุดโปรแกรมที่อยู่ระหว่างฮาร์ดแวร์และซอฟต์แวร์ประยุกต์มีหน้าที่ควบคุมการปฏิบัติงานของฮาร์ดแวร์ และสนับสนุนคำสั่งสำหรับควบคุมการทำงานของฮาร์ดแวร์ให้กับซอฟต์แวร์ประยุกต์\nยูทิลิตี้ (Utility Program) เป็นโปรแกรมที่ทำหน้าที่เพิ่มประสิทธิภาพของเครื่องคอมพิวเตอร์ ทำให้เครื่องทำงานง่ายขึ้นเร็วขึ้น และการป้องกันการรบกวนโดยโปรแกรมที่ไม่พึงประสงค์\nตัวแปลภาษา (Language Translator) คือ โปรแกรมที่ทำหน้าที่แปลภาษาระดับต่ำหรือระดับสูงเพื่อให้เครื่องคอมพิวเตอร์เข้าใจว่าต้องการให้ทำอะไร เช่น เมื่อโปรแกรมเมอร์ได้เขียนโปรแกรมเสร็จโดยเขียนในลักษณะภาษาระดับต่ำ (Assembly) หรือภาษาระดับสูง (โปรแกรมภาษา C) เสร็จก็ต้องมีตัวแปลภาษาเพื่อให้เครื่องคอมพิวเตอร์อ่านเข้าใจ เพราะเครื่องคอมพิวเตอร์จะเข้าใจเฉพาะตัวเลข 0,1 เท่านั้น ซึ่งการแปลภาษาด้วยตัวแปลภาษาจะมี 3 ลักษณะ ดังนี้\nตัวควบคุมอุปกรณ์ (Device Driver) คือ โปรแกรมที่ช่วยในการติดตั้งระบบเพื่อให้คอมพิวเตอร์สามารถติดต่อ\nหรือใช้งานอุปกรณ์ต่าง ๆ ได้ ตัวอย่างโปรแกรมขับอุปกรณ์ เช่น printer driver, scanner driver, sound driver\n\nคอมไพเลอร์ (Compiler)\n1. โปรแกรมแปลโปรแกรม, ตัวแปลโปรแกรม\n2. การแปลโปรแกรมทั้งหมดในครั้งเดียว\n3. เมื่อพบข้อผิดพลาดต้องแก้ไขทีละคำสั่ง ถึงจะทำงานต่อได้\n4. ใช้กับภาษาซี (C), ซีชาร์ฟ (C#), โคบอล (COBOL) เป็นต้น\n\nอินเทอร์พรีเตอร์ (Interpreter)\n1. โปรแกรมแปลคำสั่ง, ตัวแปลคำสั่ง\n2. การแปลทีละบรรทัดขณะทำงาน\n3. เมื่อพบข้อผิดพลาดจะแสดงข้อผิดพลาดทั้งหมดหลังคอมไพล์เสร็จสิ้น\n4. ใช้กับภาษาพีเอชพี (PHP), เอฟแอล (APL), เบสิก (BASIC) เป็นต้น\n\nแอสเซมเบลอร์ (Assembler)\n1. โปรแกรมที่ใช้แปลภาษาแอสเซมบลี\n2. ลักษณะการแปลทีละคำสั่ง เมื่อทำตามคำสั่งนั้นเสร็จแล้ว ก็จะแปลคำสั่งถัดไป เรื่อย ๆ จนจบ",
+    "explanation_img": null
   },
   {
     "id": 13032,
@@ -18776,8 +18811,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q29_ex.png"
+    "explanation": "# นามสกุลไฟล์ข้อมูลที่เป็นตัวอักษร\n\n<table><tr><td>.doc</td><td>ใช้เก็บเอกสารเป็นหน้า ๆ ใช้ word MS Word, WordPad ในการอ่าน</td></tr><tr><td>.xlsx, xlw</td><td>Excel ไฟล์ตารางข้อมูล สามารถใส่สูตรคำนวณได้ ใช้โปรแกรม MS Excel ในการอ่าน</td></tr><tr><td>.csv</td><td>Comma-Separated Values เป็นไฟล์ตารางข้อมูลที่มี ขนาดเล็ก เปิดง่าย แลกเปลี่ยนข้อมูลสะดวก และสามารถนำไปใช้วิเคราะห์ข้อมูลใน Excel, Google Sheets ได้โดยตรง</td></tr><tr><td>.pdf</td><td>PDF เป็นไฟล์เอกสารที่คงรูปแบบการจัดหน้า ฟอนต์ รูปภาพ และโครงสร้างเอกสาร</td></tr><tr><td>.ppt</td><td>PowerPoint ไฟล์ แสดงงานเป็นสไลด์ ๆ ใช้โปรแกรม MS PowerPoint เปิด</td></tr><tr><td>.prg</td><td>Program ไฟล์ เป็น Text ไฟล์ประเภทหนึ่ง</td></tr><tr><td>.dwg</td><td>เป็น drawing file ของโปรแกรม AutoCAD</td></tr><tr><td>.txt</td><td>Text ไฟล์ ไฟล์ข้อความธรรมดา</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 13037,
@@ -18796,8 +18831,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q30_ex.png"
+    "explanation": "# นามสกุลไฟล์ภาพ\n\n<table><tr><td>jpg</td><td>ความละเอียดสูง แต่ขนาดไฟล์เล็ก</td></tr><tr><td>.png</td><td>PNG เป็นไฟล์ภาพแบบบีบอัดไม่สูญเสียคุณภาพ รองรับพื้นหลังโปร่งใส</td></tr><tr><td>.gif</td><td>ทำเป็นภาพเคลื่อนไหวแบบโปร่งใสได้ ไฟล์มีขนาดเล็ก สีสูงสุดเพียง256 สี</td></tr><tr><td>.bmp</td><td>แสดงภาพกราฟิกโปร่งแกรมวินโดร์ ไฟล์มีลักษณะใหญ่</td></tr><tr><td>.tiff</td><td>เหมาะไปทำเป็นสื่อสิ่งพิมพ์เพราะคุณภาพสูง รองรับสีทั้ง CMYK, RGB, Lab, Indexed Color และ Grayscale</td></tr><tr><td>.psd</td><td>เป็นกราฟิกไฟล์ ของโปรแกรม Adobe Photoshop</td></tr><tr><td>.swf</td><td>Flash File ภาพเคลื่อนไหว ของ adobe Flash</td></tr><tr><td>.ai</td><td>เป็นไฟล์จากได้จากโปรแกรม Illustrator</td></tr><tr><td>.raw</td><td>ข้อมูลไฟล์รูปภาพที่ไม่ผ่านการบีบอัดและไม่ผ่านการปรับแต่งซึ่งถ่ายมาโดยเซ็นเซอร์ของกล้อง ดิจิทัลหรือสแกนเนอร์ มีคุณภาพส",
+    "explanation_img": null
   },
   {
     "id": 13038,
@@ -18816,8 +18851,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q31_ex.png"
+    "explanation": "# นามสกุลไฟล์ภาพ\n\n<table><tr><td>jpg</td><td>ความละเอียดสูง แต่ขนาดไฟล์เล็ก</td></tr><tr><td>png</td><td>ทำพื้นหลังใสได้ ความละเอียดภาพเหมือน JPG</td></tr><tr><td>gif</td><td>ทำเป็นภาพเคลื่อนไหวแบบโปร่งใสได้ ไฟล์มีขนาดเล็ก สีสูงสุดเพียง256 สี</td></tr><tr><td>bmp</td><td>แสดงภาพกราฟิกโปรแกรมวินโดว์ ไฟล์มีลักษณะใหญ่</td></tr><tr><td>ttf</td><td>เหมาะไปทำเป็นสื่อสิ่งพิมพ์เพราะคุณภาพสูง รองรับสีทั้ง CMYK, RGB, Lab, Indexed Color และ Grayscale</td></tr><tr><td>psd</td><td>เป็นกราฟิกไฟล์ ของโปรแกรม Adobe Photoshop</td></tr><tr><td>swf</td><td>Flash File ภาพเคลื่อนไหว ของ adobe Flash</td></tr><tr><td>ai</td><td>เป็นไฟล์จากได้จากโปรแกรม Illustrator</td></tr><tr><td>raw</td><td>ข้อมูลไฟล์รูปภาพที่ไม่ผ่านการบีบอัดและไม่ผ่านการปรับแต่งซึ่งถ่ายมาโดยเซ็นเซอร์ของกล้อง ดิจิทัลหรือสแกนเนอร์ มีคุณภาพสูงและมีความยืดหยุ่นในการแก้ไขหลัง",
+    "explanation_img": null
   },
   {
     "id": 13039,
@@ -18836,8 +18871,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": "หมวดที่ 6: Procedure",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q32_ex.png"
+    "explanation": "หมวดที่ 6: Procedure\n\n<table><tr><td>8 Bit (บิต)</td><td>1 Byte (ไบต์)</td></tr><tr><td>1024",
+    "explanation_img": null
   },
   {
     "id": 13040,
@@ -18896,8 +18931,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q35_ex.png"
+    "explanation": "<table><tr><td></td><td>Twisted Pair สายคู่บิดเกลียว<br/>- UTP: Unshielded Twisted Pair (ไม่หุ้ม)<br/>- STP : Shielded Twisted Pair(หุ้ม)</td><td>Coaxial Cable</td><td>Fiber Optic เส้นใยแก้วนำแสง</td></tr><tr><td>การป้องกันการรบกวน/ ระยะการส่งข้อมูล</td><td>ต่ำ</td><td>ปานกลาง</td><td>สูง</td></tr><tr><td>ราคา</td><td>ถูก</td><td>ปานกลาง</td><td>แพง</td></tr><tr><td>ตัวอย่างการใช้งาน</td><td>LAN, สายโทรศัพท์</td><td>TV, CCTV</td><td>Internet, Data center</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 13043,
@@ -18916,8 +18951,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q36_ex.png"
+    "explanation": "<table><tr><td></td><td>Twisted Pair สายคู่บิดเกลียว<br/>- UTP: Unshielded Twisted Pair (ไม่หุ้ม)<br/>- STP : Shielded Twisted Pair(หุ้ม)</td><td>Coaxial Cable</td><td>Fiber Optic เส้นใยแก้วนำแสง</td></tr><tr><td>การป้องกันการรบกวน/ ระยะการส่งข้อมูล</td><td>ต่ำ</td><td>ปานกลาง</td><td>สูง</td></tr><tr><td>ราคา</td><td>ถูก</td><td>ปานกลาง</td><td>แพง</td></tr><tr><td>ตัวอย่างการใช้งาน</td><td>LAN, สายโทรศัพท์</td><td>TV, CCTV</td><td>Internet, Data center</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 13044,
@@ -18936,8 +18971,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": "เส้นใยแก้วนำแสง (fiber optic cable) เป็นสายส่งสัญญาณที่มีประสิทธิภาพสูงและราคาแพงที่สุด ทำหน้าที่เป็นตัวกลางในการส่งสัญญาณข้อมูลแสงได้ในระยะทางไกล การสูญเสียสัญญาณต่ำ และสามารถส่งข้อมูลได้ในขนาดมาก ๆ โดยไม่มีผลกระทบกับสัญญาณคลื่นรบกวนทางไฟฟ้า",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q37_ex.png"
+    "explanation": "เส้นใยแก้วนำแสง (fiber optic cable) เป็นสายส่งสัญญาณที่มีประสิทธิภาพสูงและราคาแพงที่สุด ทำหน้าที่เป็นตัวกลางในการส่งสัญญาณข้อมูลแสงได้ในระยะทางไกล การสูญเสียสัญญาณต่ำ และสามารถส่งข้อมูลได้ในขนาดมาก ๆ โดยไม่มีผลกระทบกับสัญญาณคลื่นรบกวนทางไฟฟ้า\n\n<table><tr><td></td><td>Twisted Pair สายคู่บิดเกลียว<br/>- UTP: Unshielded Twisted Pair (ไม่หุ้ม)<br/>- STP : Shielded Twisted Pair(หุ้ม)</td><td>Coaxial Cable</td><td>Fiber Optic เส้นใยแก้วนำแสง</td></tr><tr><td>การป้องกันการรบกวน/ ระยะการส่งข้อมูล</td><td>ต่ำ</td><td>ปานกลาง</td><td>สูง</td></tr><tr><td>ราคา</td><td>ถูก</td><td>ปานกลาง</td><td>แพง</td></tr><tr><td>ตัวอย่างการใช้งาน</td><td>LAN, สายโทรศัพท์</td><td>TV, CCTV</td><td>Internet, Data center</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 13045,
@@ -19016,8 +19051,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q41_ex.png"
+    "explanation": "<table><tr><td></td><th colspan=\"2\">อุปกรณ์ในระบบเครือข่าย</th></tr><tr><td>1. การติดเครือข่าย (Network Interface Card) หรือการ์ดแลน หรืออีเธอร์เน็ตคาดร</td><td>ทำหน้าที่ในการเชื่อมคอมพิวเตอร์ที่ใช้งานอยู่นั้นเข้ากับระบบเครือข่าย ได้แบบไร้สาย</td><td></td></tr><tr",
+    "explanation_img": null
   },
   {
     "id": 13049,
@@ -19036,8 +19071,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q42_ex.png"
+    "explanation": "<table><tr><td></td><th colspan=\"2\">อุปกรณ์ในระบบเครือข่าย</th></tr><tr><td>1. การ์ดเครือข่าย (Network Interface Card) หรือการ์ดแลน หรืออีเธอร์เน็ตการ์ด</td><td>ทำหน้าที่ในการเชื่อมคอมพิวเตอร์ที่ใช้งานอยู่นั้นเข้ากับระบบเครือข่าย ได้แบบไร้สาย</td><td></td></tr><tr",
+    "explanation_img": null
   },
   {
     "id": 13050,
@@ -19136,8 +19171,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q47_ex.png"
+    "explanation": "<table><tr><td>รูปภาพ</td><td>ลักษณะการเชื่อมต่อ</td><td>ข้อดี</td><td>ข้อเสีย</td></tr><tr><td>",
+    "explanation_img": "/question-svgs/bf066e072e14d59a.svg"
   },
   {
     "id": 13055,
@@ -19157,7 +19192,7 @@
     "correct_index": 1,
     "correct_label": "ข",
     "explanation": "Star Topology เป็นรูปแบบที่เครื่องคอมพิวเตอร์ทุกเครื่องที่เชื่อมต่อเข้าด้วยกัน ในเครือข่ายจะต้องเชื่อมต่อกับอุปกรณ์ตัวกลางตัวหนึ่งที่เรียกว่า ฮับ (HUB) หรือสวิตช์ (Switch) หรือเครื่อง ๆ หนึ่ง ซึ่งทำหน้าที่เป็นศูนย์กลางของการเชื่อมต่อสายสัญญาณที่มาจากเครื่องต่าง ๆ ในเครือข่าย และควบคุมเส้นทางการสื่อสาร ทั้งหมด\nข้อดี : ดูแลรักษาง่าย หาจุดผิดพลาดได้ง่าย\nข้อเสีย : ค่าใช้จ่ายสูง เปลืองสายเคเบิล\nหมวดที่ 8: ระบบอินเทอร์เน็ต",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q48_ex.png"
+    "explanation_img": "/question-svgs/b4e04daee19352b1.svg"
   },
   {
     "id": 13056,
@@ -19256,8 +19291,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q53_ex.png"
+    "explanation": "<table><tr><td>ประเภทขององค์กร</td><td>โดเมน 2 ระดับ</td><td>โดเมน 3 ระดับ</td></tr><tr><td>บริษัท หรือ องค์กรพาณิชย์</td><td>.com</td><td>.co</td></tr><tr><td>องค์",
+    "explanation_img": null
   },
   {
     "id": 13061,
@@ -19276,8 +19311,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q54_ex.png"
+    "explanation": "<table><tr><td>ประเภทขององค์กร</td><td>โดเมน 2 ระดับ</td><td>โดเมน 3 ระดับ</td></tr><tr><td>บริษัท หรือ องค์กรพาณิชย์</td><td>.com</td><td>.co</td></tr><tr><td>องค์",
+    "explanation_img": null
   },
   {
     "id": 13062,
@@ -19296,8 +19331,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q55_ex.png"
+    "explanation": "<table><tr><td>ประเภทขององค์กร</td><td>โดเมน 2 ระดับ</td><td>โดเมน 3 ระดับ</td></tr><tr><td>บริษัท หรือ องค์กรพาณิชย์</td><td>.com</td><td>.co</td></tr><tr><td>องค์",
+    "explanation_img": null
   },
   {
     "id": 13063,
@@ -19396,8 +19431,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q60_ex.png"
+    "explanation": "<table><tr><td>ประเภทของไวรัส</td><td>ลักษณะการโจมตีของเริ่ม</td></tr><tr><td>หนอน หรือ Worm</td><td>- สามารถแพร่กระจายตัวเองจากเครื่องคอมพิวเตอร์เครื่องหนึ่ง ไปยังอีกเครื่องหนึ่ง เช่น อีเมล ระบบเซิร์ฟไลท์<br/>- คอมพิวเตอร์ข้างล่าง (แพร่กระจายได้อย่างรวดเร็ว) และทำความเสียหายรุนแรง</td></tr><tr><td>Spyware</td><td>- โปรแกรมคอมพิวเตอร์ขึ้นมาแสตมป์การใช้งานเครื่องคอมพิวเตอร์ โดยที่เราไม่รู้ตัว และจะทำการขโมยข้อมูล หรือเก็บทุกครั้งการใช้งานอีเมล์ต่อเนื่อง รวมถึงข้อมูล ส่วนตัวหลาย ๆ อย่างได้ เช่น ชื่อ-สกุล, ที่อยู่, อีเมล, Password หรือ หมายเลขบัตรเครดิต และอื่น ๆ<br/>- ข้อมูลส่วนตัวรั่วไหล คอมพิวเตอร์ทำงานช้า</td></tr><tr><td>Phishing</td><td>- เทคนิคการหลอกลวงผู้ใช้งานด้วยเพย์ คือ link ในอีเมลหรือเว็บไซต์ที่ปลอมให้ดูเหมือน บริการจริง เช่น ธนาคารหรือร้านค้าออนไลน์ เพื่อให้ผู้ใช้กรอกข้อผู้",
+    "explanation_img": null
   },
   {
     "id": 13068,
@@ -19416,8 +19451,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q61_ex.png"
+    "explanation": "<table><tr><td>ประเภทของไวรัส</td><td>ลักษณะการโจมตีของเวิร์ม</td></tr><tr><td>Spyware</td><td>- โปรแกรมถูกเขียนขึ้นมาสอดส่องการใช้งานเครื่องคอมพิวเตอร์ โดยที่เราไม่รู้ตัว และจะทำการ ขโมยข้อมูล หรือเก็บพฤติกรรมการใช้งานอินเตอร์เน็ตของเรา รวมถึงข้อมูลส่วนตัวหลาย ๆ อย่างได้ เช่น ชื่อ-สกุล, ที่อยู่, อีเมล, Password หรือ หมายเลขบัตรเครดิต และอื่น ๆ<br/>ข้อเสีย : ข้อมูลส่วนตัวรั่วไหล คอมพิวเตอร์ทำงานช้าลง</td></tr><tr><td>Phishing</td><td>- เทคนิคการหลอกลวงผู้ใช้งานด้วยเหยื่อ คือ link ในอีเมลหรือเว็บไซต์ที่ปลอมให้ดูเหมือน บริการจริง เช่น ธนาคารหรือร้านค้าออนไลน์ เพื่อให้ผู้ใช้กรอกชื่อผู้ใช้และรหัสผ่าน หมายเลขบัตรเครดิต และหมายเลขบัตรประจำตัวประชาชน เป็นต้น<br/>ข้อเสีย : ข้อมูลส่วนตัวถูกขโมย เสียเงิน / สูญเสียทรัพย์สิน</td></tr><tr><td>Pharming</td><td>- คล้าย Phishing แต่แทนที่จะส่งอีเมลมาหลอกเหยื่อเจ้าตัว Pharming เลือ",
+    "explanation_img": null
   },
   {
     "id": 13069,
@@ -19616,8 +19651,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": "หมวดที่ 11: Word",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q71_ex.png"
+    "explanation": "หมวดที่ 11: Word\n\n# ข้าราชการ บุคลากรภาครัฐต้องรู้\n\n## กักษะด้านดิจิทัลที่ต้องมี เพื่อก้าวสู่การเป็น\n\n### รู้เท่าทันเทคโนโลยี และใช้เทคโนโลยีเป็น Digital Literacy",
+    "explanation_img": "/question-svgs/b7cade8d5a0b19ec.svg"
   },
   {
     "id": 13079,
@@ -19636,8 +19671,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q72_ex.png"
+    "explanation": "<table><tr><th colspan=\"2\">โปรแกรมประยุกต์ในสำนักงาน</th></tr><tr><td>โปรแกรมจัดการเอกสาร</td><td>Microsoft Word, Google Docs</td></tr><tr><td>โปรแกรม",
+    "explanation_img": null
   },
   {
     "id": 13080,
@@ -19677,7 +19712,7 @@
     "correct_index": 2,
     "correct_label": "ค",
     "explanation": "ในการตั้งค่าหน้ากระดาษสามารถทำได้โดยการเข้าไปที่แท็บ Layout >> Size แล้วเลือกขนาดกระดาษตามที่ต้องการ",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q74_ex.png"
+    "explanation_img": "/question-svgs/0d3da56b0899769c.svg"
   },
   {
     "id": 13082,
@@ -19696,8 +19731,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": "ในการเพิ่มสัญลักษณ์หน้าข้อความในโปรแกรม Microsoft Word ต้องไปที่ Home >> Bullet Library",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q75_ex.png"
+    "explanation": "ในการเพิ่มสัญลักษณ์หน้าข้อความในโปรแกรม Microsoft Word ต้องไปที่ Home >> Bullet Library\n\n<table><tr><td>☐</td><td>=</td><td>1</td></tr><tr><td>☐</td><td>=</td><td>a</td></tr><tr><td>☐</td><td>V</td><td>i</td></tr><tr><td>=</td><td>2</td><td>a</td></tr><tr><td>=</td><td>3</td><td>i</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 13083,
@@ -19716,8 +19751,8 @@
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": "การอ้างอิงเชิงอรรถ หรือ Footnote คือ ข้อความที่อยู่ส่วนข้างล่างท้ายกระดาษของแต่ละหน้า เพื่ออธิบายขยายความ เสริมความ หรืออ้างอิงแสดงถึงที่มาของ คำ ข้อความ ประโยค หรือแนวคิด ที่คัดลอกมาใช้ในรายงานที่อยู่ในหน้านั้น ๆ\nการใส่การอ้างอิงเชิงอรรถ มีขั้นตอนดังนี้\nคลิกแท็บ References\nไปที่กลุ่มคำสั่ง Footnote >> ให้คลิกปุ่ม Insert Footnote (แทรกเชิงอรรถ)\nเลือกข้อความที่จะอ้างอิงเชิงอรรถ\nส่วน   \tInsert Caption คือ การใส่คำบรรยายภาพ, ตาราง และสมการ\nInsert Citation คือ การสร้างข้อมูลอ้างอิง\nInsert Endnote คือ การอ้างอิงท้ายเรื่อง",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q76_ex.png"
+    "explanation": "การอ้างอิงเชิงอรรถ หรือ Footnote คือ ข้อความที่อยู่ส่วนข้างล่างท้ายกระดาษของแต่ละหน้า เพื่ออธิบายขยายความ เสริมความ หรืออ้างอิงแสดงถึงที่มาของ คำ ข้อความ ประโยค หรือแนวคิด ที่คัดลอกมาใช้ในรายงานที่อยู่ในหน้านั้น ๆ\nการใส่การอ้างอิงเชิงอรรถ มีขั้นตอนดังนี้\nคลิกแท็บ References\nไปที่กลุ่มคำสั่ง Footnote >> ให้คลิกปุ่ม Insert Footnote (แทรกเชิงอรรถ)\nเลือกข้อความที่จะอ้างอิงเชิงอรรถ\nส่วน   \tInsert Caption คือ การใส่คำบรรยายภาพ, ตาราง และสมการ\nInsert Citation คือ การสร้างข้อมูลอ้างอิง\nInsert Endnote คือ การอ้างอิงท้ายเรื่อง\n\nHome Insert Draw Design Layout References Mailing Review View Tell me\n\n*   Table of Contents\n    *   Add Text v\n        *   Update Table\n            *   Insert Footnote ¹\n                *   ab\n*   Insert Endnote\n    *   Show Notes\n        *   Next Footnote v\n            *   ab\n*   Smart Lookup\n    *   Researcher\n        *   Citations\n            *   Insert Citation\n                *   APA\n*   Bibliography v",
+    "explanation_img": null
   },
   {
     "id": 13084,
@@ -19736,8 +19771,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q77_ex.png"
+    "explanation": "☑ In Line with Text\n\n☐ Square\n☑ Tight\n☑ Through\n☐ Top and Bottom\n☑ Behind Text\n☑ In Front of Text",
+    "explanation_img": null
   },
   {
     "id": 13085,
@@ -19856,8 +19891,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q83_ex.png"
+    "explanation": "<table><tr><th colspan=\"2\">โปรแกรมประยุกต์ในสำนักงาน</th></tr><tr><td>โปรแกรมจัดการเอกสาร</td><td>Microsoft Word, Google Docs</td></tr><tr><td>โปรแกรม",
+    "explanation_img": null
   },
   {
     "id": 13091,
@@ -19996,8 +20031,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": "ข้อที่ 1) \tPaint เป็นโปรแกรมสำหรับ วาดภาพและตกแต่งรูปภาพเบื้องต้น\nข้อที่ 2) \tWindows Media Player เป็นโปรแกรมสำหรับ เปิดไฟล์เสียงและวิดีโอ\nข้อที่ 4) \tCalendar เป็นโปรแกรมสำหรับ จัดตารางเวลาและบันทึกนัดหมาย",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q91_ex.png"
+    "explanation": "ข้อที่ 1) \tPaint เป็นโปรแกรมสำหรับ วาดภาพและตกแต่งรูปภาพเบื้องต้น\nข้อที่ 2) \tWindows Media Player เป็นโปรแกรมสำหรับ เปิดไฟล์เสียงและวิดีโอ\nข้อที่ 4) \tCalendar เป็นโปรแกรมสำหรับ จัดตารางเวลาและบันทึกนัดหมาย\n\n<table><tr><th colspan=\"2\">โปรแกรมประยุกต์ในสำนักงาน</th></tr><tr><td>โปรแกรมจัดการเอกสาร</td><td>Microsoft Word, Google Docs</td></tr><tr><td>โปรแกรม",
+    "explanation_img": null
   },
   {
     "id": 13098,
@@ -20056,8 +20091,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q94_ex.png"
+    "explanation": "1\nHome Insert Draw Design Transitions Animations Slide Show Record Review View\n\n*   New Slide\n*   Table\n*   Pictures\n*   Screenshot\n*   Cameo\n*   Shapes\n*   Icons\n*   3D Models\n*   SmartArt\n*   Chart\n*   Zoom\n*   Link\n*   Action\n*   Comment\n\nRecord Comments Share\n\nText Box Header & Footer Date Time Slide Number Object Equation Symbol Video Audio",
+    "explanation_img": null
   },
   {
     "id": 13101,
@@ -20176,8 +20211,8 @@
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": "ข้อที่ 2) \tข้อ 2) Adobe Photoshop เป็นโปรแกรมสำหรับ ตกแต่งและแก้ไขรูปภาพ (Image Editing)\nข้อที่ 3) \tIllustrator เป็นโปรแกรมสำหรับ ออกแบบกราฟิกแบบเวกเตอร์ (Vector Graphic Design) เช่น โลโก้ หรือภาพประกอบ\nข้อที่ 4) \tVLC Media Player เป็นโปรแกรมสำหรับ เปิดและเล่นไฟล์มัลติมีเดีย เช่น วิดีโอและเพลง",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-2-9a58fb24/q100_ex.png"
+    "explanation": "ข้อที่ 2) \tข้อ 2) Adobe Photoshop เป็นโปรแกรมสำหรับ ตกแต่งและแก้ไขรูปภาพ (Image Editing)\nข้อที่ 3) \tIllustrator เป็นโปรแกรมสำหรับ ออกแบบกราฟิกแบบเวกเตอร์ (Vector Graphic Design) เช่น โลโก้ หรือภาพประกอบ\nข้อที่ 4) \tVLC Media Player เป็นโปรแกรมสำหรับ เปิดและเล่นไฟล์มัลติมีเดีย เช่น วิดีโอและเพลง\n\n<table><tr><th colspan=\"3\">Google VS Microsoft</th></tr><tr><td>ประเภทการใช้งาน</td><td>Google</td><td>Microsoft</td></tr><tr><td>อีเมล</td><td>Email</td><td>Outlook / Outlook 365</td></tr><tr><td>เอกสาร (Word Processor)</td><td>Google Docs</td><td>Microsoft Word</td></tr><tr><td>ตารางคำนวณ (Spreadsheet)</td><td>Google Sheets</td><td>Microsoft Excel</td></tr><tr><td>สไลด์นำเสนอ</td><td>Google Slides</td><td>Microsoft PowerPoint</td></tr><tr><td>พื้นที่เก็บไฟล์ (Cloud Storage)</td><td>Google Drive</td><td>OneDrive</td></tr><tr><td>ประชุมออนไลน์</td><td>Google Meet</td><td>Microsoft Teams</td></tr><tr><td>แชทและจัดการโปรเจกต์ใน องค์กร</td><td>Google Chat / Google Space</td><td>Microsoft Teams / Planner</td></tr><tr><td>เบราว์เซอร์</td><td>Google Chrome</td><td>Microsoft Edge</td></tr></table>",
+    "explanation_img": null
   },
   {
     "id": 13267,
@@ -20297,7 +20332,7 @@
     "correct_index": 3,
     "correct_label": "ง",
     "explanation": "Input = การนำข้อมูลเข้าสู่คอมพิวเตอร์\nProcess = การประมวลผลข้อมูล\nOutput = การแสดงผลหรือนำผลลัพธ์ออกมา\nStorage = การจัดเก็บข้อมูล",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q5_ex.png"
+    "explanation_img": "/question-svgs/2fde12ff00968410.svg"
   },
   {
     "id": 13623,
@@ -20376,8 +20411,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q9_ex.png"
+    "explanation": "หน่วยเก็บข้อมูล (Storage Unit)\n\n<table><tr><td>หน่วยความจำหลัก</td><td>หน่วยความจำสำรอง</td></tr><tr><td>1. RAM</td><td>สื่อเก็บข้อมูล",
+    "explanation_img": null
   },
   {
     "id": 13627,
@@ -20908,16 +20943,16 @@
     "stem": "สูตรใดในโปรแกรม Microsoft Excel ใช้เชื่อมข้อความในเซลล์ F1 และ F2 เข้าด้วยกัน",
     "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q36_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q36_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q36_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q36_c4.png"
+      "=JOIN(F1,F2)",
+      "=ADD(F1,F2)",
+      "=MERGE(F1,F2)",
+      "=CONCATENATE(F1,F2)"
     ],
     "opt_imgs": null,
     "correct_index": 3,
     "correct_label": "ง",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q36_ex.png"
+    "explanation": "ใช้สำหรับนำข้อความในเซลล์ F1 และ F2 มาเชื่อมต่อกันเป็นข้อความเดียว\nเช่น F1 = นายสิบ F2 = ตำรวจ\n=CONCATENATE(F1,F2) ผลลัพธ์คือ นายสิบตำรวจ",
+    "explanation_img": null
   },
   {
     "id": 13654,
@@ -21036,8 +21071,8 @@
     "opt_imgs": null,
     "correct_index": 1,
     "correct_label": "ข",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q42_ex.png"
+    "explanation": "ข้อ 1 $1 \\text{ GB} = 1,024 \\text{ MB}$\nข้อ 2 $2,048 \\div 1,024 = 2 \\text{ GB}$\nข้อ 3 แปลง KB เป็น MB ก่อน $>> 2,000,000 \\div 1,024 = 1,953.125 \\text{ MB}$\nแล้วแปลง MB เป็น GB $>> 1,953.125 \\div 1,024 \\approx 1.9073 \\text{ GB}$\nข้อ 4 แปลง B เป็น KB $>> 2,097,152 \\div 1,024 = 2,048 \\text{ KB}$\nแปลง KB เป็น MB $>> 2,048 \\div 1,024 = 2 \\text{ MB}$ หรือคิดเป็น GB $2 \\div 1,024 = 0.001953125 \\text{ GB}$",
+    "explanation_img": null
   },
   {
     "id": 13660,
@@ -21216,8 +21251,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q51_ex.jpeg"
+    "explanation": "ALL - NEW\n\nคุณย์บริหารงานจราจร สำนักงานตำรวจแห่งชาติ\n# ใบสั่งจราจร (พินัย)\n\n## แบบที่ 1\nออกโดย เจ้าพนักงานจราจร\nที่พบการกระทำความผิดซึ่งหน้า",
+    "explanation_img": "/question-svgs/f2a55dcd096bfc39.svg"
   },
   {
     "id": 13669,
@@ -21616,8 +21651,8 @@
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q71_ex.jpeg"
+    "explanation": "# ข้อเตือน!\n\nตำรวจไซเบอร์ สร้างข่าวปลอมด้วย AI อาจผิด พ.ร.บ.คอมฯ\n\nอย่าทำ! ดึงคนสนใจด้วยภาพแปลก เพื่อรายได้จาก Facebook อาจเจือไทยหนัก",
+    "explanation_img": "/question-svgs/2b9800dc0ffca782.svg"
   },
   {
     "id": 13689,
@@ -21685,19 +21720,19 @@
     "set_id": null,
     "title": "Excel",
     "batch": "คอม (Add ติวสดพฐ.)",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q75.png",
+    "stem": "หากต้องการนับจำนวนเซลล์ที่มีค่ามากกว่า 50 ในช่วง C2:C20 ควรใช้สูตรใดในโปรแกรม Microsoft Excel",
+    "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q75_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q75_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q75_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q75_c4.png"
+      "=SUMIF(C2:C20,\">50\")",
+      "=COUNT(C2:C20,\">50\")",
+      "=COUNTIF(C2:C20,\">50\")",
+      "= AVERAGEIF(C2:C20,\">50\")"
     ],
     "opt_imgs": null,
     "correct_index": 2,
     "correct_label": "ค",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q75_ex.png"
+    "explanation": "ฟังก์ชัน COUNTIF ใช้นับจำนวนเซลล์ในช่วงที่ตรงตามเงื่อนไข โดย\n- C2:C20 คือช่วงเซลล์ที่ต้องการตรวจสอบ\n- \">50\" คือเงื่อนไขให้นับเฉพาะเซลล์ที่มีค่ามากกว่า 50\n\nข้อ 1 SUMIF ใช้หาผลรวมของค่าที่ตรงตามเงื่อนไข\nข้อ 2 COUNT ใช้นับเซลล์ที่มีตัวเลข แต่กำหนดเงื่อนไขแบบนี้ไม่ได้\nข้อ 4 AVERAGEIF ใช้หาค่าเฉลี่ยของค่าที่ตรงตามเงื่อนไข",
+    "explanation_img": null
   },
   {
     "id": 13693,
@@ -21705,19 +21740,19 @@
     "set_id": null,
     "title": "Excel",
     "batch": "คอม (Add ติวสดพฐ.)",
-    "stem": "",
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q76.png",
+    "stem": "เมื่อพิมพ์สูตรที่มีการใช้เครื่องหมายเว้นวรรค (Space) แทนที่จะเป็นเครื่องหมายจุลภาค (,) หรือโคลอน (;) ระหว่างการอ้างอิงช่วงเซลล์ที่ไม่ได้ตัดกัน จะปรากฏข้อความ Error ใด",
+    "img": null,
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q76_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q76_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q76_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q76_c4.png"
+      "#NULL!",
+      "#DIV/0!",
+      "#NAME?",
+      "#REF!"
     ],
     "opt_imgs": null,
     "correct_index": 0,
     "correct_label": "ก",
-    "explanation": null,
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q76_ex.png"
+    "explanation": "Excel มองเครื่องหมายเว้นบรรทัด (Space) ระหว่างช่วงเซลล์ว่าเป็น ตัวดำเนินการหาส่วนตัดกัน (Intersection Operator) หากช่วงเซลล์นั้นมีเซลล์ที่ตัดกัน จะแสดงข้อผิดพลาด #NULL!\nตัวอย่าง เขียนผิดเป็น =SUM(A1:A5;C1:C5) ทั้งสองช่วงไม่ตัดกัน จึงเกิด #NULL!\nข้อ 2 #DIV/OI สูตรนำตัวเลขไปหารด้วย 0 หรือเซลล์ว่าง\nข้อ 3 #NAME? ไม่รู้จักชื่อฟังก์ชันหรือข้อความในสูตร เช่น หิมพ์ชื่อฟังก์ชันผิด\nข้อ 4 #REF! สูตรอ้างอิงเซลล์ที่ไม่ถูกต้อง เช่น เซลล์ที่อ้างอิงถูกลบไป",
+    "explanation_img": null
   },
   {
     "id": 13694,
@@ -21797,6 +21832,6 @@
     "correct_index": 3,
     "correct_label": "ง",
     "explanation": "Data Utilization and Sharing การใช้ประโยชน์และการแลกเปลี่ยนข้อมูลร่วมกันระหว่างหน่วยงาน",
-    "explanation_img": "https://guru-eng-exam-images.netlify.app/i/05-OUTPUT-cdb49e6e/q80_ex.jpeg"
+    "explanation_img": "/question-svgs/7fe2e25312463f5e.svg"
   }
 ]

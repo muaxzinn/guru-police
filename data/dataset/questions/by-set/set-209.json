@@ -29,14 +29,20 @@
     "id": 9001,
     "b": "รูปในข้อใดต่อไปนี้ไม่เข้าพวก",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q125_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q125_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q125_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q125_c4.png"
+      "",
+      "",
+      "",
+      ""
     ],
     "c": 3,
     "t": "รูปภาพ",
-    "subject": "math"
+    "subject": "math",
+    "opt_imgs": [
+      "/question-svgs/599f11a4f88acfac.svg",
+      "/question-svgs/71f2e547e2809a10.svg",
+      "/question-svgs/87639710dafa38a6.svg",
+      "/question-svgs/ab7c080f61b81eae.svg"
+    ]
   },
   {
     "id": 9024,
@@ -53,21 +59,20 @@
   },
   {
     "id": 9076,
-    "b": "",
+    "b": "$(3\\frac{5}{7} \\times \\frac{2}{3}) \\div \\frac{5}{2} = ?$",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q200_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q200_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q200_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q200_c4.png"
+      "$\\frac{2}{5}$",
+      "$$\\frac{52}{21}$$",
+      "$$\\frac{104}{105}$$",
+      "$$\\frac{105}{104}$$"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q200.png",
     "t": "เลขพื้นฐาน",
     "subject": "math"
   },
   {
     "id": 9144,
-    "b": "",
+    "b": "ข้อใดคือเศษเหลือจากการนำ $x+3$ ไปหาร $5x^2 - 3x + 11$ เป็นเท่าใด",
     "opts": [
       "47",
       "56",
@@ -75,13 +80,12 @@
       "74"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q268.png",
     "t": "เลขยกกำลังและพหุนาม",
     "subject": "math"
   },
   {
     "id": 11266,
-    "b": "",
+    "b": "235231 มีค่าเท่ากับข้อใด",
     "opts": [
       "20,410",
       "20,411",
@@ -89,7 +93,6 @@
       "20,611"
     ],
     "c": 3,
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/a8dc1847-87f6-498a-b79c-e14b8baa01cb.png",
     "t": "เลขฐาน",
     "subject": "math"
   },
@@ -121,7 +124,7 @@
   },
   {
     "id": 9376,
-    "b": "สาขาใดมียอดขายเพิ่มขึ้นคิดเป็นร้อยละสูงที่สุด",
+    "b": "ตารางเปรียบเทียบยอดขายของแต่ละสาขา (หน่วย : พันบาท)\n\n<table><tr><td>สาขา</td><td>ปี 2568</td><td>ปี 2569</td></tr><tr><td>A</td><td>200</td><td>250</td></tr><tr><td>B</td><td>150</td><td>180</td></tr><tr><td>C</td><td>300</td><td>330</td></tr><tr><td>D</td><td>250</td><td>325</td></tr></table>\n\nสาขาใดมียอดขายเพิ่มขึ้นคิดเป็นร้อยละสูงที่สุด",
     "opts": [
       "สาขา A",
       "สาขา B",
@@ -129,13 +132,12 @@
       "สาขา D"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q500.png",
     "t": "ร้อยละ (แผนภูมิ และ กาารเปลี่ยนแปลง)",
     "subject": "math"
   },
   {
     "id": 9553,
-    "b": "",
+    "b": "ต้องการออกแบบม้านั่งขนานพื้นดังรูป โดยใช้เหล็กท่อน AB ยาว 70 ซม. มายึดน็อตเข้ากับเหล็กท่อน CD ถ้าต้องการให้ม้านั่งมี CB ยาว 50 ซม. และระยะ AD ยาว 125 ซม. ต้องยึดน็อตที่จุด F ห่างจากจุด A กี่ ซม.",
     "opts": [
       "20 ซม.",
       "35 ซม.",
@@ -143,7 +145,7 @@
       "50 ซม."
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q677.png",
+    "img": "/question-svgs/23ee2881f5b0f70d.svg",
     "t": "สามเหลี่ยม",
     "subject": "math"
   },
@@ -157,13 +159,13 @@
       "2,000 เมตร"
     ],
     "c": 2,
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/cdd9f70f-37a5-4e9a-bab7-ecbbfeb09122.png",
+    "img": "/question-svgs/4c48aaad8b13d98c.svg",
     "t": "สามเหลี่ยม",
     "subject": "math"
   },
   {
     "id": 12889,
-    "b": "",
+    "b": "จงหาค่า $x$ ที่เป็นจำนวนเต็มที่มากที่สุดที่เป็นไปได้ของ $2 - x > \\frac{-3x}{5}$",
     "opts": [
       "3",
       "4",
@@ -171,7 +173,6 @@
       "6"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q69.png",
     "t": "อสมการ",
     "subject": "math"
   },
@@ -190,7 +191,7 @@
   },
   {
     "id": 9700,
-    "b": "",
+    "b": "# ค่าอาหารกลางวันของคนกลุ่มหนึ่งเป็นดังตาราง\n\n<table><tr><td>ค่าอาหารกลางวัน (บาท)</td><td>จำนวน (คน)</td></tr><tr><td>10 - 19</td><td>30</td></tr><tr><td>20 - 29</td><td>40</td></tr><tr><td>30 - 39</td><td>30</td></tr></table>\n\nถามว่าค่าอาหารกลางวันเฉลี่ยของคนกลุ่มนี้เป็นเท่าใด",
     "opts": [
       "20.5 บาท",
       "24.5 บาท",
@@ -198,13 +199,12 @@
       "29.5 บาท"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q824.png",
     "t": "สถิติ",
     "subject": "math"
   },
   {
     "id": 9702,
-    "b": "",
+    "b": "จากตารางความสูงของนักเรียนในห้อง ข้อใดถูกต้อง\n\n<table><tr><td>ความสูง (เซนติเมตร)</td><td>จำนวนนักเรียน (คน)</td></tr><tr><td>150 - 159</td><td>13</td></tr><tr><td>160 - 169</td><td>11</td></tr><tr><td>170 - 179</td><td>3</td></tr></table>",
     "opts": [
       "พิสัย = 29",
       "ฐานนิยม = 13",
@@ -212,13 +212,12 @@
       "จำนวนนักเรียนที่เตี้ยกว่า 169.5 เซนติเมตร คือ 24 คน"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q826.png",
     "t": "สถิติ",
     "subject": "math"
   },
   {
     "id": 9738,
-    "b": "",
+    "b": "กำหนดให้ $n(A) = 8$, $n(B) = 9$, $n(A \\cup B) = 10$ แล้ว\nจำนวนสับเซตของ $(A \\cap B)$ ตรงกับข้อใด",
     "opts": [
       "16",
       "32",
@@ -226,13 +225,12 @@
       "128"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q862.png",
     "t": "เซต",
     "subject": "math"
   },
   {
     "id": 9722,
-    "b": "",
+    "b": "กำหนดให้ $A = \\{1, 2\\}$\n$B$ = เซตของสับเซตแท้ของ $A$\n$C = \\{\\{1,2\\}, 1, 2\\}$\nแล้ว $n(B-C) = ?$",
     "opts": [
       "1",
       "2",
@@ -240,21 +238,19 @@
       "4"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q846.png",
     "t": "เซต",
     "subject": "math"
   },
   {
     "id": 9760,
-    "b": "",
+    "b": "ให้ p มีค่าความจริงเป็น $\\sqrt{25} > 5$\nq มีค่าความจริงเป็น $| -3^2 | - 5 = \\sqrt{16}$\nr มีค่าความจริงเป็น $(27)^{\\frac{1}{3}} = 3$\nแล้วค่าความจริงข้อใดต่างจากพวก",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q884_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q884_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q884_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q884_c4.png"
+      "$(p \\land q) \\rightarrow r$",
+      "(p v q) ⟶ r",
+      "$(p \\rightarrow q)vr$",
+      "$(p \\leftrightarrow q) \\land r$"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q884.png",
     "t": "ตรรกศาสตร์",
     "subject": "math"
   },
@@ -325,7 +321,7 @@
   },
   {
     "id": 5832,
-    "b": "จากคำประพันธ์ข้างต้น ไม่ได้สื่อถึงเรื่องใด",
+    "b": "\"เธอคือนางฟ้า\nจากดินแดนแสนไกล\nเธอคือนางฟ้า\nเปี่ยมรักมิผันแปร\nเธอคือนางฟ้า\nเธอมาแกว่งเปลโอนไกว\nเธอคือนางฟ้า\nเสกก้อนเลือดกลมกลม\nเธอคือนางฟ้า\nอย่าเหินฟ้าหายวับไป\n\nเธอมาจากดาวใด\nมาเดินดินในดวงแด\nดวงตาเธอเผื่อแผ่\nมาดูแลปันดวงใจ\nเธอมากล่อมหินเอนไหว\nด้วยสายเลือดในน้ำนม\nเธอมีคาถาอาคม\nให้เป็นลมที่หายใจ\nกลับมาสู่ดินได้ไหม\nหนูร้องไห้ไหนนางฟ้า\"\n\nจากคำประพันธ์ข้างต้น ไม่ได้สื่อถึงเรื่องใด",
     "opts": [
       "บุญคุณของมารดา",
       "ความคิดถึงแม่ของผู้เป็นลูก",
@@ -333,7 +329,6 @@
       "ความรักและความเสียสละของแม่"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q117.png",
     "t": "วิเคราะห์ข้อคิด/แนวคิดที่ได้จากการอ่าน",
     "subject": "thai"
   },
@@ -365,7 +360,7 @@
   },
   {
     "id": 12551,
-    "b": "จากบทความต่อไปนี้ข้อใดกล่าวไม่ถูกต้อง",
+    "b": "\"อาหารแปรรูปแม้จะให้ความสะดวกและเก็บรักษาได้นาน แต่ส่วนใหญ่มีปริมาณโซเดียมและน้ำตาลสูงกว่า อาหารสดทั่วไป การบริโภคเป็นประจำอาจนำไปสู่โรคไม่ติดต่อเรื้อรัง เช่น โรคความดันโลหิตสูงและโรคเบาหวาน ผู้เชี่ยวชาญจึงแนะนำให้ผู้บริโภคหันมาประกอบอาหารทานเองจากวัตถุดิบธรรมชาติให้มากขึ้น หรือหากจำเป็นต้องซื้อ อาหารแปรรูป ควรสังเกตฉลากโภชนาการเพื่อเปรียบเทียบปริมาณสารอาหารก่อนการตัดสินใจซื้อเสมอ\"\n\nจากบทความต่อไปนี้ข้อใดกล่าวไม่ถูกต้อง",
     "opts": [
       "อาหารแปรรูปมักจะมีปริมาณโซเดียมและน้ำตาลสูงกว่าอาหารสด",
       "การบริโภคอาหารแปรรูปเป็นประจำช่วยลดความเสี่ยงในการเกิดโรคเบาหวาน",
@@ -373,7 +368,6 @@
       "การประกอบอาหารเองจากวัตถุดิบธรรมชาติเป็นแนวทางที่ผู้เชี่ยวชาญแนะนำ"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-6-4c3e96bb/q31.png",
     "t": "การถามข้อมูลด้านใน",
     "subject": "thai"
   },
@@ -1835,7 +1829,7 @@
   },
   {
     "id": 7167,
-    "b": "",
+    "b": "What does this sign mean?",
     "opts": [
       "Roundabout",
       "Give way",
@@ -1843,13 +1837,13 @@
       "Uneven road"
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q1012.png",
+    "img": "/question-svgs/ea52ae5e59191677.svg",
     "t": "Reading",
     "subject": "eng"
   },
   {
     "id": 13222,
-    "b": "Directions: Read the news excerpt and answer the questions.",
+    "b": "# Police Warn Public About New \"Call Center Scam\"\n\nThe Cyber Crime Investigation Bureau (CCIB) has recently detected a surge in fraudulent phone calls targeting elderly citizens. In this latest scam, the criminals pretend to be high-ranking police officers or government officials.\n\nThe scammers typically contact victims via phone or messaging apps, claiming that the victims are involved in illegal money laundering activities. To avoid legal action, the victims are pressured to transfer all their savings to a \"government-controlled\" account for investigation.\n\n\"Genuine authorities will never ask you to transfer money over the phone or via a private link,\" said the CCIB spokesperson. The public is advised to hang up immediately and verify the information through official channels. So far, the total damage reported has exceeded 50 million Baht this month alone.\n\n## What do the scammers claim when they contact the victims?\n\nDirections: Read the news excerpt and answer the questions.",
     "opts": [
       "The victims have won a big prize.",
       "The victims’ bank accounts are being closed.",
@@ -1857,7 +1851,6 @@
       "The victims need to update their personal information."
     ],
     "c": 2,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-4-1-e2cc9da9/q56.png",
     "t": "Reading",
     "subject": "eng"
   },

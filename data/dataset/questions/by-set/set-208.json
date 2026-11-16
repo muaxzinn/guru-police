@@ -35,7 +35,7 @@
       ""
     ],
     "c": 1,
-    "img": "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/ee310d6c-a662-423b-95b1-2e84de018dab.png",
+    "img": "/question-svgs/e841da4b254320e9.svg",
     "optImgs": [
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/126af47b-7143-4b12-aa0a-fa1c3f7f6b70.png",
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/2fff71df-d5eb-491c-a8d3-0452a4cb13aa.png",
@@ -43,11 +43,17 @@
       "https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/question-images/aba29dd4-872c-47cd-bab2-c186dc9e22ff.png"
     ],
     "t": "รูปภาพ",
-    "subject": "math"
+    "subject": "math",
+    "opt_imgs": [
+      "/question-svgs/9f3cffa2bfcbd172.svg",
+      "/question-svgs/f0efaf7c0e8819c3.svg",
+      "/question-svgs/6eeb67dfc7427157.svg",
+      "/question-svgs/793b3002948949b1.svg"
+    ]
   },
   {
     "id": 13500,
-    "b": "จงหาตัวเลขที่หายไป",
+    "b": "<table><tr><td>7</td></tr><tr><td>42</td><td>252</td></tr></table>\n\n<table><tr><td>3</td></tr><tr><td>18</td><td>108</td></tr></table>\n\n<table><tr><td>9</td></tr><tr><td>54</td><td>?</td></tr></table>\n\nจงหาตัวเลขที่หายไป",
     "opts": [
       "324",
       "378",
@@ -55,7 +61,6 @@
       "486"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-OUTPUT-09a7e5bc/q5.png",
     "t": "IQ",
     "subject": "math"
   },
@@ -74,15 +79,14 @@
   },
   {
     "id": 9101,
-    "b": "",
+    "b": "$7^3 \\times 7^2 \\times 7^5$ มีค่าเท่ากับเท่าใด",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q225_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q225_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q225_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q225_c4.png"
+      "$7^1$",
+      "$27^{10}$",
+      "$21^{10}$",
+      "$7^{10}$"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q225.png",
     "t": "เลขยกกำลังและพหุนาม",
     "subject": "math"
   },
@@ -148,7 +152,7 @@
       "2.4"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q673.png",
+    "img": "/question-svgs/e0d9c99ef305065b.svg",
     "t": "สามเหลี่ยม",
     "subject": "math"
   },
@@ -182,10 +186,10 @@
     "id": 9643,
     "b": "จงหาความน่าจะเป็นที่จะหยิบไพ่ได้โพดำ 1 ใบ จากสำรับ",
     "opts": [
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q767_c1.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q767_c2.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q767_c3.png",
-      "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q767_c4.png"
+      "$\\frac{1}{13}$",
+      "$$\\frac{52}{13}$$",
+      "$\\frac{1}{4}$",
+      "$\\frac{1}{52}$"
     ],
     "c": 2,
     "t": "ความน่าจะเป็น",
@@ -219,7 +223,7 @@
   },
   {
     "id": 9727,
-    "b": "",
+    "b": "กำหนดให้ $A = \\{-20, -19, -18, ..., 18, 19, 20\\}$\n$B = \\text{เซตของจำนวนเต็มลบ}$\n$C = \\{x | x^2 \\le 36, x \\in \\text{จำนวนเต็ม}\\}$\nแล้ว $n((A \\cap B) - C) = ?$",
     "opts": [
       "11",
       "12",
@@ -227,7 +231,6 @@
       "14"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q851.png",
     "t": "เซต",
     "subject": "math"
   },
@@ -246,7 +249,7 @@
   },
   {
     "id": 12812,
-    "b": "",
+    "b": "กำหนดให้ $A : \\sim (p \\land q)$ กับ $\\sim p \\lor \\sim q$\n$B : p \\rightarrow q$ กับ $\\sim q \\rightarrow \\sim p$\n\nข้อใดถูกต้อง",
     "opts": [
       "A สมมูล และ B สมมูล",
       "A ไม่สมมูล แต่ B สมมูล",
@@ -254,7 +257,6 @@
       "A ไม่สมมูล และ B ไม่สมมูล"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/01-OUTPUT-1-edd88cd8/q9.png",
     "t": "ตรรกศาสตร์",
     "subject": "math"
   },
@@ -286,7 +288,7 @@
   },
   {
     "id": 5791,
-    "b": "บทประพันธ์ข้างต้นสะท้อนสารัตถะใดเป็นสำคัญ",
+    "b": "ก้านบัวบอกลึกตื้น ชลธาร\nมารยาทส่อสันดาน ชาติเชื้อ\n\nบทประพันธ์ข้างต้นสะท้อนสารัตถะใดเป็นสำคัญ",
     "opts": [
       "ลักษณะของก่นบัวในแม่น้ำ",
       "มารยาทของคนในชาติ",
@@ -294,7 +296,6 @@
       "มารยาทของคนนั้นแสดงให้เห็นถึงเชื้อสายของคนนั้น"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q76.png",
     "t": "สาระสำคัญ",
     "subject": "thai"
   },
@@ -339,7 +340,7 @@
   },
   {
     "id": 5852,
-    "b": "วัตถุประสงค์ของบทความดังกล่าว คือข้อใด",
+    "b": "เด็กชายคนหนึ่งเป็นเด็กน้อยชี้โมโหหงุดหงิดตลอดเวลา พ่อของเขาตัดสินใจหยิบเอาตะปู 1 ถุงมาให้ และบอกให้เขาต้องตกตะปูเข้าไปที่รั้วทุกครั้งที่โมโห วันแรกเด็กชายตกตะปูเข้าไปที่รั้ว 37 ดอก เด็กคนนั้นจึงเริ่มเรียนรู้ที่จะควบคุมอารมณ์ ผ่านไปวันแล้ววันเล่า จำนวนตะปูที่เพิ่มต่อวันก็เริ่มลดลงทีละน้อย เขาก็บพบรว่าควบคุมอารมณ์ไม่ให้โกรธนั้นง่ายกว่าตกตะปูเป็นไหน ๆ\n\nจนกระทั่งถึงวันที่เขาควบคุมอารมณ์ได้ตลอดเวลา เขาจึงเดินไปบอกพ่อ เมื่อพ่อได้ยินดังนั้นก็ได้แนะนำกับเด็กชายว่า ตอนไหนที่ควบคุมอารมณ์ได้ ให้เขาดึงตะปูออกมาครั้งหนึ่ง\n\nวันแล้ววันเล่าผ่านไป เขาก็เดินไปบอกพ่อว่าเขาดึงตะปูออกมาจนหมดแล้ว พ่อจึงจงมือเด็กชายคนนั้นเดินไปที่รั้วแล้วพูดว่า \"ลูกรัก ทำดีมาก แต่ดูรอยที่รั้วนี่สิ มันไม่มีวันเหมือนเดิมแล้ว เมื่อลูกพูดสิ่งต่าง\n\nวัตถุประสงค์ของบทความดังกล่าว คือข้อใด",
     "opts": [
       "เสนอแนะ",
       "สั่งสอน",
@@ -347,7 +348,6 @@
       "เปรียบเทียบ"
     ],
     "c": 1,
-    "img": "https://guru-eng-exam-images.netlify.app/i/02-4e354a1d/q137.png",
     "t": "จุดประสงค์/ความรู้สึก/น้ำเสียง",
     "subject": "thai"
   },
@@ -704,7 +704,7 @@
   },
   {
     "id": 8229,
-    "b": "",
+    "b": "สัญลักษณ์ (Flowchart) มีชื่อเรียกว่าอย่างไร",
     "opts": [
       "Connector",
       "Display",
@@ -712,7 +712,6 @@
       "Manual Input"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q263.png",
     "t": "Procedure",
     "subject": "com"
   },
@@ -965,7 +964,7 @@
   },
   {
     "id": 8636,
-    "b": "",
+    "b": "จากรูปภาพเครื่องมือด้านล่าง เครื่องมือในโปรแกรมใด",
     "opts": [
       "Microsoft Excel",
       "Microsoft Access",
@@ -973,13 +972,13 @@
       "Microsoft Office ทุกโปรแกรม"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/05-7aab42d8/q670.png",
+    "img": "/question-svgs/63885a6812160453.svg",
     "t": "Excel",
     "subject": "com"
   },
   {
     "id": 8633,
-    "b": "$$a$1 สูตรดังกล่าว บนโปรแกรม Microsoft Excel มีหน้าที่ทำอะไร",
+    "b": "$a$1 สูตรดังกล่าว บนโปรแกรม Microsoft Excel มีหน้าที่ทำอะไร",
     "opts": [
       "จะเป็นการตรึงทั้ง Column(a) และ Row(1)",
       "จะเป็นการตรึงเฉพาะ Row(1)",
@@ -1837,7 +1836,7 @@
   },
   {
     "id": 6596,
-    "b": "",
+    "b": "What is the trade name of this medication?\n\n**NDC 0000-0000-00**\n**Fakelix® (mixturezeolite difikate",
     "opts": [
       "Fakelixir",
       "mixturezole difakate",
@@ -1845,13 +1844,12 @@
       "SarBena"
     ],
     "c": 0,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q441.png",
     "t": "Reading",
     "subject": "eng"
   },
   {
     "id": 6592,
-    "b": "",
+    "b": "Unique and delicious salads and dressings, soup, magical frozen yogurt, juice and healthy shakes also hot vegetarian casseroles such as eggplant parmi giana and vegetable quiche.\n\nAddress\n1345 Avenue of The America\n(55th between 6th and 7th avenues)\n\nWhat is the purpose of this label?",
     "opts": [
       "Persuasion",
       "Invitation",
@@ -1859,7 +1857,6 @@
       "Giving information"
     ],
     "c": 3,
-    "img": "https://guru-eng-exam-images.netlify.app/i/03-9318cc31/q437.png",
     "t": "Reading",
     "subject": "eng"
   },

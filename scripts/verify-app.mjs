@@ -60,11 +60,11 @@ async function main() {
     assert.equal(health.status, 'ok');
     assert.ok(health.questions >= 7038, `Expected >= 7038 questions, got ${health.questions}`);
     assert.equal(health.topics, 132, `Expected 132 topics, got ${health.topics}`);
-    assert.equal(health.images, 1386, `Expected 1386 images, got ${health.images}`);
+    assert.ok(health.images >= 500, `Expected >= 500 SVG images, got ${health.images}`);
     assert.equal(health.sets, 22, `Expected 22 sets, got ${health.sets}`);
     assert.equal(health.articles, 20, `Expected 20 articles, got ${health.articles}`);
 
-    console.log('2) Verifying API endpoints, removed auth routes & local assets...');
+    console.log('2) Verifying API endpoints, removed auth routes & SVG assets...');
     assert.equal(fs.existsSync(path.join(ROOT_DIR, 'public', 'landing')), false, 'public/landing should be removed');
     assert.equal(
       fs.existsSync(path.join(ROOT_DIR, 'public', 'reviews-landing')),
@@ -81,11 +81,18 @@ async function main() {
     assert.equal(qRes.ok, true);
     assert.ok(Array.isArray(qRes.data.items) && qRes.data.items.length > 0);
     const localImgItem = qRes.data.items.find(
-      (/** @type {{ img?: string | null }} */ item) => item.img?.startsWith('/question-images/')
+      (/** @type {{ img?: string | null }} */ item) => item.img?.startsWith('/question-svgs/')
     );
-    assert.ok(localImgItem, 'Expected at least one question with local /question-images/ stem image');
+    assert.ok(localImgItem, 'Expected at least one question with local /question-svgs/ SVG diagram');
     const imgRes = await fetch(`${BASE_URL}${localImgItem.img}`);
-    assert.equal(imgRes.status, 200, `Expected 200 for image ${localImgItem.img}`);
+    assert.equal(imgRes.status, 200, `Expected 200 for SVG ${localImgItem.img}`);
+    const svgBody = await imgRes.text();
+    assert.ok(svgBody.includes('<svg'), `Expected <svg> markup in ${localImgItem.img}`);
+
+    const mathSetCheck = await fetchJson('/api/questions?q=12908&limit=5');
+    assert.equal(mathSetCheck.ok, true);
+    const q12908 = mathSetCheck.data.items.find((/** @type {{ id: number }} */ q) => q.id === 12908);
+    assert.ok(q12908 && !q12908.opt_imgs?.some(Boolean) && q12908.opts[0].includes('A - B'), 'Expected #12908 choices converted from PNG to LaTeX text');
 
     const exam201 = await fetchJson('/api/exam/201');
     assert.equal(exam201.ok, true);

@@ -152,6 +152,7 @@ export interface RuntimeState {
 
 const KB_DATASET_DIR = path.join(process.cwd(), 'data', 'dataset');
 const KB_Q_IMAGES_DIR = path.join(process.cwd(), 'public', 'question-images');
+const KB_Q_SVGS_DIR = path.join(process.cwd(), 'public', 'question-svgs');
 const RUNTIME_STATE_PATH = path.join(process.cwd(), 'data', 'runtime-state.json');
 const TMP_RUNTIME_STATE_PATH = '/tmp/guru-runtime-state.json';
 
@@ -174,13 +175,13 @@ const globalForStore = globalThis as typeof globalThis & {
 };
 
 const IMAGE_URL_ONLY_RE =
-  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
+  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/question-svgs\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
 
 function resolveLocalImageUrl(raw: string | null | undefined, urlMap: Map<string, string>): string | null {
   if (!raw || typeof raw !== 'string') return null;
   const trimmed = raw.trim();
   if (!trimmed) return null;
-  if (trimmed.startsWith('/question-images/')) return trimmed;
+  if (trimmed.startsWith('/question-images/') || trimmed.startsWith('/question-svgs/')) return trimmed;
 
   const direct = urlMap.get(trimmed);
   if (direct) return direct;
@@ -321,7 +322,13 @@ function buildStore(): StoreCache {
   }
 
   const articlesData = JSON.parse(fs.readFileSync(path.join(KB_DATASET_DIR, 'articles-and-news.json'), 'utf8'));
-  const imageCount = fs.existsSync(KB_Q_IMAGES_DIR) ? fs.readdirSync(KB_Q_IMAGES_DIR).length : 0;
+  const svgCount = fs.existsSync(KB_Q_SVGS_DIR)
+    ? fs.readdirSync(KB_Q_SVGS_DIR).filter((f) => f.endsWith('.svg')).length
+    : 0;
+  const rasterCount = fs.existsSync(KB_Q_IMAGES_DIR)
+    ? fs.readdirSync(KB_Q_IMAGES_DIR).filter((f) => !f.startsWith('.')).length
+    : 0;
+  const imageCount = svgCount + rasterCount;
 
   const store: StoreCache = {
     questions,

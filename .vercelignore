@@ -4,4 +4,5 @@ out
 public/static-data
 node_modules
 data/dataset/questions/by-set/set-unassigned.json
+data/dataset/ocr-svg-manifest.json
 *.log

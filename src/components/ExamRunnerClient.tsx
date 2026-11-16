@@ -37,6 +37,7 @@ import { safeTruncateThai } from '@/lib/utf8-thai';
 import type { ExamProgressRecord, RunnerQuestion } from '@/lib/server-db';
 import { SubjectIcon } from '@/components/SubjectIcon';
 import { ImageLightbox, isImageUrlString } from '@/components/ImageLightbox';
+import { RichExamContent } from '@/components/RichExamContent';
 
 const LOCAL_PROGRESS_KEY = 'gp:progress:v2';
 const LOCAL_PREFS_KEY = 'gp:exam-prefs:v2';
@@ -740,9 +741,10 @@ function ExamRunnerInner() {
 
   const stemIsRawUrl = isImageUrlString(currentQuestion.b);
   const effectiveStemImg = currentQuestion.img || (stemIsRawUrl ? (currentQuestion.b || '').trim() : null);
-  const effectiveStemText = stemIsRawUrl
-    ? 'พิจารณารูปภาพต่อไปนี้แล้วเลือกคำตอบที่ถูกต้อง'
-    : currentQuestion.b;
+  const effectiveStemText =
+    stemIsRawUrl || (!String(currentQuestion.b || '').trim() && Boolean(effectiveStemImg))
+      ? 'พิจารณารูปภาพต่อไปนี้แล้วเลือกคำตอบที่ถูกต้อง'
+      : currentQuestion.b;
 
   const expIsRawUrl = isImageUrlString(currentQuestion.e);
   const effectiveExpImg = currentQuestion.eImg || (expIsRawUrl ? (currentQuestion.e || '').trim() : null);
@@ -1226,11 +1228,11 @@ function ExamRunnerInner() {
 
             {/* Question Stem */}
             <div className="mt-5 font-exam">
-              <div className={`font-semibold text-ink whitespace-pre-line ${stemSizeClass}`}>
+              <div className={`font-semibold text-ink ${stemSizeClass}`}>
                 <span className="inline-block font-mono text-brand font-extrabold mr-2">
                   ข้อที่ {cur + 1}.
                 </span>
-                {effectiveStemText}
+                <RichExamContent text={effectiveStemText} className="mt-1.5" />
               </div>
 
               {effectiveStemImg && (
@@ -1291,13 +1293,13 @@ function ExamRunnerInner() {
                     </span>
                     <div className="flex-1 min-w-0">
                       {displayOptText && (
-                        <p
+                        <div
                           className={`${stemSizeClass} ${
                             isEliminated ? 'line-through decoration-2' : ''
                           }`}
                         >
-                          {displayOptText}
-                        </p>
+                          <RichExamContent text={displayOptText} inline={true} />
+                        </div>
                       )}
                       {optImg && (
                         <div className={displayOptText ? 'mt-2' : ''}>
@@ -1362,9 +1364,10 @@ function ExamRunnerInner() {
                   )}
                 </div>
                 {effectiveExpText ? (
-                  <p className="text-sm text-ink/90 whitespace-pre-line font-exam leading-relaxed">
-                    {effectiveExpText}
-                  </p>
+                  <RichExamContent
+                    text={effectiveExpText}
+                    className="text-sm text-ink/90 font-exam leading-relaxed"
+                  />
                 ) : !effectiveExpImg ? (
                   <p className="text-sm text-ink/90 font-exam leading-relaxed">
                     ข้อนี้เฉลยตามตัวเลือกที่ระบุไว้ในระบบคลังข้อสอบ
