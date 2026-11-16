@@ -34,10 +34,12 @@ import {
 } from 'lucide-react';
 import { AWAY_TIMEOUT_MINUTES, CHOICE_LABELS, SUBJECT_MAP, SUBJECTS, type SubjectKey } from '@/lib/constants';
 import { safeTruncateThai } from '@/lib/utf8-thai';
+import { invalidateProfileHistoryCache, primeProfileHistoryCache } from '@/lib/use-profile-history';
 import type { ExamProgressRecord, RunnerQuestion } from '@/lib/server-db';
 import { SubjectIcon } from '@/components/SubjectIcon';
 import { ImageLightbox, isImageUrlString } from '@/components/ImageLightbox';
 import { RichExamContent } from '@/components/RichExamContent';
+import { AppLoadingScreen } from '@/components/AppLoadingScreen';
 
 const LOCAL_PROGRESS_KEY = 'gp:progress:v2';
 const LOCAL_PREFS_KEY = 'gp:exam-prefs:v2';
@@ -211,6 +213,7 @@ function ExamRunnerInner() {
           const profData = await profRes.json();
           const bms = Array.isArray(profData?.profile?.bookmarks) ? profData.profile.bookmarks : [];
           setBookmarkedIds(bms.map(Number));
+          if (profData?.profile) primeProfileHistoryCache(profData.profile);
         }
 
         const total = examData.items.length;
@@ -404,6 +407,7 @@ function ExamRunnerInner() {
         } catch {
           // ignore
         }
+        invalidateProfileHistoryCache();
         await fetch('/api/progress', { method: 'DELETE' }).catch(() => {});
         router.push(`/result/${data.id}`);
       } catch (err) {
@@ -453,7 +457,12 @@ function ExamRunnerInner() {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ excludeCompleted: nextExclude }),
-        }).catch(() => {});
+        })
+          .then((r) => (r.ok ? r.json() : null))
+          .then((d) => {
+            if (d?.profile) primeProfileHistoryCache(d.profile);
+          })
+          .catch(() => {});
 
         try {
           setLoading(true);
@@ -595,7 +604,12 @@ function ExamRunnerInner() {
           body: JSON.stringify({
             questionOutcomes: [{ id: q.id, correct: choiceIdx === q.c }],
           }),
-        }).catch(() => {});
+        })
+          .then((r) => (r.ok ? r.json() : null))
+          .then((d) => {
+            if (d?.profile) primeProfileHistoryCache(d.profile);
+          })
+          .catch(() => {});
       }
 
       if (!toggledOff && wasUnanswered) {
@@ -785,15 +799,12 @@ function ExamRunnerInner() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-bg text-ink gap-4 px-4">
-        <div className="w-12 h-12 rounded-2xl bg-brand/10 text-brand flex items-center justify-center">
-          <Loader2 className="w-6 h-6 animate-spin" />
-        </div>
-        <div className="text-center">
-          <p className="font-bold text-base">กำลังจัดเตรียมชุดข้อสอบ...</p>
-          <p className="text-sm text-muted mt-1">ดึงโจทย์ ตัวเลือก เฉลย และภาพประกอบจากคลังข้อสอบ</p>
-        </div>
-      </div>
+      <AppLoadingScreen
+        variant="exam"
+        includeHeader={false}
+        title="กำลังจัดเตรียมชุดข้อสอบและกระดาษคำตอบ..."
+        subtitle="ตรวจสอบประวัติข้อที่เคยทำและกู้คืนความคืบหน้าล่าสุด"
+      />
     );
   }
 
@@ -2112,9 +2123,12 @@ export function ExamRunnerClient() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-bg text-ink">
-          <Loader2 className="w-7 h-7 animate-spin text-brand" />
-        </div>
+        <AppLoadingScreen
+          variant="exam"
+          includeHeader={false}
+          title="กำลังจัดเตรียมชุดข้อสอบและกระดาษคำตอบ..."
+          subtitle="ตรวจสอบประวัติข้อที่เคยทำและกู้คืนความคืบหน้าล่าสุด"
+        />
       }
     >
       <ExamRunnerInner />

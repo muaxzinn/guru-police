@@ -57,7 +57,7 @@ export interface ProfileHistoryFields {
 
 export function computeSubjectBreakdown(
   questionIds: number[],
-  lookup: (id: number) => QuestionRecord | undefined
+  lookup: (id: number) => Pick<QuestionRecord, 'subject_key'> | undefined
 ): Partial<Record<SubjectKey, number>> {
   const breakdown: Partial<Record<SubjectKey, number>> = {};
   for (const id of questionIds) {

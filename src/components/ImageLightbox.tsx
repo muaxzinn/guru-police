@@ -66,6 +66,8 @@ export function ImageLightbox({
         <img
           src={effectiveSrc}
           alt={alt}
+          loading="lazy"
+          decoding="async"
           onError={() => setErrored(true)}
           onClick={(e) => {
             if (selectOnImageClick) return;

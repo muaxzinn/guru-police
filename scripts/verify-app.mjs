@@ -249,14 +249,44 @@ async function main() {
     for (const route of routes) {
       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(200);
-      const brokenImgs = await page.evaluate(() =>
-        Array.from(document.querySelectorAll('img'))
-          .filter((img) => {
-            const rect = img.getBoundingClientRect();
-            return rect.width > 0 && rect.height > 0 && (!img.complete || img.naturalWidth === 0);
-          })
-          .map((img) => img.getAttribute('src'))
-      );
+      const brokenImgs = await page.evaluate(async () => {
+        const imgs = Array.from(document.querySelectorAll('img')).filter((img) => {
+          const rect = img.getBoundingClientRect();
+          return rect.width > 0 && rect.height > 0;
+        });
+        for (const img of imgs) {
+          if (!img.complete) {
+            img.scrollIntoView({ behavior: 'instant', block: 'center' });
+            await new Promise((resolve) => {
+              if (img.complete) {
+                resolve(undefined);
+                return;
+              }
+              const timer = setTimeout(resolve, 3000);
+              img.addEventListener(
+                'load',
+                () => {
+                  clearTimeout(timer);
+                  resolve(undefined);
+                },
+                { once: true }
+              );
+              img.addEventListener(
+                'error',
+                () => {
+                  clearTimeout(timer);
+                  resolve(undefined);
+                },
+                { once: true }
+              );
+            });
+          }
+        }
+        window.scrollTo(0, 0);
+        return imgs
+          .filter((img) => !img.complete || img.naturalWidth === 0)
+          .map((img) => img.getAttribute('src'));
+      });
       assert.equal(brokenImgs.length, 0, `[${route}] Broken visible images: ${JSON.stringify(brokenImgs)}`);
       console.log(`   Verified ${route}`);
     }

@@ -17,6 +17,7 @@ import {
   type RunnerQuestion,
 } from './question-pool';
 import { IMAGE_URL_ONLY_RE } from './rich-text-parser';
+import { buildSubTopicsCatalog } from './topic-catalog';
 
 export {
   applyQuestionOutcomes,
@@ -170,6 +171,17 @@ interface StoreCache {
   imageCount: number;
   topics: Array<{ title: string; subjectKey: SubjectKey; count: number }>;
   batches: Array<{ batch: string; count: number }>;
+  subTopicsCatalog: ReturnType<typeof buildSubTopicsCatalog>;
+}
+
+const searchBlobCache = new WeakMap<QuestionRecord, string>();
+
+export function getQuestionSearchBlob(q: QuestionRecord): string {
+  const cached = searchBlobCache.get(q);
+  if (cached !== undefined) return cached;
+  const blob = `${q.id}\n${q.stem || ''}\n${q.title || ''}\n${q.explanation || ''}\n${(q.opts || []).join('\n')}`.toLowerCase();
+  searchBlobCache.set(q, blob);
+  return blob;
 }
 
 const globalForStore = globalThis as typeof globalThis & {
@@ -261,6 +273,7 @@ function buildStore(): StoreCache {
 
   for (const q of questions) {
     questionsById.set(q.id, q);
+    getQuestionSearchBlob(q);
     if (q.title) {
       const tKey = `${q.subject_key}::${q.title}`;
       const existing = topicCounter.get(tKey);
@@ -330,6 +343,8 @@ function buildStore(): StoreCache {
     : 0;
   const imageCount = svgCount + rasterCount;
 
+  const subTopicsCatalog = buildSubTopicsCatalog(questions);
+
   const store: StoreCache = {
     questions,
     questionsById,
@@ -343,6 +358,7 @@ function buildStore(): StoreCache {
     batches: Array.from(batchCounter.entries())
       .map(([batch, count]) => ({ batch, count }))
       .sort((a, b) => b.count - a.count),
+    subTopicsCatalog,
   };
 
   globalForStore.__guruStore = store;
@@ -413,14 +429,18 @@ export function readRuntimeState(): RuntimeState {
   const defaults = getDefaultRuntimeState();
   const rawProf = raw?.profile;
   const customSetQuestionIds: Record<string, number[]> = raw?.customSetQuestionIds || {};
-  const store = getStore();
+  let lazyStore: StoreCache | null = null;
+  const ensureStore = () => {
+    if (!lazyStore) lazyStore = getStore();
+    return lazyStore;
+  };
   const customSets: ExamSetSummary[] = Array.isArray(raw?.customSets)
     ? raw.customSets.map((s: ExamSetSummary) => {
         if (s.subjectBreakdown && Object.keys(s.subjectBreakdown).length > 0) return s;
         const ids = customSetQuestionIds[String(s.id)] || [];
         return {
           ...s,
-          subjectBreakdown: computeSubjectBreakdown(ids, (id) => store.questionsById.get(id)),
+          subjectBreakdown: computeSubjectBreakdown(ids, (id) => ensureStore().questionsById.get(id)),
         };
       })
     : [];
@@ -438,10 +458,11 @@ export function readRuntimeState(): RuntimeState {
   };
 
   if (!Array.isArray(rawProf?.correctIds) && attempts.length > 0) {
+    const st = ensureStore();
     backfillProfileHistoryFromAttempts(
       profile,
       attempts,
-      (qid) => store.questionsById.get(qid)?.correct_index
+      (qid) => st.questionsById.get(qid)?.correct_index
     );
   } else {
     const sets = getCompletedIdSets(profile);

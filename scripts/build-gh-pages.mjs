@@ -218,7 +218,25 @@ function generateStaticDataset() {
     : 0;
   const imageCount = svgCount + rasterCount;
 
+  const questionMeta = questions.map((q) => ({
+    id: q.id,
+    s: q.subject_key,
+    t: q.title || '',
+  }));
+
+  /** @type {Record<string, Array<Record<string, any>>>} */
+  const shardsBySubject = {};
+  for (const s of SUBJECTS) {
+    shardsBySubject[s.key] = [];
+  }
+  for (const q of questions) {
+    if (shardsBySubject[q.subject_key]) {
+      shardsBySubject[q.subject_key].push(q);
+    }
+  }
+
   const meta = {
+    totalQuestions: questions.length,
     examSets,
     setsMap,
     topics: Array.from(topicCounter.values()).sort((a, b) => b.count - a.count),
@@ -228,13 +246,20 @@ function generateStaticDataset() {
     imageCount,
     articlesCount: (articlesData.articles || []).length,
     defaultLeaderboard: DEFAULT_LEADERBOARD,
+    questionMeta,
   };
 
   fs.mkdirSync(STATIC_DATA_DIR, { recursive: true });
   fs.writeFileSync(path.join(STATIC_DATA_DIR, 'meta.json'), JSON.stringify(meta));
   fs.writeFileSync(path.join(STATIC_DATA_DIR, 'questions.json'), JSON.stringify(questions));
+  for (const s of SUBJECTS) {
+    fs.writeFileSync(
+      path.join(STATIC_DATA_DIR, `questions-${s.key}.json`),
+      JSON.stringify(shardsBySubject[s.key] || [])
+    );
+  }
   console.log(
-    `Generated public/static-data/ (questions=${questions.length}, sets=${examSets.length}, topics=${meta.topics.length}, images=${imageCount})`
+    `Generated public/static-data/ (questions=${questions.length}, sets=${examSets.length}, topics=${meta.topics.length}, images=${imageCount}, shards=${SUBJECTS.length})`
   );
 }
 

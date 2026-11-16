@@ -34,6 +34,7 @@ import { QuestionPoolSettingsBar } from '@/components/QuestionPoolSettingsBar';
 import { SUBJECT_MAP, TRACKS, type SubjectKey } from '@/lib/constants';
 import { computePlayerStats } from '@/lib/gamification';
 import { getCompletedIdSets } from '@/lib/question-pool';
+import { primeProfileHistoryCache } from '@/lib/use-profile-history';
 import type { AttemptRecord, ExamProgressRecord, RuntimeState, UserProfile } from '@/lib/server-db';
 
 interface DashboardClientProps {
@@ -92,7 +93,10 @@ export function DashboardClient({
       });
       if (res.ok) {
         const d = await res.json();
-        if (d?.profile) setProfile(d.profile);
+        if (d?.profile) {
+          setProfile(d.profile);
+          primeProfileHistoryCache(d.profile);
+        }
       }
     } catch {
       // keep optimistic toggle
@@ -127,6 +131,7 @@ export function DashboardClient({
           const p = await profRes.json();
           if (p.profile) {
             setProfile(p.profile);
+            primeProfileHistoryCache(p.profile);
             if (p.profile.track) {
               setSelectedTrack(p.profile.track);
               setLbTrack(p.profile.track);

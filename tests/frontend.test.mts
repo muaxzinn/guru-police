@@ -16,6 +16,8 @@ const { buildSubTopicsCatalog } = await import('../src/lib/topic-catalog.ts');
 const { SUBJECTS } = await import('../src/lib/constants.ts');
 const { getStore } = await import('../src/lib/server-db.ts');
 const { RichExamContent } = await import('../src/components/RichExamContent.tsx');
+const { AppLoadingScreen } = await import('../src/components/AppLoadingScreen.tsx');
+const { ImageLightbox } = await import('../src/components/ImageLightbox.tsx');
 
 test('rich-text-parser: isImageUrlString detects SVGs, local images, external URLs vs normal text', () => {
   assert.equal(isImageUrlString('/question-svgs/abc123.svg'), true);
@@ -148,4 +150,36 @@ test('topic-catalog: buildSubTopicsCatalog groups all questions across 7 subject
   assert.equal(wordCard?.displayTitle, 'Microsoft Word (การจัดการเอกสาร)');
   assert.equal(excelCard?.displayTitle, 'Microsoft Excel (สูตรและตารางคำนวณ)');
   assert.equal(pptCard?.displayTitle, 'Microsoft PowerPoint (การนำเสนอ)');
+});
+
+test('AppLoadingScreen component renders all 5 variants with Thai status, progress bar & header shell', () => {
+  const variants = ['page', 'exam', 'catalog', 'bank', 'result'] as const;
+  for (const variant of variants) {
+    const html = renderToStaticMarkup(
+      React.createElement(AppLoadingScreen, {
+        variant,
+        includeHeader: variant === 'page',
+      })
+    );
+    assert.ok(html.includes('role="status"'), `[${variant}] Expected accessible status role`);
+    assert.ok(html.includes('gp-loading-bar'), `[${variant}] Expected animated progress bar class`);
+    assert.ok(html.includes('กำลัง'), `[${variant}] Expected Thai loading status text`);
+    assert.equal(html.includes('<article'), false, `[${variant}] Skeleton must not render <article> tags`);
+    if (variant === 'page') {
+      assert.ok(html.includes('GURU') && html.includes('POLICE'), 'Expected header shell when includeHeader=true');
+    }
+  }
+});
+
+test('ImageLightbox component adds lazy loading and async decoding to inline images', () => {
+  const html = renderToStaticMarkup(
+    React.createElement(ImageLightbox, {
+      src: '/question-svgs/q-sample.svg',
+      alt: 'ตัวอย่างภาพประกอบ SVG',
+    })
+  );
+  assert.ok(html.includes('<img'), 'Should render <img> element');
+  assert.ok(html.includes('loading="lazy"'), 'Should include loading="lazy"');
+  assert.ok(html.includes('decoding="async"'), 'Should include decoding="async"');
+  assert.ok(html.includes('ตัวอย่างภาพประกอบ SVG'), 'Should preserve alt text');
 });

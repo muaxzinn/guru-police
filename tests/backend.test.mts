@@ -14,9 +14,14 @@ const {
 } = await import('../src/lib/constants.ts');
 const { safeTruncateThai } = await import('../src/lib/utf8-thai.ts');
 const { computeAttemptXp, computePlayerStats, POLICE_RANKS } = await import('../src/lib/gamification.ts');
-const { applyQuestionOutcomes, buildExamForSetId, getStore, resetCompletedHistory } = await import(
-  '../src/lib/server-db.ts'
-);
+const {
+  applyQuestionOutcomes,
+  buildExamForSetId,
+  getQuestionSearchBlob,
+  getStore,
+  readRuntimeState,
+  resetCompletedHistory,
+} = await import('../src/lib/server-db.ts');
 const { buildExamFromSource, getCompletedIdSets } = await import('../src/lib/question-pool.ts');
 const { isImageUrlString } = await import('../src/lib/rich-text-parser.ts');
 
@@ -373,4 +378,26 @@ test('question-pool: outcomes tracking, deduplication (excludeCompleted), comple
 
   resetCompletedHistory(profile, { scope: 'all', pool: 'all' }, store.questions);
   assert.equal(getCompletedIdSets(profile).allCompletedSet.size, 0);
+});
+
+test('server-db: cached subTopicsCatalog, getQuestionSearchBlob & lazy readRuntimeState', () => {
+  const store = getStore();
+  assert.ok(store.subTopicsCatalog, 'Store should pre-compute subTopicsCatalog');
+  assert.equal(Object.keys(store.subTopicsCatalog.topicsBySubject).length, 7);
+  const catalogQuestionCount = Object.values(store.subTopicsCatalog.subjectTotals).reduce(
+    (sum, n) => sum + n,
+    0
+  );
+  assert.ok(catalogQuestionCount >= 7038, `Expected >= 7038 questions in cached catalog, got ${catalogQuestionCount}`);
+
+  const sample = store.questions[0];
+  const blob = getQuestionSearchBlob(sample);
+  assert.ok(blob.includes(String(sample.id)));
+  if (sample.stem) {
+    assert.ok(blob.includes(sample.stem.toLowerCase()));
+  }
+
+  const runtime = readRuntimeState();
+  assert.ok(runtime.profile && typeof runtime.profile.track === 'string');
+  assert.ok(Array.isArray(runtime.leaderboard) && runtime.leaderboard.length > 0);
 });

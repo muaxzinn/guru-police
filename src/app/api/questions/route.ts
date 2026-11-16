@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllQuestionsMerged, getStore, readRuntimeState, writeRuntimeState } from '@/lib/server-db';
+import {
+  getAllQuestionsMerged,
+  getQuestionSearchBlob,
+  getStore,
+  readRuntimeState,
+  writeRuntimeState,
+} from '@/lib/server-db';
 import { CHOICE_LABELS, resolveTopicSelection, type SubjectKey } from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
@@ -36,14 +42,7 @@ export async function GET(req: NextRequest) {
     );
   }
   if (query) {
-    filtered = filtered.filter(
-      (q) =>
-        q.stem?.toLowerCase().includes(query) ||
-        q.title?.toLowerCase().includes(query) ||
-        q.explanation?.toLowerCase().includes(query) ||
-        q.opts.some((o) => o.toLowerCase().includes(query)) ||
-        String(q.id) === query
-    );
+    filtered = filtered.filter((q) => getQuestionSearchBlob(q).includes(query) || String(q.id) === query);
   }
 
   const total = filtered.length;

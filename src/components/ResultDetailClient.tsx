@@ -11,7 +11,6 @@ import {
   CheckCircle2,
   Clock,
   Filter,
-  Loader2,
   RotateCcw,
   ShieldCheck,
   Sparkles,
@@ -25,6 +24,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { SubjectIcon } from '@/components/SubjectIcon';
 import { ImageLightbox, isImageUrlString } from '@/components/ImageLightbox';
 import { RichExamContent } from '@/components/RichExamContent';
+import { AppLoadingScreen } from '@/components/AppLoadingScreen';
 import { computeAttemptXp } from '@/lib/gamification';
 
 type ReviewFilter = 'all' | 'wrong' | 'correct' | 'unanswered';
@@ -96,12 +96,14 @@ export function ResultDetailClient() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-bg text-ink">
+      <div className="min-h-screen bg-bg text-ink pb-24 md:pb-16">
         <SiteHeader mode="app" />
-        <div className="max-w-5xl mx-auto px-4 py-24 flex flex-col items-center gap-3">
-          <Loader2 className="w-8 h-8 animate-spin text-brand" />
-          <p className="text-sm text-muted font-semibold">กำลังวิเคราะห์ผลคะแนนและจุดอ่อนรายหัวข้อ...</p>
-        </div>
+        <AppLoadingScreen
+          variant="result"
+          includeHeader={false}
+          title="กำลังวิเคราะห์ผลคะแนนและจุดอ่อนรายหัวข้อ..."
+          subtitle="คำนวณเกณฑ์ผ่าน 2 ภาค (60%) และจัดลำดับบทที่ควรซ่อมด่วน"
+        />
       </div>
     );
   }

@@ -4,11 +4,16 @@ import { ArrowLeft, BookOpenCheck, Layers } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
 import { CatalogTopicsClient } from '@/components/CatalogTopicsClient';
 import { buildSubTopicsCatalog } from '@/lib/topic-catalog';
-import { getAllQuestionsMerged } from '@/lib/server-db';
+import { getAllQuestionsMerged, getStore, readRuntimeState } from '@/lib/server-db';
 
 export default function CatalogTopicsPage() {
-  const allQuestions = getAllQuestionsMerged();
-  const { topicsBySubject, subjectTotals, totalTopicCards } = buildSubTopicsCatalog(allQuestions);
+  const store = getStore();
+  const runtime = readRuntimeState();
+  const hasCustom = Boolean(runtime.customQuestions?.length);
+  const allQuestions = hasCustom ? getAllQuestionsMerged() : store.questions;
+  const { topicsBySubject, subjectTotals, totalTopicCards } = hasCustom
+    ? buildSubTopicsCatalog(allQuestions)
+    : store.subTopicsCatalog;
 
   return (
     <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">

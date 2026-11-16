@@ -11,7 +11,6 @@ import {
   Eye,
   EyeOff,
   Image as ImageIcon,
-  Loader2,
   Play,
   Search,
   X,
@@ -20,6 +19,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { SubjectIcon } from '@/components/SubjectIcon';
 import { ImageLightbox, isImageUrlString } from '@/components/ImageLightbox';
 import { RichExamContent } from '@/components/RichExamContent';
+import { AppLoadingScreen } from '@/components/AppLoadingScreen';
 import {
   CHOICE_LABELS,
   resolveTopicSelection,
@@ -268,9 +268,12 @@ function QuestionBankInner() {
         {/* Questions List */}
         <div className="mt-5 space-y-4">
           {loading ? (
-            <div className="rounded-card border border-line bg-panel p-10 text-center text-sm text-muted">
-              กำลังโหลดข้อมูลข้อสอบ…
-            </div>
+            <AppLoadingScreen
+              variant="bank"
+              includeHeader={false}
+              title="กำลังดึงรายการข้อสอบจากคลัง..."
+              subtitle="คัดกรองโจทย์ ตัวเลือก เฉลยละเอียด และภาพประกอบ SVG ความคมชัดสูง"
+            />
           ) : items.length === 0 ? (
             <div className="rounded-card border border-line bg-panel p-10 text-center text-sm text-muted">
               ไม่พบข้อสอบที่ตรงกับเงื่อนไขการค้นหา
@@ -437,9 +440,14 @@ export default function QuestionBankPage() {
       fallback={
         <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
           <SiteHeader mode="app" />
-          <div className="mx-auto flex max-w-5xl items-center justify-center px-4 py-24">
-            <Loader2 className="h-7 w-7 animate-spin text-brand" />
-          </div>
+          <main className="mx-auto max-w-5xl px-4 py-8">
+            <AppLoadingScreen
+              variant="bank"
+              includeHeader={false}
+              title="กำลังโหลดคลังข้อสอบเชิงลึก..."
+              subtitle="เตรียมตัวกรอง 132 หัวข้อ และคลังข้อสอบ 7,038 ข้อ"
+            />
+          </main>
         </div>
       }
     >

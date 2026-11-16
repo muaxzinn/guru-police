@@ -4,6 +4,7 @@ import {
   CHOICE_LABELS,
   resolveTopicSelection,
   SUBJECT_MAP,
+  SUBJECTS,
   TRACKS,
   type SubjectKey,
 } from './constants';
@@ -18,6 +19,7 @@ import {
   toRunnerQuestion,
   type BuildExamOptions,
   type CompletedPoolMode,
+  type PoolQuestionMeta,
   type QuestionOutcome,
 } from './question-pool';
 import type {
@@ -31,7 +33,14 @@ import type {
   RuntimeState,
 } from './server-db';
 
+interface StaticMetaQuestionItem {
+  id: number;
+  s: SubjectKey;
+  t: string;
+}
+
 interface StaticMetaPayload {
+  totalQuestions?: number;
   examSets: ExamSetSummary[];
   setsMap: Record<string, number[]>;
   topics: Array<{ title: string; subjectKey: SubjectKey; count: number }>;
@@ -39,6 +48,13 @@ interface StaticMetaPayload {
   imageCount: number;
   articlesCount: number;
   defaultLeaderboard: RuntimeState['leaderboard'];
+  questionMeta?: StaticMetaQuestionItem[];
+}
+
+interface MetaStore {
+  meta: StaticMetaPayload;
+  metaById: Map<number, PoolQuestionMeta>;
+  allMetaList: PoolQuestionMeta[];
 }
 
 interface StaticStore {
@@ -51,9 +67,25 @@ const STATIC_EXPORT = process.env.NEXT_PUBLIC_STATIC_EXPORT === '1';
 const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH || '').replace(/\/$/, '');
 const RUNTIME_STORAGE_KEY = 'gp:runtime:v2';
 
-let staticStorePromise: Promise<StaticStore> | null = null;
+let metaStorePromise: Promise<MetaStore> | null = null;
+let fullStorePromise: Promise<StaticStore> | null = null;
+let fullStoreResolved: StaticStore | null = null;
+const subjectShardPromises = new Map<
+  SubjectKey,
+  Promise<{ questions: QuestionRecord[]; questionsById: Map<number, QuestionRecord> }>
+>();
+const clientSearchBlobCache = new WeakMap<QuestionRecord, string>();
+
 let memoryRuntimeFallback: RuntimeState | null = null;
 let bridgeInstalled = false;
+
+function getClientQuestionSearchBlob(q: QuestionRecord): string {
+  const cached = clientSearchBlobCache.get(q);
+  if (cached !== undefined) return cached;
+  const blob = `${q.id}\n${q.stem || ''}\n${q.title || ''}\n${q.explanation || ''}\n${(q.opts || []).join('\n')}`.toLowerCase();
+  clientSearchBlobCache.set(q, blob);
+  return blob;
+}
 
 function jsonResponse(payload: unknown, status = 200): Response {
   return new Response(JSON.stringify(payload), {
@@ -86,35 +118,110 @@ function getDefaultRuntimeState(defaultLeaderboard?: RuntimeState['leaderboard']
   };
 }
 
-async function loadStaticStore(nativeFetch: typeof window.fetch): Promise<StaticStore> {
-  if (!staticStorePromise) {
-    staticStorePromise = (async () => {
-      const [metaRes, qRes] = await Promise.all([
-        nativeFetch(`${BASE_PATH}/static-data/meta.json`),
-        nativeFetch(`${BASE_PATH}/static-data/questions.json`),
-      ]);
-      if (!metaRes.ok || !qRes.ok) {
-        throw new Error('Failed to load static exam dataset');
+async function loadMetaOnly(nativeFetch: typeof window.fetch): Promise<MetaStore> {
+  if (!metaStorePromise) {
+    metaStorePromise = (async () => {
+      const metaRes = await nativeFetch(`${BASE_PATH}/static-data/meta.json`);
+      if (!metaRes.ok) {
+        throw new Error('Failed to load static exam metadata');
       }
       const meta = (await metaRes.json()) as StaticMetaPayload;
+      const metaById = new Map<number, PoolQuestionMeta>();
+      const allMetaList: PoolQuestionMeta[] = (meta.questionMeta || []).map((item) => {
+        const rec: PoolQuestionMeta = {
+          id: item.id,
+          subject_key: item.s,
+          title: item.t || null,
+        };
+        metaById.set(item.id, rec);
+        return rec;
+      });
+      return { meta, metaById, allMetaList };
+    })().catch((err) => {
+      metaStorePromise = null;
+      throw err;
+    });
+  }
+  return metaStorePromise;
+}
+
+async function loadFullStaticStore(nativeFetch: typeof window.fetch): Promise<StaticStore> {
+  if (fullStoreResolved) return fullStoreResolved;
+  if (!fullStorePromise) {
+    fullStorePromise = (async () => {
+      const [metaStore, qRes] = await Promise.all([
+        loadMetaOnly(nativeFetch),
+        nativeFetch(`${BASE_PATH}/static-data/questions.json`),
+      ]);
+      if (!qRes.ok) {
+        throw new Error('Failed to load static exam dataset');
+      }
       const questions = (await qRes.json()) as QuestionRecord[];
       const questionsById = new Map<number, QuestionRecord>();
       for (const q of questions) {
         questionsById.set(q.id, q);
       }
-      return { meta, questions, questionsById };
+      const store: StaticStore = { meta: metaStore.meta, questions, questionsById };
+      fullStoreResolved = store;
+      return store;
     })().catch((err) => {
-      staticStorePromise = null;
+      fullStorePromise = null;
       throw err;
     });
   }
-  return staticStorePromise;
+  return fullStorePromise;
 }
 
-function readRuntimeStateClient(store: StaticStore): RuntimeState {
-  const defaults = getDefaultRuntimeState(store.meta.defaultLeaderboard);
-  let raw: Partial<RuntimeState> | null = memoryRuntimeFallback;
+async function loadSubjectShard(
+  subjectKey: SubjectKey,
+  nativeFetch: typeof window.fetch
+): Promise<StaticStore> {
+  const metaStore = await loadMetaOnly(nativeFetch);
+  if (fullStoreResolved) {
+    const filtered = fullStoreResolved.questions.filter((q) => q.subject_key === subjectKey);
+    const questionsById = new Map<number, QuestionRecord>();
+    for (const q of filtered) {
+      questionsById.set(q.id, q);
+    }
+    return { meta: metaStore.meta, questions: filtered, questionsById };
+  }
 
+  let shardPromise = subjectShardPromises.get(subjectKey);
+  if (!shardPromise) {
+    shardPromise = (async () => {
+      const res = await nativeFetch(`${BASE_PATH}/static-data/questions-${subjectKey}.json`);
+      if (!res.ok) {
+        throw new Error(`Subject shard ${subjectKey} unavailable`);
+      }
+      const questions = (await res.json()) as QuestionRecord[];
+      const questionsById = new Map<number, QuestionRecord>();
+      for (const q of questions) {
+        questionsById.set(q.id, q);
+      }
+      return { questions, questionsById };
+    })().catch(async () => {
+      subjectShardPromises.delete(subjectKey);
+      const full = await loadFullStaticStore(nativeFetch);
+      const questions = full.questions.filter((q) => q.subject_key === subjectKey);
+      const questionsById = new Map<number, QuestionRecord>();
+      for (const q of questions) {
+        questionsById.set(q.id, q);
+      }
+      return { questions, questionsById };
+    });
+    subjectShardPromises.set(subjectKey, shardPromise);
+  }
+
+  const shard = await shardPromise;
+  return {
+    meta: metaStore.meta,
+    questions: shard.questions,
+    questionsById: shard.questionsById,
+  };
+}
+
+function readRawRuntimeJson(): Partial<RuntimeState> | null {
+  let raw: Partial<RuntimeState> | null = memoryRuntimeFallback;
   if (typeof window !== 'undefined') {
     try {
       const serialized = window.localStorage.getItem(RUNTIME_STORAGE_KEY);
@@ -125,15 +232,25 @@ function readRuntimeStateClient(store: StaticStore): RuntimeState {
       // ignore localStorage read failure
     }
   }
+  return raw;
+}
 
+function readRuntimeStateFromMeta(
+  metaStore: MetaStore,
+  fullQuestionsById?: Map<number, QuestionRecord>
+): RuntimeState {
+  const defaults = getDefaultRuntimeState(metaStore.meta.defaultLeaderboard);
+  const raw = readRawRuntimeJson();
   if (!raw) return defaults;
 
   const rawProf = raw.profile || ({} as Partial<RuntimeState['profile']>);
   const customSetQuestionIds: Record<string, number[]> = raw.customSetQuestionIds || {};
   const customQuestions = Array.isArray(raw.customQuestions) ? raw.customQuestions : [];
 
-  const lookupMerged = (id: number) =>
-    store.questionsById.get(id) || customQuestions.find((q) => q.id === id);
+  const lookupSubjectById = (id: number): Pick<QuestionRecord, 'subject_key'> | undefined =>
+    fullQuestionsById?.get(id) ||
+    metaStore.metaById.get(id) ||
+    customQuestions.find((q) => q.id === id);
 
   const customSets: ExamSetSummary[] = Array.isArray(raw.customSets)
     ? raw.customSets.map((s) => {
@@ -141,7 +258,7 @@ function readRuntimeStateClient(store: StaticStore): RuntimeState {
         const ids = customSetQuestionIds[String(s.id)] || [];
         return {
           ...s,
-          subjectBreakdown: computeSubjectBreakdown(ids, lookupMerged),
+          subjectBreakdown: computeSubjectBreakdown(ids, lookupSubjectById),
         };
       })
     : [];
@@ -158,11 +275,12 @@ function readRuntimeStateClient(store: StaticStore): RuntimeState {
     lastActiveDate: typeof rawProf.lastActiveDate === 'string' ? rawProf.lastActiveDate : null,
   };
 
-  if (!Array.isArray(rawProf.correctIds) && attempts.length > 0) {
+  if (!Array.isArray(rawProf.correctIds) && attempts.length > 0 && fullQuestionsById) {
     backfillProfileHistoryFromAttempts(
       profile,
       attempts,
-      (qid) => lookupMerged(qid)?.correct_index
+      (qid) =>
+        (fullQuestionsById.get(qid) || customQuestions.find((q) => q.id === qid))?.correct_index
     );
   } else {
     const sets = getCompletedIdSets(profile);
@@ -183,6 +301,27 @@ function readRuntimeStateClient(store: StaticStore): RuntimeState {
         ? raw.leaderboard
         : defaults.leaderboard,
   };
+}
+
+function runtimeNeedsBackfill(): boolean {
+  const raw = readRawRuntimeJson();
+  if (!raw) return false;
+  const attempts = Array.isArray(raw.attempts) ? raw.attempts : [];
+  return !Array.isArray(raw.profile?.correctIds) && attempts.length > 0;
+}
+
+async function ensureRuntimeFast(
+  metaStore: MetaStore,
+  nativeFetch: typeof window.fetch
+): Promise<RuntimeState> {
+  if (fullStoreResolved) {
+    return readRuntimeStateFromMeta(metaStore, fullStoreResolved.questionsById);
+  }
+  if (runtimeNeedsBackfill()) {
+    const full = await loadFullStaticStore(nativeFetch);
+    return readRuntimeStateFromMeta(metaStore, full.questionsById);
+  }
+  return readRuntimeStateFromMeta(metaStore);
 }
 
 function writeRuntimeStateClient(state: RuntimeState): void {
@@ -232,6 +371,41 @@ function buildExamForSetIdClient(
   );
 }
 
+function detectSingleSubjectForExam(
+  setId: string,
+  searchParams: URLSearchParams,
+  meta: StaticMetaPayload,
+  runtime: RuntimeState
+): SubjectKey | null {
+  if (runtime.customQuestions?.length || runtime.customSetQuestionIds[setId]) {
+    return null;
+  }
+  const subjParam = searchParams.get('subject') || '';
+  const hasValidSubjParam = Object.prototype.hasOwnProperty.call(SUBJECT_MAP, subjParam);
+
+  if (setId.startsWith('subject-')) {
+    const rawKey = setId.slice('subject-'.length);
+    return (SUBJECTS.find((s) => s.key === rawKey) || SUBJECTS[0]).key;
+  }
+
+  if (setId === 'completed-subject') {
+    return (hasValidSubjParam ? subjParam : 'math') as SubjectKey;
+  }
+
+  if ((setId === 'topic' || setId === 'completed-topic') && hasValidSubjParam) {
+    return subjParam as SubjectKey;
+  }
+
+  const fixedSetMeta = meta.examSets.find((s) => String(s.id) === setId);
+  if (fixedSetMeta?.kind === 'subject' && fixedSetMeta.subjectKey) {
+    if (!hasValidSubjParam || subjParam === fixedSetMeta.subjectKey) {
+      return fixedSetMeta.subjectKey;
+    }
+  }
+
+  return null;
+}
+
 async function readBodyJson(
   input: RequestInfo | URL,
   init?: RequestInit
@@ -261,27 +435,30 @@ async function handleApiRequest(
   nativeFetch: typeof window.fetch
 ): Promise<Response> {
   const t0 = Date.now();
-  const store = await loadStaticStore(nativeFetch);
-  const runtime = readRuntimeStateClient(store);
+  const metaStore = await loadMetaOnly(nativeFetch);
 
-  // /api/health
+  // /api/health (meta-only fast path)
   if (apiPath === '/api/health' && method === 'GET') {
-    const all = getAllQuestionsMergedClient(store, runtime);
+    const runtime = await ensureRuntimeFast(metaStore, nativeFetch);
+    const totalCount =
+      (metaStore.meta.totalQuestions ?? metaStore.allMetaList.length) +
+      (runtime.customQuestions?.length || 0);
     return jsonResponse({
       status: 'ok',
       db: 'static-local',
-      questions: all.length,
-      topics: store.meta.topics.length,
-      images: store.meta.imageCount,
-      sets: store.meta.examSets.length,
-      articles: store.meta.articlesCount,
+      questions: totalCount,
+      topics: metaStore.meta.topics.length,
+      images: metaStore.meta.imageCount,
+      sets: metaStore.meta.examSets.length,
+      articles: metaStore.meta.articlesCount,
       ms: Date.now() - t0,
       ts: new Date().toISOString(),
     });
   }
 
-  // /api/profile
+  // /api/profile (meta-only fast path)
   if (apiPath === '/api/profile') {
+    const runtime = await ensureRuntimeFast(metaStore, nativeFetch);
     if (method === 'GET') {
       return jsonResponse({
         profile: runtime.profile,
@@ -332,7 +509,18 @@ async function handleApiRequest(
           topic?: string;
           pool?: CompletedPoolMode;
         };
-        resetCompletedHistory(runtime.profile, rc, getAllQuestionsMergedClient(store, runtime));
+        const poolMeta: PoolQuestionMeta[] =
+          metaStore.allMetaList.length > 0 || !runtime.customQuestions?.length
+            ? [
+                ...(runtime.customQuestions || []).map((q) => ({
+                  id: q.id,
+                  subject_key: q.subject_key,
+                  title: q.title,
+                })),
+                ...metaStore.allMetaList,
+              ]
+            : getAllQuestionsMergedClient(await loadFullStaticStore(nativeFetch), runtime);
+        resetCompletedHistory(runtime.profile, rc, poolMeta);
       }
       if (body.importSync && typeof body.importSync === 'object') {
         const imp = body.importSync as Partial<RuntimeState>;
@@ -367,8 +555,9 @@ async function handleApiRequest(
     }
   }
 
-  // /api/progress
+  // /api/progress (meta-only fast path)
   if (apiPath === '/api/progress') {
+    const runtime = await ensureRuntimeFast(metaStore, nativeFetch);
     if (method === 'GET') {
       return jsonResponse({ progress: runtime.examProgress });
     }
@@ -384,7 +573,7 @@ async function handleApiRequest(
     }
   }
 
-  // /api/exam/:setId
+  // /api/exam/:setId (subject-sharded when single-subject, else full store)
   if (apiPath.startsWith('/api/exam/') && method === 'GET') {
     const setId = decodeURIComponent(apiPath.slice('/api/exam/'.length));
     const trackName = searchParams.get('track') || undefined;
@@ -400,6 +589,18 @@ async function handleApiRequest(
     const rawPool = searchParams.get('pool');
     const pool: CompletedPoolMode | undefined =
       rawPool === 'correct' || rawPool === 'wrong' || rawPool === 'all' ? rawPool : undefined;
+
+    const runtimePreview = await ensureRuntimeFast(metaStore, nativeFetch);
+    const singleSubject = detectSingleSubjectForExam(
+      setId,
+      searchParams,
+      metaStore.meta,
+      runtimePreview
+    );
+    const store = singleSubject
+      ? await loadSubjectShard(singleSubject, nativeFetch)
+      : await loadFullStaticStore(nativeFetch);
+    const runtime = readRuntimeStateFromMeta(metaStore, store.questionsById);
 
     const result = buildExamForSetIdClient(store, runtime, setId, {
       trackName,
@@ -418,15 +619,38 @@ async function handleApiRequest(
     });
   }
 
-  // /api/attempts/:id
+  // /api/attempts/:id (single-subject sharded when possible)
   if (apiPath.startsWith('/api/attempts/') && method === 'GET') {
     const id = decodeURIComponent(apiPath.slice('/api/attempts/'.length));
-    const attempt = runtime.attempts.find((a) => String(a.id) === id);
+    const runtimePreview = await ensureRuntimeFast(metaStore, nativeFetch);
+    const attempt = runtimePreview.attempts.find((a) => String(a.id) === id);
     if (!attempt) {
       return jsonResponse({ error: 'ไม่พบประวัติการสอบรายการนี้' }, 404);
     }
+
+    let store: StaticStore | null = fullStoreResolved;
+    if (!store && !runtimePreview.customQuestions?.length && metaStore.metaById.size > 0) {
+      const subjectsInAttempt = new Set<SubjectKey>();
+      let allKnown = true;
+      for (const qid of attempt.questionIds) {
+        const metaItem = metaStore.metaById.get(qid);
+        if (!metaItem) {
+          allKnown = false;
+          break;
+        }
+        subjectsInAttempt.add(metaItem.subject_key);
+      }
+      if (allKnown && subjectsInAttempt.size === 1) {
+        const [onlySubject] = Array.from(subjectsInAttempt);
+        store = await loadSubjectShard(onlySubject, nativeFetch);
+      }
+    }
+    if (!store) {
+      store = await loadFullStaticStore(nativeFetch);
+    }
+
     const questions = attempt.questionIds
-      .map((qid) => findQuestionByIdClient(qid, store, runtime))
+      .map((qid) => findQuestionByIdClient(qid, store, runtimePreview))
       .map((q) => (q ? toRunnerQuestion(q) : null))
       .filter(Boolean);
     return jsonResponse({ attempt, questions });
@@ -435,9 +659,12 @@ async function handleApiRequest(
   // /api/attempts
   if (apiPath === '/api/attempts') {
     if (method === 'GET') {
+      const runtime = await ensureRuntimeFast(metaStore, nativeFetch);
       return jsonResponse({ attempts: runtime.attempts });
     }
     if (method === 'POST') {
+      const store = await loadFullStaticStore(nativeFetch);
+      const runtime = readRuntimeStateFromMeta(metaStore, store.questionsById);
       const questionIds: number[] = Array.isArray(body.questionIds)
         ? body.questionIds.map(Number)
         : [];
@@ -587,7 +814,7 @@ async function handleApiRequest(
     }
   }
 
-  // /api/questions
+  // /api/questions (uses subject shard when subject filter active and no customQuestions)
   if (apiPath === '/api/questions') {
     if (method === 'GET') {
       const subject = searchParams.get('subject') || '';
@@ -597,6 +824,16 @@ async function handleApiRequest(
       const hasImage = searchParams.get('hasImage') === '1';
       const page = Math.max(1, Number(searchParams.get('page') || 1));
       const limit = Math.min(100, Math.max(1, Number(searchParams.get('limit') || 24)));
+
+      const runtimePreview = await ensureRuntimeFast(metaStore, nativeFetch);
+      const validSubject = Object.prototype.hasOwnProperty.call(SUBJECT_MAP, subject)
+        ? (subject as SubjectKey)
+        : null;
+      const store =
+        validSubject && !runtimePreview.customQuestions?.length
+          ? await loadSubjectShard(validSubject, nativeFetch)
+          : await loadFullStaticStore(nativeFetch);
+      const runtime = readRuntimeStateFromMeta(metaStore, store.questionsById);
 
       let filtered = getAllQuestionsMergedClient(store, runtime);
       if (subject) filtered = filtered.filter((q) => q.subject_key === subject);
@@ -615,12 +852,7 @@ async function handleApiRequest(
       }
       if (query) {
         filtered = filtered.filter(
-          (q) =>
-            q.stem?.toLowerCase().includes(query) ||
-            q.title?.toLowerCase().includes(query) ||
-            q.explanation?.toLowerCase().includes(query) ||
-            q.opts.some((o) => o.toLowerCase().includes(query)) ||
-            String(q.id) === query
+          (q) => getClientQuestionSearchBlob(q).includes(query) || String(q.id) === query
         );
       }
 
@@ -640,6 +872,8 @@ async function handleApiRequest(
     }
 
     if (method === 'POST') {
+      const store = await loadFullStaticStore(nativeFetch);
+      const runtime = readRuntimeStateFromMeta(metaStore, store.questionsById);
       const stem = String(body.stem || '').trim();
       const subjectKey = String(body.subject_key || 'math') as SubjectKey;
       const opts = Array.isArray(body.opts)
@@ -677,8 +911,9 @@ async function handleApiRequest(
     }
   }
 
-  // /api/reports
+  // /api/reports (meta-only fast path)
   if (apiPath === '/api/reports') {
+    const runtime = await ensureRuntimeFast(metaStore, nativeFetch);
     if (method === 'GET') {
       return jsonResponse({ reports: runtime.reports });
     }
@@ -729,11 +964,14 @@ async function handleApiRequest(
   // /api/admin/sets
   if (apiPath === '/api/admin/sets') {
     if (method === 'GET') {
+      const runtime = await ensureRuntimeFast(metaStore, nativeFetch);
       return jsonResponse({
-        sets: [...store.meta.examSets, ...(runtime.customSets || [])],
+        sets: [...metaStore.meta.examSets, ...(runtime.customSets || [])],
       });
     }
     if (method === 'POST') {
+      const store = await loadFullStaticStore(nativeFetch);
+      const runtime = readRuntimeStateFromMeta(metaStore, store.questionsById);
       const title = String(body.title || '').trim();
       const count = Math.min(150, Math.max(5, Number(body.total || 20)));
       const timeMinutes = Math.max(5, Number(body.timeMinutes || count));
@@ -813,4 +1051,17 @@ export function installClientApiBridge(): void {
 
     return nativeFetch(input, init);
   };
+
+  // Warm up lightweight metadata (~35 KB gz) while idle so first navigation is instant
+  const warmMeta = () => {
+    void loadMetaOnly(nativeFetch).catch(() => {});
+  };
+  const win = window as Window & {
+    requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+  };
+  if (typeof win.requestIdleCallback === 'function') {
+    win.requestIdleCallback(warmMeta, { timeout: 1500 });
+  } else {
+    globalThis.setTimeout(warmMeta, 1200);
+  }
 }
