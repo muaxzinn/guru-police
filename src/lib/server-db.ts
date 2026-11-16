@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { SUBJECT_MAP, SUBJECTS, TRACKS, type SubjectKey } from './constants';
+import { resolveTopicSelection, SUBJECT_MAP, SUBJECTS, TRACKS, type SubjectKey } from './constants';
 
 export interface QuestionRecord {
   id: number;
@@ -575,17 +575,37 @@ export function buildExamForSetId(
     return withSubjectFilter(picked, 'ทบทวนข้อสอบที่ติดดาวไว้', Math.max(10, picked.length), 'overall', options?.subject);
   }
 
-  // 3. Specific Sub-Topic drill
+  // 3. Specific Sub-Topic drill (supports ordered sets set=1..N and normalized/aliased topic names)
   if (setId === 'topic') {
-    const filtered = all.filter(
-      (q) =>
-        (!options?.subject || q.subject_key === options.subject) &&
-        (!options?.topic || q.title === options.topic)
-    );
+    const topicMatcher = resolveTopicSelection(options?.topic);
+    const filtered = all
+      .filter(
+        (q) =>
+          (!options?.subject || q.subject_key === options.subject) &&
+          topicMatcher.matches(q.title)
+      )
+      .slice()
+      .sort((a, b) => a.id - b.id);
+
+    if (options?.setIndex && Number.isFinite(options.setIndex) && options.setIndex >= 1) {
+      const chunkSize = Math.max(5, Math.min(500, options?.count || 20));
+      const totalSets = Math.max(1, Math.ceil(filtered.length / chunkSize));
+      const safeSetIdx = Math.min(Math.floor(options.setIndex), totalSets);
+      const start = (safeSetIdx - 1) * chunkSize;
+      const picked = filtered.slice(start, start + chunkSize);
+      const rangeText = picked.length > 0 ? ` (ข้อ ${start + 1}–${start + picked.length})` : '';
+      return {
+        title: `เจาะลึกหัวข้อ · ${topicMatcher.displayTopic} · ชุดที่ ${safeSetIdx}/${totalSets}${rangeText}`,
+        durationSec: Math.max(10, picked.length) * 60,
+        passRule: 'overall',
+        items: picked.map(toRunnerQuestion),
+      };
+    }
+
     const limit = Math.min(options?.count || 30, filtered.length);
     const picked = shuffle(filtered).slice(0, limit);
     return {
-      title: `เจาะลึกหัวข้อ · ${options?.topic || 'รวม'}`,
+      title: `เจาะลึกหัวข้อ · ${topicMatcher.displayTopic}`,
       durationSec: Math.max(10, picked.length) * 60,
       passRule: 'overall',
       items: picked.map(toRunnerQuestion),

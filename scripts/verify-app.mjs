@@ -122,6 +122,15 @@ async function main() {
     );
     assert.ok(String(examSubjLawSet2.data.title).includes('ชุดที่ 2'), 'Title should mention ชุดที่ 2');
 
+    const examComWord = await fetchJson('/api/exam/topic?subject=com&topic=Word&set=1&count=20');
+    assert.equal(examComWord.ok, true);
+    assert.equal(examComWord.data.items.length, 20, 'com Word set 1 should contain 20 items');
+    assert.ok(
+      examComWord.data.items.every((/** @type {{ subject: string }} */ q) => q.subject === 'com'),
+      'All items in /api/exam/topic?subject=com&topic=Word must belong to com'
+    );
+    assert.ok(String(examComWord.data.title).includes('ชุดที่ 1'), 'Topic ordered set title should mention ชุดที่ 1');
+
     const exam107 = await fetchJson('/api/exam/107');
     assert.equal(exam107.ok, true);
     assert.equal(exam107.data.items.length, 20, 'Set 107 should contain 20 items');
@@ -182,6 +191,7 @@ async function main() {
       '/catalog',
       '/catalog/form',
       '/catalog/subject',
+      '/catalog/topics',
       '/bank',
       `/result/${attemptId}`,
       '/admin',

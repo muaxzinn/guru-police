@@ -86,3 +86,37 @@ export const CHOICE_LABELS = ['ก', 'ข', 'ค', 'ง'] as const;
 export const AWAY_TIMEOUT_MINUTES = 15;
 export const LINE_OA_URL = 'https://line.me/R/ti/p/@gurupolice';
 
+export function normalizeTopicTitleKey(title: string): string {
+  return title
+    .replace(/\s+/g, '')
+    .replace(/&/g, 'and')
+    .replace(/กาาร/g, 'การ')
+    .replace(/คอมพิวเตอร์/g, 'คอม')
+    .toLowerCase();
+}
+
+export function resolveTopicSelection(requestedTopic?: string): {
+  displayTopic: string;
+  matches: (qTitle?: string | null) => boolean;
+} {
+  if (!requestedTopic || !requestedTopic.trim()) {
+    return { displayTopic: 'รวม', matches: () => true };
+  }
+  const parts = requestedTopic
+    .split('||')
+    .map((p) => p.trim())
+    .filter(Boolean);
+  const displayTopic = parts[0] || requestedTopic.trim();
+  const exactSet = new Set(parts);
+  const normSet = new Set(parts.map(normalizeTopicTitleKey));
+
+  return {
+    displayTopic,
+    matches: (qTitle?: string | null) => {
+      if (!qTitle) return false;
+      if (exactSet.has(qTitle)) return true;
+      return normSet.has(normalizeTopicTitleKey(qTitle));
+    },
+  };
+}
+

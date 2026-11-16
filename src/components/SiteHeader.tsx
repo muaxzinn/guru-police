@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   BookMarked,
+  BookOpenCheck,
   Check,
   Database,
   History,
@@ -108,6 +109,7 @@ const APP_NAV = [
   { href: '/dashboard', label: 'แดชบอร์ด', icon: PenLine },
   { href: '/catalog', label: 'ชุดข้อสอบ', icon: BookMarked },
   { href: '/catalog/subject', label: 'แยกรายวิชา', icon: Layers },
+  { href: '/catalog/topics', label: 'แยกหัวข้อย่อย', icon: BookOpenCheck },
   { href: '/bank', label: 'คลัง 7,038 ข้อ', icon: Database },
   { href: '/history', label: 'ประวัติ', icon: History },
   { href: '/reports', label: 'รายงานปัญหา', icon: Wrench },

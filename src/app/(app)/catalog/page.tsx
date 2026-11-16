@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Database, FileSpreadsheet, Layers, Shuffle } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, Database, FileSpreadsheet, Layers, Shuffle } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
 import { TRACKS } from '@/lib/constants';
 import { getAllQuestionsMerged, getStore } from '@/lib/server-db';
@@ -77,6 +77,27 @@ export default function CatalogHubPage() {
             </div>
             <div className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand">
               <span>เลือกรายวิชา</span>
+              <ArrowRight className="h-4 w-4" />
+            </div>
+          </Link>
+
+          <Link
+            href="/catalog/topics"
+            className="card-hover flex flex-col justify-between rounded-card border border-line bg-panel p-6 shadow-card"
+          >
+            <div>
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/10 text-brand">
+                <BookOpenCheck className="h-5 w-5" />
+              </div>
+              <h2 className="mt-4 text-lg font-extrabold">
+                แยกหัวข้อย่อยรายวิชา (Word, Excel, กฎหมายแพ่ง/อาญา, อนุกรม ฯลฯ)
+              </h2>
+              <p className="mt-1 text-xs text-muted">
+                แยกเนื้อหาย่อยละเอียดครบทุกบทในทั้ง 7 วิชา แบ่งชุดย่อยเรียงตามข้อ หรือกดซ่อมเฉพาะเรื่องที่ไม่ถนัด
+              </p>
+            </div>
+            <div className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand">
+              <span>เลือกหัวข้อย่อยของแต่ละวิชา</span>
               <ArrowRight className="h-4 w-4" />
             </div>
           </Link>

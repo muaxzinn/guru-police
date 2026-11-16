@@ -7,6 +7,7 @@ import {
   ArrowRight,
   Award,
   Bookmark,
+  BookOpenCheck,
   CheckCircle2,
   Clock,
   Compass,
@@ -338,6 +339,13 @@ export function DashboardClient({
             >
               <Layers className="h-3.5 w-3.5 text-teal-ink" />
               <span>ชุดข้อสอบแยกรายวิชา</span>
+            </Link>
+            <Link
+              href="/catalog/topics"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2 px-3 py-1.5 text-xs font-bold text-ink transition-colors hover:border-brand/50 hover:text-brand"
+            >
+              <BookOpenCheck className="h-3.5 w-3.5 text-brand" />
+              <span>แยกหัวข้อย่อยรายวิชา</span>
             </Link>
           </div>
         </div>
