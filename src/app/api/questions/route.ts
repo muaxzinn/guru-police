@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllQuestionsMerged, getStore, readRuntimeState, writeRuntimeState } from '@/lib/server-db';
-import { CHOICE_LABELS, type SubjectKey } from '@/lib/constants';
+import { CHOICE_LABELS, resolveTopicSelection, type SubjectKey } from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +21,8 @@ export async function GET(req: NextRequest) {
     filtered = filtered.filter((q) => q.subject_key === subject);
   }
   if (topic) {
-    filtered = filtered.filter((q) => q.title === topic);
+    const matcher = resolveTopicSelection(topic);
+    filtered = filtered.filter((q) => matcher.matches(q.title));
   }
   if (batch) {
     filtered = filtered.filter((q) => q.batch === batch);

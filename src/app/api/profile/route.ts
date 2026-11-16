@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readRuntimeState, writeRuntimeState, type RuntimeState } from '@/lib/server-db';
+import {
+  applyQuestionOutcomes,
+  getAllQuestionsMerged,
+  readRuntimeState,
+  resetCompletedHistory,
+  writeRuntimeState,
+  type CompletedPoolMode,
+  type RuntimeState,
+} from '@/lib/server-db';
+import type { SubjectKey } from '@/lib/constants';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,6 +29,9 @@ export async function PATCH(req: NextRequest) {
   if (typeof body.track === 'string' && body.track.trim()) {
     runtime.profile.track = body.track.trim();
   }
+  if (typeof body.excludeCompleted === 'boolean') {
+    runtime.profile.excludeCompleted = body.excludeCompleted;
+  }
   if (body.toggleBookmarkId !== undefined) {
     const bid = Number(body.toggleBookmarkId);
     const set = new Set(runtime.profile.bookmarks || []);
@@ -27,11 +39,35 @@ export async function PATCH(req: NextRequest) {
     else set.add(bid);
     runtime.profile.bookmarks = Array.from(set);
   }
+  if (Array.isArray(body.questionOutcomes)) {
+    const sanitized = body.questionOutcomes
+      .filter(
+        (item: unknown): item is { id: number; correct: boolean } =>
+          Boolean(item && typeof item === 'object' && 'id' in item)
+      )
+      .map((item: { id: unknown; correct: unknown }) => ({
+        id: Number(item.id),
+        correct: Boolean(item.correct),
+      }));
+    applyQuestionOutcomes(runtime.profile, sanitized);
+  }
   if (body.clearMistakes) {
     runtime.profile.mistakeIds = [];
   }
+  if (body.clearCorrect) {
+    runtime.profile.correctIds = [];
+  }
   if (body.clearBookmarks) {
     runtime.profile.bookmarks = [];
+  }
+  if (body.resetCompleted && typeof body.resetCompleted === 'object') {
+    const rc = body.resetCompleted as {
+      scope?: 'all' | 'subject' | 'topic';
+      subject?: SubjectKey;
+      topic?: string;
+      pool?: CompletedPoolMode;
+    };
+    resetCompletedHistory(runtime.profile, rc, getAllQuestionsMerged());
   }
   if (body.importSync && typeof body.importSync === 'object') {
     const imp = body.importSync as Partial<RuntimeState>;
@@ -45,6 +81,13 @@ export async function PATCH(req: NextRequest) {
         mistakeIds: Array.isArray(imp.profile.mistakeIds)
           ? imp.profile.mistakeIds.map(Number)
           : runtime.profile.mistakeIds,
+        correctIds: Array.isArray(imp.profile.correctIds)
+          ? imp.profile.correctIds.map(Number)
+          : runtime.profile.correctIds || [],
+        excludeCompleted:
+          typeof imp.profile.excludeCompleted === 'boolean'
+            ? imp.profile.excludeCompleted
+            : runtime.profile.excludeCompleted ?? true,
       };
     }
     if (Array.isArray(imp.attempts)) {

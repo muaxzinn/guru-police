@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowRight, BookOpenCheck, Database, FileSpreadsheet, Layers, Shuffle } from 'lucide-react';
+import { Archive, ArrowRight, BookOpenCheck, Database, FileSpreadsheet, Layers, Shuffle } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
 import { TRACKS } from '@/lib/constants';
 import { getAllQuestionsMerged, getStore } from '@/lib/server-db';
@@ -11,7 +11,7 @@ export default function CatalogHubPage() {
   const formSets = store.examSets.filter((s) => s.kind === 'form');
 
   return (
-    <div className="min-h-screen bg-bg text-ink">
+    <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
       <SiteHeader mode="app" />
       <main className="mx-auto max-w-5xl px-4 py-8">
         <div className="text-xs font-bold text-muted">ทำข้อสอบ / คลังข้อสอบทั้งหมด</div>
@@ -98,6 +98,27 @@ export default function CatalogHubPage() {
             </div>
             <div className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand">
               <span>เลือกหัวข้อย่อยของแต่ละวิชา</span>
+              <ArrowRight className="h-4 w-4" />
+            </div>
+          </Link>
+
+          <Link
+            href="/catalog/completed"
+            className="card-hover flex flex-col justify-between rounded-card border border-brand/35 bg-brand/[0.04] p-6 shadow-card"
+          >
+            <div>
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/15 text-brand">
+                <Archive className="h-5 w-5" />
+              </div>
+              <h2 className="mt-4 text-lg font-extrabold">
+                ชุดข้อสอบที่เคยทำแล้ว (รวม · ทำถูก · ทำผิด)
+              </h2>
+              <p className="mt-1 text-xs text-muted">
+                รวมเฉพาะข้อที่เคยทำแล้วมาจัดชุดใหม่ทั้งแบบรวมทั้งหมด ทำถูกอย่างเดียว หรือทำผิดอย่างเดียว (150 ข้อ / แยกวิชา / หัวข้อย่อย)
+              </p>
+            </div>
+            <div className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand">
+              <span>เปิดชุดข้อสอบที่เคยทำแล้ว</span>
               <ArrowRight className="h-4 w-4" />
             </div>
           </Link>

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { buildExamForSetId } from '@/lib/server-db';
+import { buildExamForSetId, type CompletedPoolMode } from '@/lib/server-db';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,6 +16,12 @@ export async function GET(
   const shuffleMode = searchParams.get('shuffle') === '1';
   const rawSet = searchParams.get('set');
   const setIndex = rawSet ? Number(rawSet) : undefined;
+  const excludeParam = searchParams.get('excludeCompleted');
+  const excludeCompleted =
+    excludeParam === '1' ? true : excludeParam === '0' ? false : undefined;
+  const rawPool = searchParams.get('pool');
+  const pool: CompletedPoolMode | undefined =
+    rawPool === 'correct' || rawPool === 'wrong' || rawPool === 'all' ? rawPool : undefined;
 
   const result = buildExamForSetId(setId, {
     trackName,
@@ -24,6 +30,8 @@ export async function GET(
     topic,
     shuffleMode,
     setIndex,
+    excludeCompleted,
+    pool,
   });
 
   return NextResponse.json({

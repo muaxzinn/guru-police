@@ -65,6 +65,22 @@ const REPORT_REASONS = [
   'จัดหมวดหมู่วิชา หรือหัวข้อผิดพลาด',
 ];
 
+function isMatchingProgress(
+  prog: ExamProgressRecord | null | undefined,
+  setId: string,
+  mode: string,
+  items: RunnerQuestion[]
+): prog is ExamProgressRecord {
+  return Boolean(
+    prog &&
+      prog.setId === setId &&
+      prog.mode === mode &&
+      Array.isArray(prog.list) &&
+      prog.list.length === items.length &&
+      prog.list.every((it, idx) => it.id === items[idx]?.id)
+  );
+}
+
 function formatClock(totalSec: number): string {
   const s = Math.max(0, Math.floor(totalSec));
   const hrs = Math.floor(s / 3600);
@@ -90,6 +106,10 @@ function ExamRunnerInner() {
   const topic = searchParams.get('topic') || '';
   const shuffle = searchParams.get('shuffle') || '';
   const setParam = searchParams.get('set') || '';
+  const urlExcludeParam = searchParams.get('excludeCompleted');
+  const poolParam = searchParams.get('pool') || '';
+  const isCompletedReviewSet =
+    setId.startsWith('completed-') || setId === 'mistakes' || setId === 'bookmarks';
   const fresh = searchParams.get('fresh') === '1';
   const autostart = searchParams.get('autostart') === '1';
 
@@ -101,6 +121,13 @@ function ExamRunnerInner() {
   const [timerMode, setTimerMode] = useState<TimerMode>(mode === 'real' ? 'timed' : 'elapsed');
   const [draftReveal, setDraftReveal] = useState<RevealMode>(mode === 'real' ? 'end' : 'instant');
   const [draftTimer, setDraftTimer] = useState<TimerMode>(mode === 'real' ? 'timed' : 'elapsed');
+  const [excludeCompletedState, setExcludeCompletedState] = useState<boolean>(
+    urlExcludeParam === '1'
+  );
+  const [draftExcludeCompleted, setDraftExcludeCompleted] = useState<boolean>(
+    urlExcludeParam === '1'
+  );
+  const loadedExcludeRef = useRef<boolean>(urlExcludeParam === '1');
   const [showSetupModal, setShowSetupModal] = useState(false);
   const [setupConfigured, setSetupConfigured] = useState(mode === 'review' || autostart);
   const [unansweredOnlyMode, setUnansweredOnlyMode] = useState(false);
@@ -159,6 +186,14 @@ function ExamRunnerInner() {
         if (topic) qs.set('topic', topic);
         if (shuffle) qs.set('shuffle', shuffle);
         if (setParam) qs.set('set', setParam);
+        if (poolParam) qs.set('pool', poolParam);
+        if (urlExcludeParam === '1' || urlExcludeParam === '0') {
+          qs.set('excludeCompleted', urlExcludeParam);
+        }
+        const initialExclude = urlExcludeParam === '1';
+        loadedExcludeRef.current = initialExclude;
+        setExcludeCompletedState(initialExclude);
+        setDraftExcludeCompleted(initialExclude);
 
         const [examRes, profRes, progRes] = await Promise.all([
           fetch(`/api/exam/${encodeURIComponent(setId)}?${qs.toString()}`, { cache: 'no-store' }),
@@ -187,7 +222,7 @@ function ExamRunnerInner() {
             const rawLocal = window.localStorage.getItem(LOCAL_PROGRESS_KEY);
             if (rawLocal) {
               const parsed = JSON.parse(rawLocal) as ExamProgressRecord;
-              if (parsed?.setId === setId && parsed?.mode === mode && parsed?.list?.length === total) {
+              if (isMatchingProgress(parsed, setId, mode, examData.items)) {
                 restored = parsed;
               }
             }
@@ -197,7 +232,7 @@ function ExamRunnerInner() {
           if (!restored && progRes && progRes.ok) {
             const pJson = await progRes.json();
             const serverProg = pJson?.progress as ExamProgressRecord | null;
-            if (serverProg?.setId === setId && serverProg?.mode === mode && serverProg?.list?.length === total) {
+            if (isMatchingProgress(serverProg, setId, mode, examData.items)) {
               restored = serverProg;
             }
           }
@@ -275,7 +310,21 @@ function ExamRunnerInner() {
     return () => {
       active = false;
     };
-  }, [setId, mode, track, count, subject, topic, shuffle, setParam, fresh, autostart, pushToast]);
+  }, [
+    setId,
+    mode,
+    track,
+    count,
+    subject,
+    topic,
+    shuffle,
+    setParam,
+    poolParam,
+    urlExcludeParam,
+    fresh,
+    autostart,
+    pushToast,
+  ]);
 
   const currentQuestion = exam?.items[cur] ?? null;
   const answeredCount = useMemo(() => answers.filter((a) => a !== null).length, [answers]);
@@ -379,11 +428,12 @@ function ExamRunnerInner() {
   const openSetupModal = useCallback(() => {
     setDraftReveal(revealMode);
     setDraftTimer(timerMode);
+    setDraftExcludeCompleted(excludeCompletedState);
     setShowSetupModal(true);
-  }, [revealMode, timerMode]);
+  }, [revealMode, timerMode, excludeCompletedState]);
 
   const applySetupAndStart = useCallback(
-    (nextReveal: RevealMode, nextTimer: TimerMode) => {
+    async (nextReveal: RevealMode, nextTimer: TimerMode, nextExclude: boolean) => {
       setRevealMode(nextReveal);
       setTimerMode(nextTimer);
       try {
@@ -394,12 +444,56 @@ function ExamRunnerInner() {
       } catch {
         // ignore storage failure
       }
-      if (!setupConfigured && exam) {
+
+      if (!isCompletedReviewSet && nextExclude !== loadedExcludeRef.current) {
+        setDraftExcludeCompleted(nextExclude);
+        setExcludeCompletedState(nextExclude);
+        loadedExcludeRef.current = nextExclude;
+        fetch('/api/profile', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ excludeCompleted: nextExclude }),
+        }).catch(() => {});
+
+        try {
+          setLoading(true);
+          const qs = new URLSearchParams();
+          if (track) qs.set('track', track);
+          if (count) qs.set('count', count);
+          if (subject) qs.set('subject', subject);
+          if (topic) qs.set('topic', topic);
+          if (shuffle) qs.set('shuffle', shuffle);
+          if (setParam) qs.set('set', setParam);
+          qs.set('excludeCompleted', nextExclude ? '1' : '0');
+
+          const res = await fetch(`/api/exam/${encodeURIComponent(setId)}?${qs.toString()}`, {
+            cache: 'no-store',
+          });
+          if (res.ok) {
+            const nextExam = (await res.json()) as ExamPayload;
+            setExam(nextExam);
+            setAnswers(new Array(nextExam.items.length).fill(null));
+            setCur(0);
+            setEliminated({});
+            setUnansweredOnlyMode(false);
+            setStartedAt(new Date().toISOString());
+            const targetEnd = Date.now() + nextExam.durationSec * 1000;
+            setEndAt(targetEnd);
+            setRemainingSec(nextExam.durationSec);
+            setActiveSec(0);
+          }
+        } catch {
+          // keep existing exam on failure
+        } finally {
+          setLoading(false);
+        }
+      } else if (!setupConfigured && exam) {
         const targetEnd = Date.now() + exam.durationSec * 1000;
         setEndAt(targetEnd);
         setRemainingSec(exam.durationSec);
         setActiveSec(0);
       }
+
       setSetupConfigured(true);
       setShowSetupModal(false);
       pushToast(
@@ -408,7 +502,19 @@ function ExamRunnerInner() {
           : 'เปิดโหมดเฉลยย้อนหลัง + วิเคราะห์จุดอ่อนเมื่อส่งข้อสอบ'
       );
     },
-    [setupConfigured, exam, pushToast]
+    [
+      setupConfigured,
+      exam,
+      isCompletedReviewSet,
+      setId,
+      track,
+      count,
+      subject,
+      topic,
+      shuffle,
+      setParam,
+      pushToast,
+    ]
   );
 
   // Countdown & active clock
@@ -481,6 +587,16 @@ function ExamRunnerInner() {
         next[cur] = prev[cur] === choiceIdx ? null : choiceIdx;
         return next;
       });
+
+      if (!toggledOff && revealMode === 'instant') {
+        fetch('/api/profile', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            questionOutcomes: [{ id: q.id, correct: choiceIdx === q.c }],
+          }),
+        }).catch(() => {});
+      }
 
       if (!toggledOff && wasUnanswered) {
         if (revealMode === 'instant') {
@@ -710,20 +826,37 @@ function ExamRunnerInner() {
           <div className="w-12 h-12 mx-auto rounded-2xl bg-teal/15 text-teal-ink flex items-center justify-center mb-3">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h1 className="text-lg font-extrabold">ยังไม่มีข้อสอบในรายการนี้</h1>
+          <h1 className="text-lg font-extrabold">
+            {excludeCompletedState && !isCompletedReviewSet
+              ? 'ทำข้อสอบในชุดนี้ครบทุกข้อแล้ว!'
+              : 'ยังไม่มีข้อสอบในรายการนี้'}
+          </h1>
           <p className="text-sm text-muted mt-2">
             {setId === 'mistakes'
               ? 'ยอดเยี่ยมมาก! คุณยังไม่มีข้อที่ตอบผิดค้างอยู่ ลองทำข้อสอบชุดใหม่เพื่อสะสมสถิติได้เลย'
               : setId === 'bookmarks'
               ? 'คุณยังไม่ได้ติดดาวข้อสอบข้อใด กดติดดาวระหว่างทำข้อสอบเพื่อกลับมาทบทวนได้ที่นี่'
+              : setId.startsWith('completed-')
+              ? 'ยังไม่มีข้อสอบที่ตรงกับกลุ่มและวิชาที่เลือก ลองฝึกทำข้อสอบใหม่ก่อนกลับมาทบทวนที่นี่'
+              : excludeCompletedState
+              ? 'คุณได้ทำข้อสอบทุกข้อในหมวดนี้ไปแล้ว หากต้องการฝึกซ้ำสามารถเปิดดูข้อทั้งหมดหรือไปที่หน้าข้อที่เคยทำแล้ว'
               : 'ไม่พบข้อสอบที่ตรงกับเงื่อนไขที่เลือก'}
           </p>
-          <div className="mt-5 flex justify-center gap-3">
-            <Link href="/catalog/form" className="px-4 py-2.5 rounded-btn bg-brand text-white font-bold text-sm">
-              ฝึกทำข้อสอบเสมือนจริง
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
+            {excludeCompletedState && !isCompletedReviewSet && (
+              <button
+                type="button"
+                onClick={() => void applySetupAndStart(revealMode, timerMode, false)}
+                className="px-4 py-2.5 rounded-btn bg-brand text-white font-bold text-sm"
+              >
+                แสดงข้อสอบทั้งหมดในชุดนี้
+              </button>
+            )}
+            <Link href="/catalog/completed" className="px-4 py-2.5 rounded-btn bg-teal text-white font-bold text-sm">
+              ชุดข้อสอบที่เคยทำแล้ว
             </Link>
-            <Link href="/bank" className="px-4 py-2.5 rounded-btn border border-line font-semibold text-sm">
-              เปิดคลัง 7,038 ข้อ
+            <Link href="/catalog/topics" className="px-4 py-2.5 rounded-btn border border-line font-semibold text-sm">
+              กลับหน้าแคตตาล็อก
             </Link>
           </div>
         </div>
@@ -1437,7 +1570,7 @@ function ExamRunnerInner() {
       </main>
 
       {/* Sticky Mobile Bottom Action Bar */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 border-t border-line bg-panel/95 backdrop-blur-xl px-3 py-2.5">
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-30 border-t border-line bg-panel/95 backdrop-blur-xl px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]">
         <div className="max-w-xl mx-auto flex items-center justify-between gap-2">
           <button
             type="button"
@@ -1515,10 +1648,43 @@ function ExamRunnerInner() {
               <span className="text-sm font-extrabold">เลือกข้อสอบและตัวกรอง</span>
               <button
                 type="button"
+                aria-label="ปิดแผนผังข้อสอบ"
                 onClick={() => setShowMobilePalette(false)}
                 className="p-1.5 rounded-xl border border-line bg-bg2 text-muted hover:text-ink"
               >
                 <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-line bg-bg2/60 p-2.5">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] font-bold text-muted px-1">ขนาดตัวอักษร:</span>
+                <div className="flex items-center border border-line rounded-xl bg-panel p-0.5">
+                  {(['sm', 'md', 'lg'] as FontScale[]).map((sz, i) => (
+                    <button
+                      key={sz}
+                      type="button"
+                      aria-label={`ขนาดตัวอักษรมือถือ ${i === 0 ? 'เล็ก' : i === 1 ? 'ปกติ' : 'ใหญ่'}`}
+                      onClick={() => setFontScale(sz)}
+                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition ${
+                        fontScale === sz ? 'bg-brand text-white shadow-sm' : 'text-muted hover:text-ink'
+                      }`}
+                    >
+                      {i === 0 ? 'A-' : i === 1 ? 'A' : 'A+'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCutMode((v) => !v)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition ${
+                  cutMode
+                    ? 'bg-gold/20 border-gold text-gold-ink'
+                    : 'border-line bg-panel text-muted hover:text-ink'
+                }`}
+              >
+                <Scissors className="w-3.5 h-3.5" />
+                <span>{cutMode ? 'ปิดโหมดตัดช้อยส์' : 'ตัดช้อยส์'}</span>
               </button>
             </div>
             {palettePanelContent}
@@ -1655,6 +1821,47 @@ function ExamRunnerInner() {
               </div>
             </div>
 
+            {!isCompletedReviewSet && (
+              <div className="space-y-2.5">
+                <p className="text-xs font-extrabold uppercase tracking-wide text-muted">
+                  3. การคัดกรองข้อสอบที่เคยทำแล้ว
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setDraftExcludeCompleted(true)}
+                    className={`text-left p-3.5 rounded-2xl border transition ${
+                      draftExcludeCompleted
+                        ? 'border-brand bg-brand/10 ring-2 ring-brand/20'
+                        : 'border-line bg-bg2 hover:border-brand/40'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 font-extrabold text-sm text-ink">
+                      <Sparkles className="w-4 h-4 text-brand" />
+                      <span>ไม่นำข้อที่เคยทำมาขึ้นซ้ำ</span>
+                    </div>
+                    <p className="text-xs text-muted mt-1">คัดเฉพาะข้อใหม่ที่ยังไม่เคยตอบมาก่อน</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setDraftExcludeCompleted(false)}
+                    className={`text-left p-3.5 rounded-2xl border transition ${
+                      !draftExcludeCompleted
+                        ? 'border-brand bg-brand/10 ring-2 ring-brand/20'
+                        : 'border-line bg-bg2 hover:border-brand/40'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 font-extrabold text-sm text-ink">
+                      <Layers className="w-4 h-4 text-teal-ink" />
+                      <span>ใช้ข้อสอบรวมตามเดิม</span>
+                    </div>
+                    <p className="text-xs text-muted mt-1">แสดงครบทุกข้อรวมข้อที่เคยทำแล้ว</p>
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="flex items-center justify-end gap-2.5 pt-1">
               {setupConfigured && (
                 <button
@@ -1667,7 +1874,7 @@ function ExamRunnerInner() {
               )}
               <button
                 type="button"
-                onClick={() => applySetupAndStart(draftReveal, draftTimer)}
+                onClick={() => void applySetupAndStart(draftReveal, draftTimer, draftExcludeCompleted)}
                 className="w-full sm:w-auto px-6 py-2.5 rounded-btn bg-brand hover:bg-brand-dark text-white font-extrabold text-sm shadow-sm transition"
               >
                 {setupConfigured ? 'บันทึกการตั้งค่า' : 'เริ่มทำข้อสอบ'}

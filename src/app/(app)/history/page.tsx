@@ -74,7 +74,7 @@ export default function HistoryPage() {
   }, [attempts]);
 
   return (
-    <div className="min-h-screen bg-bg text-ink pb-16">
+    <div className="min-h-screen bg-bg text-ink pb-24 md:pb-16">
       <SiteHeader mode="app" />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 space-y-6">

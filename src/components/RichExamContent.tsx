@@ -1,127 +1,15 @@
 'use client';
 
 import React from 'react';
-
-const LATEX_SYMBOLS: Record<string, string> = {
-  '\\times': '×',
-  '\\cdot': '·',
-  '\\div': '÷',
-  '\\pm': '±',
-  '\\mp': '∓',
-  '\\leq': '≤',
-  '\\le': '≤',
-  '\\geq': '≥',
-  '\\ge': '≥',
-  '\\neq': '≠',
-  '\\ne': '≠',
-  '\\approx': '≈',
-  '\\equiv': '≡',
-  '\\cup': '∪',
-  '\\cap': '∩',
-  '\\subset': '⊂',
-  '\\subseteq': '⊆',
-  '\\supset': '⊃',
-  '\\supseteq': '⊇',
-  '\\in': '∈',
-  '\\notin': '∉',
-  '\\emptyset': '∅',
-  '\\varnothing': '∅',
-  '\\land': '∧',
-  '\\wedge': '∧',
-  '\\lor': '∨',
-  '\\vee': '∨',
-  '\\neg': '¬',
-  '\\lnot': '¬',
-  '\\to': '→',
-  '\\rightarrow': '→',
-  '\\leftarrow': '←',
-  '\\leftrightarrow': '↔',
-  '\\Rightarrow': '⇒',
-  '\\implies': '⇒',
-  '\\Leftarrow': '⇐',
-  '\\Leftrightarrow': '⇔',
-  '\\iff': '⇔',
-  '\\uparrow': '↑',
-  '\\downarrow': '↓',
-  '\\therefore': '∴',
-  '\\because': '∵',
-  '\\dots': '…',
-  '\\ldots': '…',
-  '\\cdots': '⋯',
-  '\\square': '□',
-  '\\forall': '∀',
-  '\\exists': '∃',
-  '\\infty': '∞',
-  '\\circ': '°',
-  '\\degree': '°',
-  '\\angle': '∠',
-  '\\triangle': '△',
-  '\\perp': '⊥',
-  '\\parallel': '∥',
-  '\\sim': '∼',
-  '\\cong': '≅',
-  '\\sum': '∑',
-  '\\prod': '∏',
-  '\\int': '∫',
-  '\\pi': 'π',
-  '\\theta': 'θ',
-  '\\alpha': 'α',
-  '\\beta': 'β',
-  '\\gamma': 'γ',
-  '\\delta': 'δ',
-  '\\Delta': 'Δ',
-  '\\sigma': 'σ',
-  '\\mu': 'μ',
-  '\\lambda': 'λ',
-  '\\omega': 'ω',
-  '\\Omega': 'Ω',
-  '\\{': '{',
-  '\\}': '}',
-  '\\%': '%',
-  '\\_': '_',
-  '\\&': '&',
-  '\\$': '$',
-  '\\quad': '  ',
-  '\\qquad': '    ',
-  '\\,': ' ',
-  '\\;': ' ',
-  '\\!': '',
-};
-
-function readBracedGroup(src: string, startIdx: number): { content: string; nextIdx: number } | null {
-  if (startIdx >= src.length || src[startIdx] !== '{') return null;
-  let depth = 0;
-  let i = startIdx;
-  while (i < src.length) {
-    const ch = src[i];
-    if (ch === '\\') {
-      i += 2;
-      continue;
-    }
-    if (ch === '{') depth++;
-    else if (ch === '}') {
-      depth--;
-      if (depth === 0) {
-        return { content: src.slice(startIdx + 1, i), nextIdx: i + 1 };
-      }
-    }
-    i++;
-  }
-  return { content: src.slice(startIdx + 1), nextIdx: src.length };
-}
-
-function readBracketGroup(src: string, startIdx: number): { content: string; nextIdx: number } | null {
-  if (startIdx >= src.length || src[startIdx] !== '[') return null;
-  const endIdx = src.indexOf(']', startIdx + 1);
-  if (endIdx === -1) return null;
-  return { content: src.slice(startIdx + 1, endIdx), nextIdx: endIdx + 1 };
-}
-
-function skipWs(src: string, idx: number): number {
-  let i = idx;
-  while (i < src.length && src[i] === ' ') i++;
-  return i;
-}
+import {
+  LATEX_SYMBOLS,
+  normalizeLatexDelimiters,
+  parseHtmlTable,
+  readBracedGroup,
+  readBracketGroup,
+  readLatexArg,
+  skipWs,
+} from '@/lib/rich-text-parser';
 
 function renderLatexExpr(expr: string, keyPrefix = 'm'): React.ReactNode {
   const nodes: React.ReactNode[] = [];
@@ -163,11 +51,9 @@ function renderLatexExpr(expr: string, keyPrefix = 'm'): React.ReactNode {
         }
 
         if (cmd === '\\frac' || cmd === '\\dfrac' || cmd === '\\tfrac') {
-          const i1 = skipWs(expr, i);
-          const g1 = readBracedGroup(expr, i1);
+          const g1 = readLatexArg(expr, i);
           if (g1) {
-            const i2 = skipWs(expr, g1.nextIdx);
-            const g2 = readBracedGroup(expr, i2);
+            const g2 = readLatexArg(expr, g1.nextIdx);
             if (g2) {
               nodes.push(
                 <span
@@ -384,39 +270,6 @@ function renderInlineFormatted(text: string, keyPrefix = 'in'): React.ReactNode 
   return out.length > 0 ? out : text;
 }
 
-interface ParsedCell {
-  isHeader: boolean;
-  colSpan: number;
-  rowSpan: number;
-  content: string;
-}
-
-function parseHtmlTable(tableHtml: string): ParsedCell[][] {
-  const rows: ParsedCell[][] = [];
-  const rowRe = /<tr\b[^>]*>([\s\S]*?)<\/tr>/gi;
-  let rMatch: RegExpExecArray | null;
-  while ((rMatch = rowRe.exec(tableHtml)) !== null) {
-    const cells: ParsedCell[] = [];
-    const cellRe = /<(th|td)([^>]*)>([\s\S]*?)<\/\1>/gi;
-    let cMatch: RegExpExecArray | null;
-    while ((cMatch = cellRe.exec(rMatch[1])) !== null) {
-      const tag = cMatch[1].toLowerCase();
-      const attrs = cMatch[2] || '';
-      const colMatch = /colspan=["']?(\d+)/i.exec(attrs);
-      const rowMatch = /rowspan=["']?(\d+)/i.exec(attrs);
-      const rawInner = cMatch[3].replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').trim();
-      cells.push({
-        isHeader: tag === 'th',
-        colSpan: colMatch ? Math.max(1, Number(colMatch[1])) : 1,
-        rowSpan: rowMatch ? Math.max(1, Number(rowMatch[1])) : 1,
-        content: rawInner,
-      });
-    }
-    if (cells.length > 0) rows.push(cells);
-  }
-  return rows;
-}
-
 export function RichExamContent({
   text,
   inline = false,
@@ -430,13 +283,15 @@ export function RichExamContent({
   const trimmed = text.trim();
   if (!trimmed) return null;
 
+  const normalizedText = normalizeLatexDelimiters(text);
+
   if (inline) {
-    return <span className={className}>{renderInlineFormatted(text, 'in')}</span>;
+    return <span className={className}>{renderInlineFormatted(normalizedText, 'in')}</span>;
   }
 
   // Split around HTML <table>...</table> and $$...$$ display math blocks
   const blockRe = /(<table\b[\s\S]*?<\/table>|\$\$[\s\S]+?\$\$)/gi;
-  const segments = text.split(blockRe);
+  const segments = normalizedText.split(blockRe);
 
   return (
     <div className={`space-y-2 ${className}`}>

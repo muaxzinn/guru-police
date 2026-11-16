@@ -14,7 +14,7 @@ export default function CatalogFormPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-bg text-ink">
+    <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
       <SiteHeader mode="app" />
       <main className="mx-auto max-w-4xl px-4 py-8">
         <Link href="/catalog" className="inline-flex items-center gap-1.5 text-xs font-bold text-muted hover:text-brand">

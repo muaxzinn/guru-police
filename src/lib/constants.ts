@@ -120,3 +120,15 @@ export function resolveTopicSelection(requestedTopic?: string): {
   };
 }
 
+export function isNavItemActive(
+  pathname: string,
+  href: string,
+  _isMobileBottom = false
+): boolean {
+  if (href === '/') return pathname === '/';
+  if (href === '/catalog') {
+    return pathname === '/catalog' || pathname.startsWith('/catalog/form');
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+

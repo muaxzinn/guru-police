@@ -1,35 +1,36 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { resolveTopicSelection, SUBJECT_MAP, SUBJECTS, TRACKS, type SubjectKey } from './constants';
+import { SUBJECTS, type SubjectKey } from './constants';
+import {
+  applyQuestionOutcomes,
+  backfillProfileHistoryFromAttempts,
+  buildExamFromSource,
+  computeSubjectBreakdown,
+  getCompletedIdSets,
+  resetCompletedHistory,
+  toRunnerQuestion,
+  type BuildExamOptions,
+  type CompletedPoolMode,
+  type QuestionOutcome,
+  type QuestionRecord,
+  type ResetCompletedFilter,
+  type RunnerQuestion,
+} from './question-pool';
+import { IMAGE_URL_ONLY_RE } from './rich-text-parser';
 
-export interface QuestionRecord {
-  id: number;
-  subject_key: SubjectKey;
-  set_id: number | null;
-  title: string | null;
-  batch: string | null;
-  stem: string | null;
-  img: string | null;
-  opts: string[];
-  opt_imgs: (string | null)[] | null;
-  correct_index: number;
-  correct_label: string;
-  explanation: string | null;
-  explanation_img: string | null;
-}
-
-export interface RunnerQuestion {
-  id: number;
-  subject: SubjectKey;
-  title: string | null;
-  b: string;
-  img: string | null;
-  opts: string[];
-  optImgs: (string | null)[] | null;
-  c: number;
-  e: string | null;
-  eImg: string | null;
-}
+export {
+  applyQuestionOutcomes,
+  computeSubjectBreakdown,
+  getCompletedIdSets,
+  resetCompletedHistory,
+  toRunnerQuestion,
+  type BuildExamOptions,
+  type CompletedPoolMode,
+  type QuestionOutcome,
+  type QuestionRecord,
+  type ResetCompletedFilter,
+  type RunnerQuestion,
+};
 
 export interface ArticleRecord {
   kind: 'article' | 'news';
@@ -128,6 +129,8 @@ export interface UserProfile {
   track: string;
   bookmarks: number[];
   mistakeIds: number[];
+  correctIds?: number[];
+  excludeCompleted?: boolean;
   streakDays: number;
   lastActiveDate: string | null;
 }
@@ -173,9 +176,6 @@ const globalForStore = globalThis as typeof globalThis & {
   __guruStore?: StoreCache;
   __guruRuntime?: RuntimeState;
 };
-
-const IMAGE_URL_ONLY_RE =
-  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/question-svgs\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
 
 function resolveLocalImageUrl(raw: string | null | undefined, urlMap: Map<string, string>): string | null {
   if (!raw || typeof raw !== 'string') return null;
@@ -349,36 +349,8 @@ function buildStore(): StoreCache {
   return store;
 }
 
-export function computeSubjectBreakdown(
-  questionIds: number[],
-  lookup: (id: number) => QuestionRecord | undefined
-): Partial<Record<SubjectKey, number>> {
-  const breakdown: Partial<Record<SubjectKey, number>> = {};
-  for (const id of questionIds) {
-    const q = lookup(id);
-    if (!q) continue;
-    breakdown[q.subject_key] = (breakdown[q.subject_key] || 0) + 1;
-  }
-  return breakdown;
-}
-
 export function getStore(): StoreCache {
   return buildStore();
-}
-
-export function toRunnerQuestion(q: QuestionRecord): RunnerQuestion {
-  return {
-    id: q.id,
-    subject: q.subject_key,
-    title: q.title,
-    b: q.stem || '',
-    img: q.img,
-    opts: q.opts,
-    optImgs: q.opt_imgs,
-    c: q.correct_index,
-    e: q.explanation,
-    eImg: q.explanation_img,
-  };
 }
 
 function getDefaultRuntimeState(): RuntimeState {
@@ -387,6 +359,8 @@ function getDefaultRuntimeState(): RuntimeState {
       track: 'สายอำนวยการ / พิสูจน์หลักฐาน',
       bookmarks: [],
       mistakeIds: [],
+      correctIds: [],
+      excludeCompleted: true,
       streakDays: 1,
       lastActiveDate: null,
     },
@@ -451,15 +425,33 @@ export function readRuntimeState(): RuntimeState {
       })
     : [];
 
+  const attempts = Array.isArray(raw?.attempts) ? raw.attempts : [];
+  const profile: UserProfile = {
+    track: typeof rawProf?.track === 'string' && rawProf.track ? rawProf.track : defaults.profile.track,
+    bookmarks: Array.isArray(rawProf?.bookmarks) ? rawProf.bookmarks.map(Number) : [],
+    mistakeIds: Array.isArray(rawProf?.mistakeIds) ? rawProf.mistakeIds.map(Number) : [],
+    correctIds: Array.isArray(rawProf?.correctIds) ? rawProf.correctIds.map(Number) : [],
+    excludeCompleted:
+      typeof rawProf?.excludeCompleted === 'boolean' ? rawProf.excludeCompleted : true,
+    streakDays: typeof rawProf?.streakDays === 'number' ? rawProf.streakDays : 1,
+    lastActiveDate: typeof rawProf?.lastActiveDate === 'string' ? rawProf.lastActiveDate : null,
+  };
+
+  if (!Array.isArray(rawProf?.correctIds) && attempts.length > 0) {
+    backfillProfileHistoryFromAttempts(
+      profile,
+      attempts,
+      (qid) => store.questionsById.get(qid)?.correct_index
+    );
+  } else {
+    const sets = getCompletedIdSets(profile);
+    profile.correctIds = Array.from(sets.correctSet);
+    profile.mistakeIds = Array.from(sets.mistakeSet);
+  }
+
   const normalized: RuntimeState = {
-    profile: {
-      track: typeof rawProf?.track === 'string' && rawProf.track ? rawProf.track : defaults.profile.track,
-      bookmarks: Array.isArray(rawProf?.bookmarks) ? rawProf.bookmarks.map(Number) : [],
-      mistakeIds: Array.isArray(rawProf?.mistakeIds) ? rawProf.mistakeIds.map(Number) : [],
-      streakDays: typeof rawProf?.streakDays === 'number' ? rawProf.streakDays : 1,
-      lastActiveDate: typeof rawProf?.lastActiveDate === 'string' ? rawProf.lastActiveDate : null,
-    },
-    attempts: Array.isArray(raw?.attempts) ? raw.attempts : [],
+    profile,
+    attempts,
     examProgress: raw?.examProgress || null,
     reports: Array.isArray(raw?.reports) ? raw.reports : [],
     customSets,
@@ -506,217 +498,25 @@ export function findQuestionById(id: number): QuestionRecord | undefined {
   return runtime.customQuestions?.find((q) => q.id === id);
 }
 
-function shuffle<T>(arr: T[]): T[] {
-  const copy = arr.slice();
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
-
-function withSubjectFilter(
-  picked: QuestionRecord[],
-  baseTitle: string,
-  durationMin: number,
-  passRule: 'groups' | 'overall',
-  subjectFilter?: string
-): { title: string; durationSec: number; passRule: 'groups' | 'overall'; items: RunnerQuestion[] } {
-  const validSubject =
-    subjectFilter && Object.prototype.hasOwnProperty.call(SUBJECT_MAP, subjectFilter)
-      ? (subjectFilter as SubjectKey)
-      : null;
-
-  if (validSubject) {
-    const filtered = picked.filter((q) => q.subject_key === validSubject);
-    const meta = SUBJECT_MAP[validSubject];
-    return {
-      title: `${baseTitle} · เฉพาะวิชา${meta.name} (${filtered.length} ข้อ)`,
-      durationSec: Math.max(5, filtered.length) * 60,
-      passRule: 'overall',
-      items: filtered.map(toRunnerQuestion),
-    };
-  }
-
-  return {
-    title: baseTitle,
-    durationSec: durationMin * 60,
-    passRule,
-    items: picked.map(toRunnerQuestion),
-  };
-}
-
 export function buildExamForSetId(
   setId: string,
-  options?: {
-    trackName?: string;
-    count?: number;
-    subject?: string;
-    topic?: string;
-    shuffleMode?: boolean;
-    setIndex?: number;
-  }
+  options?: BuildExamOptions
 ): { title: string; durationSec: number; passRule: 'groups' | 'overall'; items: RunnerQuestion[] } {
   const store = getStore();
   const runtime = readRuntimeState();
   const all = getAllQuestionsMerged();
 
-  // 1. Mistake notebook drill
-  if (setId === 'mistakes') {
-    const ids = runtime.profile.mistakeIds;
-    const picked = ids.map((id) => findQuestionById(id)).filter((q): q is QuestionRecord => Boolean(q));
-    return withSubjectFilter(picked, 'ซ่อมข้อสอบที่ตอบผิด', Math.max(10, picked.length), 'overall', options?.subject);
-  }
-
-  // 2. Bookmarked questions drill
-  if (setId === 'bookmarks') {
-    const ids = runtime.profile.bookmarks;
-    const picked = ids.map((id) => findQuestionById(id)).filter((q): q is QuestionRecord => Boolean(q));
-    return withSubjectFilter(picked, 'ทบทวนข้อสอบที่ติดดาวไว้', Math.max(10, picked.length), 'overall', options?.subject);
-  }
-
-  // 3. Specific Sub-Topic drill (supports ordered sets set=1..N and normalized/aliased topic names)
-  if (setId === 'topic') {
-    const topicMatcher = resolveTopicSelection(options?.topic);
-    const filtered = all
-      .filter(
-        (q) =>
-          (!options?.subject || q.subject_key === options.subject) &&
-          topicMatcher.matches(q.title)
-      )
-      .slice()
-      .sort((a, b) => a.id - b.id);
-
-    if (options?.setIndex && Number.isFinite(options.setIndex) && options.setIndex >= 1) {
-      const chunkSize = Math.max(5, Math.min(500, options?.count || 20));
-      const totalSets = Math.max(1, Math.ceil(filtered.length / chunkSize));
-      const safeSetIdx = Math.min(Math.floor(options.setIndex), totalSets);
-      const start = (safeSetIdx - 1) * chunkSize;
-      const picked = filtered.slice(start, start + chunkSize);
-      const rangeText = picked.length > 0 ? ` (ข้อ ${start + 1}–${start + picked.length})` : '';
-      return {
-        title: `เจาะลึกหัวข้อ · ${topicMatcher.displayTopic} · ชุดที่ ${safeSetIdx}/${totalSets}${rangeText}`,
-        durationSec: Math.max(10, picked.length) * 60,
-        passRule: 'overall',
-        items: picked.map(toRunnerQuestion),
-      };
-    }
-
-    const limit = Math.min(options?.count || 30, filtered.length);
-    const picked = shuffle(filtered).slice(0, limit);
-    return {
-      title: `เจาะลึกหัวข้อ · ${topicMatcher.displayTopic}`,
-      durationSec: Math.max(10, picked.length) * 60,
-      passRule: 'overall',
-      items: picked.map(toRunnerQuestion),
-    };
-  }
-
-  // 4. Random track-weighted mock exam (exact weights, supports optional count & subject filter)
-  if (setId.startsWith('random')) {
-    const idxMatch = /^random-(\d+)$/.exec(setId);
-    const track =
-      (idxMatch && TRACKS[Number(idxMatch[1])]) ||
-      TRACKS.find((t) => t.name === options?.trackName) ||
-      TRACKS[0];
-
-    const totalWeight = Object.values(track.weights).reduce((acc, w) => acc + w, 0) || 150;
-    const desiredTotal =
-      options?.count && options.count > 0 && options.count < totalWeight
-        ? options.count
-        : totalWeight;
-
-    const collected: QuestionRecord[] = [];
-    const entries = (Object.keys(track.weights) as SubjectKey[]).filter((sk) => track.weights[sk] > 0);
-    for (let i = 0; i < entries.length; i++) {
-      const sk = entries[i];
-      const weight = track.weights[sk];
-      const targetCount =
-        i === entries.length - 1
-          ? Math.max(0, desiredTotal - collected.length)
-          : Math.max(1, Math.round((weight / totalWeight) * desiredTotal));
-      if (!targetCount) continue;
-      const pool = shuffle(all.filter((q) => q.subject_key === sk));
-      collected.push(...pool.slice(0, targetCount));
-    }
-    const finalItems = collected.slice(0, desiredTotal);
-    return withSubjectFilter(
-      finalItems,
-      `ข้อสอบสุ่มครบทุกวิชา · ${track.name}`,
-      desiredTotal === 150 ? 180 : Math.max(15, desiredTotal),
-      'groups',
-      options?.subject
-    );
-  }
-
-  // 5. Dynamic Subject Drill (`subject-math`, supports sequential chunking via `setIndex` or random `count`)
-  if (setId.startsWith('subject-')) {
-    const sk = setId.replace('subject-', '') as SubjectKey;
-    const meta = SUBJECT_MAP[sk] || SUBJECTS[0];
-    const chunkSize = Math.max(5, Math.min(150, options?.count || 20));
-    const subjectPool = all
-      .filter((q) => q.subject_key === meta.key)
-      .slice()
-      .sort((a, b) => a.id - b.id);
-
-    if (options?.setIndex && Number.isFinite(options.setIndex) && options.setIndex >= 1) {
-      const totalSets = Math.max(1, Math.ceil(subjectPool.length / chunkSize));
-      const safeSetIdx = Math.min(Math.floor(options.setIndex), totalSets);
-      const start = (safeSetIdx - 1) * chunkSize;
-      const picked = subjectPool.slice(start, start + chunkSize);
-      return {
-        title: `ชุดข้อสอบแยกวิชา · ${meta.name} ชุดที่ ${safeSetIdx}`,
-        durationSec: Math.max(5, picked.length) * 60,
-        passRule: 'overall',
-        items: picked.map(toRunnerQuestion),
-      };
-    }
-
-    const pool = shuffle(subjectPool).slice(0, chunkSize);
-    return {
-      title: `ฝึกรายวิชา · ${meta.name} (${pool.length} ข้อ)`,
-      durationSec: Math.max(5, pool.length) * 60,
-      passRule: 'overall',
-      items: pool.map(toRunnerQuestion),
-    };
-  }
-
-  // 6. Custom admin set or built-in catalog set (`101..107`, `201..215`)
-  const customIds = runtime.customSetQuestionIds[setId];
-  if (customIds?.length) {
-    const customMeta = runtime.customSets.find((s) => String(s.id) === setId);
-    const picked = customIds.map((id) => findQuestionById(id)).filter((q): q is QuestionRecord => Boolean(q));
-    return withSubjectFilter(
-      picked,
-      customMeta?.title || `ชุดข้อสอบกำหนดเอง #${setId}`,
-      customMeta?.timeMinutes || picked.length,
-      customMeta?.subjectKey ? 'overall' : 'groups',
-      options?.subject
-    );
-  }
-
-  const fixedIds = store.setsMap.get(setId);
-  const setMeta = store.examSets.find((s) => String(s.id) === setId);
-  if (fixedIds && fixedIds.length > 0) {
-    let picked = fixedIds.map((id) => store.questionsById.get(id)).filter((q): q is QuestionRecord => Boolean(q));
-    if (options?.shuffleMode && setMeta?.subjectKey) {
-      picked = shuffle(all.filter((q) => q.subject_key === setMeta.subjectKey)).slice(0, options?.count || 20);
-    }
-    return withSubjectFilter(
-      picked,
-      setMeta?.title || `ชุดข้อสอบ #${setId}`,
-      setMeta?.timeMinutes || picked.length,
-      setMeta?.kind === 'subject' ? 'overall' : 'groups',
-      options?.subject
-    );
-  }
-
-  // Fallback
-  const fallback = shuffle(all).slice(0, 20);
-  return {
-    title: `ชุดข้อสอบฝึกหัด #${setId}`,
-    durationSec: 20 * 60,
-    passRule: 'overall',
-    items: fallback.map(toRunnerQuestion),
-  };
+  return buildExamFromSource(
+    {
+      allQuestions: all,
+      findById: (id) => store.questionsById.get(id) || runtime.customQuestions?.find((q) => q.id === id),
+      fixedIdsForSet: (sid) => runtime.customSetQuestionIds[sid] || store.setsMap.get(sid),
+      setMetaForSet: (sid) =>
+        runtime.customSets.find((s) => String(s.id) === sid) ||
+        store.examSets.find((s) => String(s.id) === sid),
+      profile: runtime.profile,
+    },
+    setId,
+    options
+  );
 }

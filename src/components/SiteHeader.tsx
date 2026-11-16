@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
+  Archive,
   BookMarked,
   BookOpenCheck,
   Check,
@@ -21,7 +22,7 @@ import {
   Wrench,
   X,
 } from 'lucide-react';
-import { BRAND_PALETTES } from '@/lib/constants';
+import { BRAND_PALETTES, isNavItemActive } from '@/lib/constants';
 import { useThemeAndBrand } from './ThemeAndBrandProvider';
 
 export function ThemeAndBrandControls() {
@@ -109,10 +110,11 @@ const APP_NAV = [
   { href: '/dashboard', label: 'แดชบอร์ด', icon: PenLine },
   { href: '/catalog', label: 'ชุดข้อสอบ', icon: BookMarked },
   { href: '/catalog/subject', label: 'แยกรายวิชา', icon: Layers },
-  { href: '/catalog/topics', label: 'แยกหัวข้อย่อย', icon: BookOpenCheck },
+  { href: '/catalog/topics', label: 'หัวข้อย่อย', icon: BookOpenCheck },
+  { href: '/catalog/completed', label: 'ข้อที่ทำแล้ว', icon: Archive },
   { href: '/bank', label: 'คลัง 7,038 ข้อ', icon: Database },
   { href: '/history', label: 'ประวัติ', icon: History },
-  { href: '/reports', label: 'รายงานปัญหา', icon: Wrench },
+  { href: '/reports', label: 'แจ้งปัญหา', icon: Wrench },
   { href: '/admin', label: 'Admin', icon: SlidersHorizontal },
 ];
 
@@ -120,15 +122,11 @@ const MOBILE_BOTTOM_NAV = [
   { href: '/dashboard', label: 'แดชบอร์ด', icon: PenLine },
   { href: '/catalog', label: 'ชุดข้อสอบ', icon: BookMarked },
   { href: '/catalog/subject', label: 'แยกวิชา', icon: Layers },
+  { href: '/catalog/topics', label: 'หัวข้อย่อย', icon: BookOpenCheck },
+  { href: '/catalog/completed', label: 'ที่ทำแล้ว', icon: Archive },
   { href: '/bank', label: 'คลังข้อสอบ', icon: Database },
   { href: '/history', label: 'ประวัติ', icon: History },
 ];
-
-function isNavItemActive(pathname: string, href: string): boolean {
-  if (href === '/') return pathname === '/';
-  if (href === '/catalog') return pathname === '/catalog' || pathname.startsWith('/catalog/form');
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
 
 const PUBLIC_NAV = [
   { href: '/#features', label: 'จุดเด่น' },
@@ -156,33 +154,33 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
           </Link>
 
           {mode === 'app' ? (
-            <nav className="hidden items-center gap-1 md:flex">
+            <nav className="hidden items-center gap-0.5 2xl:gap-1 xl:flex">
               {APP_NAV.map((item) => {
                 const Icon = item.icon;
-                const active = isNavItemActive(pathname, item.href);
+                const active = isNavItemActive(pathname, item.href, false);
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-semibold transition-colors ${
+                    className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-xl px-2.5 py-1.5 text-xs font-semibold transition-colors ${
                       active
                         ? 'bg-brand/10 text-brand'
                         : 'text-muted hover:bg-bg2 hover:text-ink'
                     }`}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-3.5 w-3.5 shrink-0" />
                     <span>{item.label}</span>
                   </Link>
                 );
               })}
             </nav>
           ) : (
-          <nav className="hidden items-center gap-5 md:flex">
+          <nav className="hidden items-center gap-5 xl:flex">
             {PUBLIC_NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-semibold text-muted transition-colors hover:text-brand"
+                className="whitespace-nowrap text-sm font-semibold text-muted transition-colors hover:text-brand"
               >
                 {item.label}
               </Link>
@@ -204,7 +202,7 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
           ) : (
             <Link
               href="/catalog"
-              className="hidden items-center gap-1.5 rounded-btn bg-brand px-3.5 py-2 text-xs font-bold text-white transition-all hover:bg-brand-dark sm:inline-flex"
+              className="hidden items-center gap-1.5 whitespace-nowrap rounded-btn bg-brand px-3.5 py-2 text-xs font-bold text-white transition-all hover:bg-brand-dark 2xl:inline-flex"
             >
               <PenLine className="h-3.5 w-3.5" />
               <span>เลือกชุดข้อสอบ</span>
@@ -215,7 +213,7 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
             type="button"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="เปิดเมนูมือถือ"
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-panel text-ink md:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-panel text-ink xl:hidden"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -223,7 +221,7 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-line bg-panel px-4 py-3 md:hidden">
+        <div className="border-t border-line bg-panel px-4 py-3 xl:hidden">
           <div className="grid grid-cols-2 gap-2">
             {(mode === 'app'
               ? APP_NAV
@@ -250,22 +248,22 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
       {mode === 'app' && (
         <nav
           aria-label="แถบนำทางมือถือ"
-          className="md:hidden fixed bottom-0 inset-x-0 z-30 border-t border-line bg-panel/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]"
+          className="md:hidden fixed bottom-0 left-0 right-0 z-30 w-full max-w-[100vw] overflow-hidden border-t border-line bg-panel/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]"
         >
-          <div className="grid grid-cols-5">
+          <div className="mx-auto grid w-full max-w-xl grid-cols-7 px-0.5">
             {MOBILE_BOTTOM_NAV.map((item) => {
               const Icon = item.icon;
-              const active = isNavItemActive(pathname, item.href);
+              const active = isNavItemActive(pathname, item.href, true);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex flex-col items-center justify-center gap-1 py-2 text-[11px] font-bold transition-colors ${
+                  className={`min-w-0 flex flex-col items-center justify-center gap-0.5 py-2 px-0.5 text-[10px] sm:text-[11px] font-bold leading-tight transition-colors ${
                     active ? 'text-brand' : 'text-muted hover:text-ink'
                   }`}
                 >
-                  <Icon className="h-4 w-4" />
-                  <span className="truncate max-w-full px-1">{item.label}</span>
+                  <Icon className="h-4 w-4 shrink-0" />
+                  <span className="w-full truncate text-center">{item.label}</span>
                 </Link>
               );
             })}

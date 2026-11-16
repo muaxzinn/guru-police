@@ -10,7 +10,9 @@
     "start": "next start -p 3199",
     "lint": "tsc --noEmit --noUnusedLocals --noUnusedParameters",
     "typecheck": "tsc --noEmit",
-    "verify": "node scripts/verify-app.mjs"
+    "test": "node --test tests/*.test.mts",
+    "verify": "node scripts/verify-app.mjs",
+    "test:all": "pnpm test && pnpm verify"
   },
   "dependencies": {
     "lucide-react": "^0.475.0",

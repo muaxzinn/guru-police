@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import {
   Bookmark,
   ChevronLeft,
@@ -10,14 +11,22 @@ import {
   Eye,
   EyeOff,
   Image as ImageIcon,
+  Loader2,
   Play,
   Search,
+  X,
 } from 'lucide-react';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SubjectIcon } from '@/components/SubjectIcon';
 import { ImageLightbox, isImageUrlString } from '@/components/ImageLightbox';
 import { RichExamContent } from '@/components/RichExamContent';
-import { CHOICE_LABELS, SUBJECT_MAP, SUBJECTS, type SubjectKey } from '@/lib/constants';
+import {
+  CHOICE_LABELS,
+  resolveTopicSelection,
+  SUBJECT_MAP,
+  SUBJECTS,
+  type SubjectKey,
+} from '@/lib/constants';
 import type { QuestionRecord } from '@/lib/server-db';
 
 interface TopicOption {
@@ -26,13 +35,38 @@ interface TopicOption {
   count: number;
 }
 
-export default function QuestionBankPage() {
-  const [subject, setSubject] = useState<string>('');
-  const [topic, setTopic] = useState<string>('');
-  const [batch, setBatch] = useState<string>('');
-  const [query, setQuery] = useState<string>('');
-  const [hasImage, setHasImage] = useState(false);
+function QuestionBankInner() {
+  const searchParams = useSearchParams();
+  const [subject, setSubject] = useState<string>(() => searchParams.get('subject') || '');
+  const [topic, setTopic] = useState<string>(() => searchParams.get('topic') || '');
+  const [batch, setBatch] = useState<string>(() => searchParams.get('batch') || '');
+  const [query, setQuery] = useState<string>(() => searchParams.get('q') || '');
+  const [hasImage, setHasImage] = useState<boolean>(() => searchParams.get('hasImage') === '1');
   const [page, setPage] = useState(1);
+
+  const searchKey = searchParams.toString();
+  const prevSearchKeyRef = useRef(searchKey);
+  useEffect(() => {
+    if (prevSearchKeyRef.current === searchKey) return;
+    prevSearchKeyRef.current = searchKey;
+    const sp = new URLSearchParams(searchKey);
+    setSubject(sp.get('subject') || '');
+    setTopic(sp.get('topic') || '');
+    setBatch(sp.get('batch') || '');
+    setQuery(sp.get('q') || '');
+    setHasImage(sp.get('hasImage') === '1');
+    setPage(1);
+  }, [searchKey]);
+
+  const hasActiveFilters = Boolean(subject || topic || batch || query.trim() || hasImage);
+  const resetFilters = () => {
+    setSubject('');
+    setTopic('');
+    setBatch('');
+    setQuery('');
+    setHasImage(false);
+    setPage(1);
+  };
 
   const [items, setItems] = useState<QuestionRecord[]>([]);
   const [total, setTotal] = useState(0);
@@ -104,7 +138,7 @@ export default function QuestionBankPage() {
   };
 
   return (
-    <div className="min-h-screen bg-bg text-ink">
+    <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
       <SiteHeader mode="app" />
       <main className="mx-auto max-w-5xl px-4 py-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
@@ -130,9 +164,9 @@ export default function QuestionBankPage() {
         </div>
 
         {/* Filter Bar */}
-        <section className="mt-5 rounded-card border border-line bg-panel p-4 shadow-card">
-          <div className="grid gap-3 md:grid-cols-4">
-            <div className="relative md:col-span-2">
+        <section className="mt-5 rounded-card border border-line bg-panel p-4 shadow-card overflow-hidden">
+          <div className="grid gap-3 md:grid-cols-4 min-w-0">
+            <div className="relative md:col-span-2 min-w-0">
               <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted" />
               <input
                 value={query}
@@ -141,7 +175,7 @@ export default function QuestionBankPage() {
                   setPage(1);
                 }}
                 placeholder="ค้นหาคำถาม ตัวเลือก คำอธิบาย หรือ ID ข้อสอบ..."
-                className="w-full rounded-xl border border-line bg-bg2/60 py-2.5 pl-9 pr-3 text-sm outline-none focus:border-brand"
+                className="w-full min-w-0 rounded-xl border border-line bg-bg2/60 py-2.5 pl-9 pr-3 text-sm outline-none focus:border-brand"
               />
             </div>
 
@@ -152,7 +186,7 @@ export default function QuestionBankPage() {
                 setTopic('');
                 setPage(1);
               }}
-              className="rounded-xl border border-line bg-bg2/60 px-3 py-2.5 text-sm outline-none focus:border-brand"
+              className="w-full min-w-0 max-w-full truncate rounded-xl border border-line bg-bg2/60 px-3 py-2.5 text-sm outline-none focus:border-brand"
             >
               <option value="">ทุกรายวิชา (7 วิชา)</option>
               {SUBJECTS.map((s) => (
@@ -168,26 +202,29 @@ export default function QuestionBankPage() {
                 setTopic(e.target.value);
                 setPage(1);
               }}
-              className="rounded-xl border border-line bg-bg2/60 px-3 py-2.5 text-sm outline-none focus:border-brand"
+              className="w-full min-w-0 max-w-full truncate rounded-xl border border-line bg-bg2/60 px-3 py-2.5 text-sm outline-none focus:border-brand"
             >
               <option value="">ทุกหัวข้อย่อย ({topics.length} หัวข้อ)</option>
+              {topic && !topics.some((t) => t.title === topic) && (
+                <option value={topic}>{resolveTopicSelection(topic).displayTopic.replace(/_/g, ' ')}</option>
+              )}
               {topics.map((t) => (
                 <option key={`${t.subjectKey}-${t.title}`} value={t.title}>
-                  {t.title} ({t.count})
+                  {t.title.replace(/_/g, ' ')} ({t.count})
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-3">
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 min-w-0">
+            <div className="flex flex-wrap items-center gap-3 min-w-0 w-full sm:w-auto">
               <select
                 value={batch}
                 onChange={(e) => {
                   setBatch(e.target.value);
                   setPage(1);
                 }}
-                className="rounded-xl border border-line bg-bg2/60 px-3 py-1.5 text-xs font-semibold outline-none focus:border-brand"
+                className="w-full sm:w-auto min-w-0 max-w-full truncate rounded-xl border border-line bg-bg2/60 px-3 py-1.5 text-xs font-semibold outline-none focus:border-brand"
               >
                 <option value="">ทุกชุดนำเข้า</option>
                 {batches.map((b) => (
@@ -209,6 +246,17 @@ export default function QuestionBankPage() {
                 <ImageIcon className="h-3.5 w-3.5 text-brand" />
                 <span>เฉพาะข้อที่มีรูปภาพ</span>
               </label>
+
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  className="inline-flex items-center gap-1 rounded-xl border border-line bg-bg2/60 px-3 py-1.5 text-xs font-bold text-muted hover:border-brand/50 hover:text-brand transition"
+                >
+                  <X className="h-3.5 w-3.5" />
+                  <span>ล้างตัวกรอง</span>
+                </button>
+              )}
             </div>
 
             <div className="font-mono text-xs text-muted">
@@ -236,15 +284,15 @@ export default function QuestionBankPage() {
               return (
                 <article
                   key={q.id}
-                  className="rounded-card border border-line bg-panel p-5 shadow-card"
+                  className="overflow-hidden break-words rounded-card border border-line bg-panel p-5 shadow-card"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 min-w-0">
                       <SubjectIcon subjectKey={q.subject_key} size="sm" />
                       <span className="text-xs font-bold text-ink">{meta?.name || q.subject_key}</span>
                       {q.title && (
-                        <span className="rounded-full bg-bg2 px-2.5 py-0.5 text-[11px] font-semibold text-muted">
-                          {q.title}
+                        <span className="max-w-full truncate rounded-full bg-bg2 px-2.5 py-0.5 text-[11px] font-semibold text-muted">
+                          {q.title.replace(/_/g, ' ')}
                         </span>
                       )}
                       <span className="font-mono text-[11px] text-muted">#{q.id}</span>
@@ -380,6 +428,23 @@ export default function QuestionBankPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function QuestionBankPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
+          <SiteHeader mode="app" />
+          <div className="mx-auto flex max-w-5xl items-center justify-center px-4 py-24">
+            <Loader2 className="h-7 w-7 animate-spin text-brand" />
+          </div>
+        </div>
+      }
+    >
+      <QuestionBankInner />
+    </Suspense>
   );
 }
 

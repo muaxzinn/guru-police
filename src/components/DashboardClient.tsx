@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
+  Archive,
   ArrowRight,
   Award,
   Bookmark,
@@ -29,8 +30,10 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { CountdownCard } from '@/components/Countdown';
 import { SubjectIcon } from '@/components/SubjectIcon';
 import { StartExamModalButton } from '@/components/RedeemAndStartModals';
+import { QuestionPoolSettingsBar } from '@/components/QuestionPoolSettingsBar';
 import { SUBJECT_MAP, TRACKS, type SubjectKey } from '@/lib/constants';
 import { computePlayerStats } from '@/lib/gamification';
+import { getCompletedIdSets } from '@/lib/question-pool';
 import type { AttemptRecord, ExamProgressRecord, RuntimeState, UserProfile } from '@/lib/server-db';
 
 interface DashboardClientProps {
@@ -72,6 +75,29 @@ export function DashboardClient({
   const [syncNotice, setSyncNotice] = useState<string | null>(null);
   const [syncLoading, setSyncLoading] = useState(false);
   const currentTrackMeta = TRACKS.find((t) => t.name === selectedTrack) || TRACKS[0];
+  const { correctSet, mistakeSet, allCompletedSet } = useMemo(
+    () => getCompletedIdSets(profile),
+    [profile]
+  );
+  const excludeCompleted = profile.excludeCompleted !== false;
+  const excludeParam = excludeCompleted ? '&excludeCompleted=1' : '&excludeCompleted=0';
+
+  const handleToggleExcludeCompleted = async (next: boolean) => {
+    setProfile((prev) => ({ ...prev, excludeCompleted: next }));
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ excludeCompleted: next }),
+      });
+      if (res.ok) {
+        const d = await res.json();
+        if (d?.profile) setProfile(d.profile);
+      }
+    } catch {
+      // keep optimistic toggle
+    }
+  };
 
   const playerStats = useMemo(
     () =>
@@ -244,6 +270,13 @@ export function DashboardClient({
         mistakeIds: Array.isArray(parsed.profile?.mistakeIds)
           ? parsed.profile.mistakeIds.map(Number)
           : profile.mistakeIds,
+        correctIds: Array.isArray(parsed.profile?.correctIds)
+          ? parsed.profile.correctIds.map(Number)
+          : profile.correctIds || [],
+        excludeCompleted:
+          typeof parsed.profile?.excludeCompleted === 'boolean'
+            ? parsed.profile.excludeCompleted
+            : profile.excludeCompleted ?? true,
       };
       const nextAttempts = Array.isArray(parsed.attempts) ? parsed.attempts : attempts;
       const nextProgress =
@@ -347,8 +380,24 @@ export function DashboardClient({
               <BookOpenCheck className="h-3.5 w-3.5 text-brand" />
               <span>แยกหัวข้อย่อยรายวิชา</span>
             </Link>
+            <Link
+              href="/catalog/completed"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-brand/35 bg-brand/10 px-3 py-1.5 text-xs font-extrabold text-brand transition-colors hover:bg-brand hover:text-white"
+            >
+              <Archive className="h-3.5 w-3.5" />
+              <span>ข้อที่เคยทำแล้ว ({allCompletedSet.size})</span>
+            </Link>
           </div>
         </div>
+
+        <QuestionPoolSettingsBar
+          totalQuestions={totalQuestions}
+          correctCount={correctSet.size}
+          wrongCount={mistakeSet.size}
+          excludeCompleted={excludeCompleted}
+          onToggleExclude={handleToggleExcludeCompleted}
+          compact={true}
+        />
 
         {/* Resume active exam banner if saved in progress */}
         {examProgress && examProgress.list?.length > 0 && (
@@ -390,7 +439,10 @@ export function DashboardClient({
                 คลังข้อสอบนายสิบตำรวจ {totalQuestions.toLocaleString('en-US')} ข้อ · ครบ {currentTrackMeta.subjects.length} วิชาตามสายสอบของคุณ
               </p>
             </div>
-            <StartExamModalButton defaultTrack={currentTrackMeta.name} />
+            <StartExamModalButton
+              defaultTrack={currentTrackMeta.name}
+              excludeCompleted={excludeCompleted}
+            />
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -653,7 +705,7 @@ export function DashboardClient({
                       )}
                     </div>
                     <Link
-                      href={`/exam/subject-${meta.key}?set=1&count=20&mode=practice&fresh=1`}
+                      href={`/exam/subject-${meta.key}?set=1&count=20&mode=practice&fresh=1${excludeParam}`}
                       className="rounded-lg border border-line bg-bg2 px-2.5 py-1 text-[11px] font-bold text-brand transition-colors hover:border-brand/50 hover:bg-brand/10"
                     >
                       ฝึกวิชานี้
@@ -743,7 +795,7 @@ export function DashboardClient({
                     </p>
                   </div>
                   <Link
-                    href={`/exam/subject-${encodeURIComponent(s.key)}?set=1&count=20&mode=practice&fresh=1`}
+                    href={`/exam/subject-${encodeURIComponent(s.key)}?set=1&count=20&mode=practice&fresh=1${excludeParam}`}
                     className="px-3 py-1.5 rounded-xl bg-brand/10 hover:bg-brand hover:text-white text-brand text-xs font-extrabold shrink-0 transition"
                   >
                     ฝึกซ่อม
@@ -794,7 +846,7 @@ export function DashboardClient({
                         <p className="text-xs sm:text-sm font-bold text-ink line-clamp-2">{t.title}</p>
                       </div>
                       <Link
-                        href={`/exam/topic?subject=${encodeURIComponent(t.subjectKey)}&topic=${encodeURIComponent(t.title)}&count=20&mode=practice&fresh=1`}
+                        href={`/exam/topic?subject=${encodeURIComponent(t.subjectKey)}&topic=${encodeURIComponent(t.title)}&count=20&mode=practice&fresh=1${excludeParam}`}
                         className="inline-flex items-center justify-center gap-1 w-full py-1.5 rounded-xl bg-brand/10 hover:bg-brand hover:text-white text-brand text-xs font-extrabold transition"
                       >
                         <span>เจาะฝึกบทนี้</span>

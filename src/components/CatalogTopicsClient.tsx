@@ -5,27 +5,24 @@ import Link from 'next/link';
 import {
   ArrowRight,
   BookOpen,
+  CheckCircle2,
   ChevronDown,
   ChevronUp,
   Database,
   Layers,
   Play,
+  RotateCcw,
   Search,
   Shuffle,
   Sparkles,
 } from 'lucide-react';
 import { SUBJECT_MAP, SUBJECTS, type SubjectKey } from '@/lib/constants';
+import type { SubTopicCatalogItem } from '@/lib/topic-catalog';
+import { useProfileHistory } from '@/lib/use-profile-history';
 import { SubjectIcon } from '@/components/SubjectIcon';
+import { QuestionPoolSettingsBar } from '@/components/QuestionPoolSettingsBar';
 
-export interface SubTopicCatalogItem {
-  subjectKey: SubjectKey;
-  title: string;
-  displayTitle: string;
-  rawTitles: string[];
-  count: number;
-  category: string;
-  description: string;
-}
+export type { SubTopicCatalogItem };
 
 interface CatalogTopicsClientProps {
   topicsBySubject: Record<SubjectKey, SubTopicCatalogItem[]>;
@@ -41,6 +38,22 @@ export function CatalogTopicsClient({
   const [query, setQuery] = useState<string>('');
   const [chunkSize, setChunkSize] = useState<15 | 20 | 30>(20);
   const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+
+  const {
+    correctSet,
+    mistakeSet,
+    allCompletedSet,
+    excludeCompleted,
+    saving,
+    toggleExcludeCompleted,
+    resetCompleted,
+    resetForTopic,
+  } = useProfileHistory();
+
+  const totalCatalogQuestions = useMemo(
+    () => SUBJECTS.reduce((sum, s) => sum + (subjectTotals[s.key] || 0), 0),
+    [subjectTotals]
+  );
 
   const allTopics = useMemo(
     () => SUBJECTS.flatMap((s) => topicsBySubject[s.key] || []),
@@ -83,6 +96,24 @@ export function CatalogTopicsClient({
 
   return (
     <div className="space-y-6">
+      <QuestionPoolSettingsBar
+        totalQuestions={totalCatalogQuestions}
+        correctCount={correctSet.size}
+        wrongCount={mistakeSet.size}
+        excludeCompleted={excludeCompleted}
+        onToggleExclude={toggleExcludeCompleted}
+        saving={saving}
+        onOpenReset={() => {
+          if (
+            window.confirm(
+              `ต้องการรีเซ็ตประวัติข้อสอบที่เคยทำทั้งหมด (${allCompletedSet.size} ข้อ) เพื่อให้นำกลับมาฝึกใหม่ทุกวิชาใช่หรือไม่?`
+            )
+          ) {
+            void resetCompleted({ scope: 'all', pool: 'all' });
+          }
+        }}
+      />
+
       {/* Subject Selector Grid */}
       <div className="space-y-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -123,6 +154,12 @@ export function CatalogTopicsClient({
           {SUBJECTS.map((sub) => {
             const subTopics = topicsBySubject[sub.key] || [];
             const selected = selectedSubject === sub.key;
+            const doneInSub = subTopics.reduce(
+              (acc, t) => acc + t.questionIds.filter((id) => allCompletedSet.has(id)).length,
+              0
+            );
+            const totalInSub = subjectTotals[sub.key] || 0;
+            const remainingInSub = Math.max(0, totalInSub - doneInSub);
             return (
               <button
                 key={sub.key}
@@ -152,7 +189,9 @@ export function CatalogTopicsClient({
                     {sub.shortName}
                   </div>
                   <div className="font-mono text-[11px] text-muted">
-                    {(subjectTotals[sub.key] || 0).toLocaleString('en-US')} ข้อ
+                    {excludeCompleted && doneInSub > 0
+                      ? `ใหม่ ${remainingInSub}/${totalInSub}`
+                      : `${totalInSub.toLocaleString('en-US')} ข้อ`}
                   </div>
                 </div>
               </button>
@@ -223,7 +262,17 @@ export function CatalogTopicsClient({
             const subMeta = SUBJECT_MAP[item.subjectKey];
             const subTotal = subjectTotals[item.subjectKey] || 1;
             const sharePct = Math.max(1, Math.round((item.count / subTotal) * 100));
-            const totalSets = Math.max(1, Math.ceil(item.count / chunkSize));
+            let doneCorrect = 0;
+            let doneWrong = 0;
+            for (const qid of item.questionIds) {
+              if (correctSet.has(qid)) doneCorrect++;
+              else if (mistakeSet.has(qid)) doneWrong++;
+            }
+            const doneTotal = doneCorrect + doneWrong;
+            const remainingCount = Math.max(0, item.count - doneTotal);
+            const activeCount = excludeCompleted ? remainingCount : item.count;
+            const excludeParam = excludeCompleted ? '&excludeCompleted=1' : '&excludeCompleted=0';
+            const totalSets = activeCount > 0 ? Math.max(1, Math.ceil(activeCount / chunkSize)) : 0;
             const topicParam = encodeURIComponent(item.rawTitles.join('||'));
             const cardId = `${item.subjectKey}::${item.title}`;
             const isExpanded = Boolean(expandedCards[cardId]);
@@ -255,7 +304,7 @@ export function CatalogTopicsClient({
 
                     <div className="text-right shrink-0">
                       <div className="font-mono text-sm font-extrabold text-brand">
-                        {item.count} ข้อ
+                        {excludeCompleted ? `${remainingCount} ข้อใหม่` : `${item.count} ข้อ`}
                       </div>
                       <div className="font-mono text-[11px] text-muted">
                         {sharePct}% · {totalSets} ชุดย่อย
@@ -265,81 +314,143 @@ export function CatalogTopicsClient({
 
                   <p className="text-xs text-muted leading-relaxed">{item.description}</p>
 
-                  {/* Ordered Sub-Set Pills */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-[11px] font-bold text-muted">
-                      <span className="inline-flex items-center gap-1">
-                        <BookOpen className="h-3.5 w-3.5 text-teal-ink" />
-                        <span>ชุดข้อสอบเรียงตามลำดับ (ชุดละ {chunkSize} ข้อ)</span>
+                  {doneTotal > 0 && (
+                    <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line bg-bg2/60 px-3 py-1.5 text-[11px]">
+                      <span className="font-bold text-ink">
+                        ทำแล้ว <span className="font-mono">{doneTotal}/{item.count}</span> ข้อ
+                        <span className="text-muted">
+                          {' '}
+                          (ถูก <span className="text-teal-ink font-bold">{doneCorrect}</span> · ผิด{' '}
+                          <span className="text-accent font-bold">{doneWrong}</span>)
+                        </span>
                       </span>
-                      {totalSets > 6 && (
+                      <span className="font-mono font-bold text-brand">
+                        เหลือข้อใหม่ {remainingCount} ข้อ
+                      </span>
+                    </div>
+                  )}
+
+                  {activeCount === 0 ? (
+                    <div className="rounded-2xl border border-teal/40 bg-teal/10 p-4 text-center space-y-2.5">
+                      <p className="text-xs font-extrabold text-teal-ink inline-flex items-center gap-1.5">
+                        <CheckCircle2 className="h-4 w-4" />
+                        <span>ทำครบทุกข้อในบทนี้แล้ว!</span>
+                      </p>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        <Link
+                          href="/catalog/completed"
+                          className="rounded-xl bg-brand px-3 py-1.5 text-xs font-extrabold text-white hover:bg-brand-dark"
+                        >
+                          ไปฝึกทบทวนข้อที่ทำแล้ว
+                        </Link>
                         <button
                           type="button"
-                          onClick={() =>
-                            setExpandedCards((prev) => ({
-                              ...prev,
-                              [cardId]: !prev[cardId],
-                            }))
-                          }
-                          className="inline-flex items-center gap-1 text-brand hover:underline"
+                          disabled={saving}
+                          onClick={() => {
+                            if (window.confirm(`รีเซ็ตประวัติบท "${item.displayTitle}" เพื่อทำใหม่ทั้งหมดหรือไม่?`)) {
+                              void resetForTopic(item.subjectKey, item.rawTitles.join('||'), 'all');
+                            }
+                          }}
+                          className="inline-flex items-center gap-1 rounded-xl border border-line bg-panel px-3 py-1.5 text-xs font-bold text-muted hover:text-accent"
                         >
-                          <span>{isExpanded ? 'ย่อลง' : `ดูครบทั้ง ${totalSets} ชุด`}</span>
-                          {isExpanded ? (
-                            <ChevronUp className="h-3.5 w-3.5" />
-                          ) : (
-                            <ChevronDown className="h-3.5 w-3.5" />
-                          )}
+                          <RotateCcw className="h-3.5 w-3.5" />
+                          <span>รีเซ็ตบทนี้</span>
                         </button>
-                      )}
+                      </div>
                     </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                      {Array.from({ length: visibleSetCount }, (_, idx) => {
-                        const setNum = idx + 1;
-                        const startQ = idx * chunkSize + 1;
-                        const endQ = Math.min(item.count, setNum * chunkSize);
-                        return (
-                          <Link
-                            key={setNum}
-                            href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=${setNum}&count=${chunkSize}&mode=practice&fresh=1`}
-                            className="flex items-center justify-between gap-1 rounded-xl border border-line bg-bg2/60 px-2.5 py-1.5 text-[11px] font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+                  ) : (
+                    /* Ordered Sub-Set Pills */
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-[11px] font-bold text-muted">
+                        <span className="inline-flex items-center gap-1">
+                          <BookOpen className="h-3.5 w-3.5 text-teal-ink" />
+                          <span>
+                            {excludeCompleted && doneTotal > 0
+                              ? `ชุดข้อสอบเฉพาะข้อใหม่ (ชุดละ ${chunkSize} ข้อ)`
+                              : `ชุดข้อสอบเรียงตามลำดับ (ชุดละ ${chunkSize} ข้อ)`}
+                          </span>
+                        </span>
+                        {totalSets > 6 && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setExpandedCards((prev) => ({
+                                ...prev,
+                                [cardId]: !prev[cardId],
+                              }))
+                            }
+                            className="inline-flex items-center gap-1 text-brand hover:underline"
                           >
-                            <span>ชุดที่ {setNum}</span>
-                            <span className="font-mono text-[10px] text-muted">
-                              {startQ}–{endQ}
-                            </span>
-                          </Link>
-                        );
-                      })}
+                            <span>{isExpanded ? 'ย่อลง' : `ดูครบทั้ง ${totalSets} ชุด`}</span>
+                            {isExpanded ? (
+                              <ChevronUp className="h-3.5 w-3.5" />
+                            ) : (
+                              <ChevronDown className="h-3.5 w-3.5" />
+                            )}
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                        {Array.from({ length: visibleSetCount }, (_, idx) => {
+                          const setNum = idx + 1;
+                          const startQ = idx * chunkSize + 1;
+                          const endQ = Math.min(activeCount, setNum * chunkSize);
+                          return (
+                            <Link
+                              key={setNum}
+                              href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=${setNum}&count=${chunkSize}&mode=practice&fresh=1${excludeParam}`}
+                              className="flex items-center justify-between gap-1 rounded-xl border border-line bg-bg2/60 px-2.5 py-1.5 text-[11px] font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+                            >
+                              <span>ชุดที่ {setNum}</span>
+                              <span className="font-mono text-[10px] text-muted">
+                                {startQ}–{endQ}
+                              </span>
+                            </Link>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Action Footer */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 border-t border-line pt-3">
+                  {activeCount > 0 ? (
+                    <>
+                      <Link
+                        href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${chunkSize}&mode=practice&fresh=1${excludeParam}`}
+                        className="inline-flex items-center justify-center gap-1 rounded-xl bg-brand px-2.5 py-2 text-xs font-extrabold text-white transition hover:bg-brand-dark"
+                      >
+                        <Play className="h-3.5 w-3.5" />
+                        <span>เริ่มชุดที่ 1</span>
+                      </Link>
+                      <Link
+                        href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&count=20&mode=practice&fresh=1${excludeParam}`}
+                        className="inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-bg2 px-2.5 py-2 text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+                      >
+                        <Shuffle className="h-3.5 w-3.5 text-brand" />
+                        <span>สุ่ม {Math.min(20, activeCount)} ข้อ</span>
+                      </Link>
+                      <Link
+                        href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${activeCount}&mode=practice&fresh=1${excludeParam}`}
+                        className="inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-bg2 px-2.5 py-2 text-xs font-bold text-ink transition hover:border-teal/60 hover:text-teal-ink"
+                      >
+                        <Sparkles className="h-3.5 w-3.5 text-teal-ink" />
+                        <span>ครบ {activeCount} ข้อ</span>
+                      </Link>
+                    </>
+                  ) : (
+                    <Link
+                      href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${chunkSize}&mode=practice&fresh=1&excludeCompleted=0`}
+                      className="sm:col-span-3 inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-bg2 px-2.5 py-2 text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+                    >
+                      <Play className="h-3.5 w-3.5" />
+                      <span>ฝึกซ้ำครบทั้ง {item.count} ข้อในบทนี้</span>
+                    </Link>
+                  )}
                   <Link
-                    href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${chunkSize}&mode=practice&fresh=1`}
-                    className="inline-flex items-center justify-center gap-1 rounded-xl bg-brand px-2.5 py-2 text-xs font-extrabold text-white transition hover:bg-brand-dark"
-                  >
-                    <Play className="h-3.5 w-3.5" />
-                    <span>เริ่มชุดที่ 1</span>
-                  </Link>
-                  <Link
-                    href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&count=20&mode=practice&fresh=1`}
-                    className="inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-bg2 px-2.5 py-2 text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
-                  >
-                    <Shuffle className="h-3.5 w-3.5 text-brand" />
-                    <span>สุ่ม 20 ข้อ</span>
-                  </Link>
-                  <Link
-                    href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${item.count}&mode=practice&fresh=1`}
-                    className="inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-bg2 px-2.5 py-2 text-xs font-bold text-ink transition hover:border-teal/60 hover:text-teal-ink"
-                  >
-                    <Sparkles className="h-3.5 w-3.5 text-teal-ink" />
-                    <span>ครบ {item.count} ข้อ</span>
-                  </Link>
-                  <Link
-                    href={`/bank?subject=${item.subjectKey}&topic=${encodeURIComponent(item.rawTitles[0])}`}
+                    href={`/bank?subject=${item.subjectKey}&topic=${topicParam}`}
                     className="inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-bg2 px-2.5 py-2 text-xs font-bold text-muted transition hover:border-brand/50 hover:text-ink"
                   >
                     <Database className="h-3.5 w-3.5" />

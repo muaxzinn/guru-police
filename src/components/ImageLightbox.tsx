@@ -2,14 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Maximize2, RefreshCw, X } from 'lucide-react';
-
-export const IMAGE_URL_ONLY_RE =
-  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)|\/question-images\/\S+|\/question-svgs\/\S+|\/qimg\/\S+|\/simg\/\S+)$/i;
-
-export function isImageUrlString(val?: string | null): boolean {
-  if (!val) return false;
-  return IMAGE_URL_ONLY_RE.test(val.trim());
-}
+export { IMAGE_URL_ONLY_RE, isImageUrlString } from '@/lib/rich-text-parser';
 
 export function ImageLightbox({
   src,

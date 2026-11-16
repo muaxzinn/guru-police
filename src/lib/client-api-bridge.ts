@@ -4,10 +4,22 @@ import {
   CHOICE_LABELS,
   resolveTopicSelection,
   SUBJECT_MAP,
-  SUBJECTS,
   TRACKS,
   type SubjectKey,
 } from './constants';
+import {
+  applyQuestionOutcomes,
+  backfillProfileHistoryFromAttempts,
+  buildExamFromSource,
+  computeSubjectBreakdown,
+  getCompletedIdSets,
+  resetCompletedHistory,
+  shufflePool,
+  toRunnerQuestion,
+  type BuildExamOptions,
+  type CompletedPoolMode,
+  type QuestionOutcome,
+} from './question-pool';
 import type {
   AttemptGroupStat,
   AttemptRecord,
@@ -16,7 +28,6 @@ import type {
   ExamSetSummary,
   QuestionRecord,
   ReportRecord,
-  RunnerQuestion,
   RuntimeState,
 } from './server-db';
 
@@ -60,6 +71,8 @@ function getDefaultRuntimeState(defaultLeaderboard?: RuntimeState['leaderboard']
       track: TRACKS[0].name,
       bookmarks: [],
       mistakeIds: [],
+      correctIds: [],
+      excludeCompleted: true,
       streakDays: 1,
       lastActiveDate: null,
     },
@@ -71,43 +84,6 @@ function getDefaultRuntimeState(defaultLeaderboard?: RuntimeState['leaderboard']
     customQuestions: [],
     leaderboard: defaultLeaderboard && defaultLeaderboard.length > 0 ? defaultLeaderboard : [],
   };
-}
-
-function computeSubjectBreakdown(
-  questionIds: number[],
-  lookup: (id: number) => QuestionRecord | undefined
-): Partial<Record<SubjectKey, number>> {
-  const breakdown: Partial<Record<SubjectKey, number>> = {};
-  for (const id of questionIds) {
-    const q = lookup(id);
-    if (!q) continue;
-    breakdown[q.subject_key] = (breakdown[q.subject_key] || 0) + 1;
-  }
-  return breakdown;
-}
-
-function toRunnerQuestion(q: QuestionRecord): RunnerQuestion {
-  return {
-    id: q.id,
-    subject: q.subject_key,
-    title: q.title,
-    b: q.stem || '',
-    img: q.img,
-    opts: q.opts,
-    optImgs: q.opt_imgs,
-    c: q.correct_index,
-    e: q.explanation,
-    eImg: q.explanation_img,
-  };
-}
-
-function shuffle<T>(arr: T[]): T[] {
-  const copy = arr.slice();
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
 }
 
 async function loadStaticStore(nativeFetch: typeof window.fetch): Promise<StaticStore> {
@@ -170,15 +146,33 @@ function readRuntimeStateClient(store: StaticStore): RuntimeState {
       })
     : [];
 
+  const attempts = Array.isArray(raw.attempts) ? raw.attempts : [];
+  const profile: RuntimeState['profile'] = {
+    track: typeof rawProf.track === 'string' && rawProf.track ? rawProf.track : defaults.profile.track,
+    bookmarks: Array.isArray(rawProf.bookmarks) ? rawProf.bookmarks.map(Number) : [],
+    mistakeIds: Array.isArray(rawProf.mistakeIds) ? rawProf.mistakeIds.map(Number) : [],
+    correctIds: Array.isArray(rawProf.correctIds) ? rawProf.correctIds.map(Number) : [],
+    excludeCompleted:
+      typeof rawProf.excludeCompleted === 'boolean' ? rawProf.excludeCompleted : true,
+    streakDays: typeof rawProf.streakDays === 'number' ? rawProf.streakDays : 1,
+    lastActiveDate: typeof rawProf.lastActiveDate === 'string' ? rawProf.lastActiveDate : null,
+  };
+
+  if (!Array.isArray(rawProf.correctIds) && attempts.length > 0) {
+    backfillProfileHistoryFromAttempts(
+      profile,
+      attempts,
+      (qid) => lookupMerged(qid)?.correct_index
+    );
+  } else {
+    const sets = getCompletedIdSets(profile);
+    profile.correctIds = Array.from(sets.correctSet);
+    profile.mistakeIds = Array.from(sets.mistakeSet);
+  }
+
   return {
-    profile: {
-      track: typeof rawProf.track === 'string' && rawProf.track ? rawProf.track : defaults.profile.track,
-      bookmarks: Array.isArray(rawProf.bookmarks) ? rawProf.bookmarks.map(Number) : [],
-      mistakeIds: Array.isArray(rawProf.mistakeIds) ? rawProf.mistakeIds.map(Number) : [],
-      streakDays: typeof rawProf.streakDays === 'number' ? rawProf.streakDays : 1,
-      lastActiveDate: typeof rawProf.lastActiveDate === 'string' ? rawProf.lastActiveDate : null,
-    },
-    attempts: Array.isArray(raw.attempts) ? raw.attempts : [],
+    profile,
+    attempts,
     examProgress: raw.examProgress || null,
     reports: Array.isArray(raw.reports) ? raw.reports : [],
     customSets,
@@ -216,218 +210,26 @@ function findQuestionByIdClient(
   return store.questionsById.get(id) || runtime.customQuestions?.find((q) => q.id === id);
 }
 
-function withSubjectFilter(
-  picked: QuestionRecord[],
-  baseTitle: string,
-  durationMin: number,
-  passRule: 'groups' | 'overall',
-  subjectFilter?: string
-): { title: string; durationSec: number; passRule: 'groups' | 'overall'; items: RunnerQuestion[] } {
-  const validSubject =
-    subjectFilter && Object.prototype.hasOwnProperty.call(SUBJECT_MAP, subjectFilter)
-      ? (subjectFilter as SubjectKey)
-      : null;
-
-  if (validSubject) {
-    const filtered = picked.filter((q) => q.subject_key === validSubject);
-    const meta = SUBJECT_MAP[validSubject];
-    return {
-      title: `${baseTitle} · เฉพาะวิชา${meta.name} (${filtered.length} ข้อ)`,
-      durationSec: Math.max(5, filtered.length) * 60,
-      passRule: 'overall',
-      items: filtered.map(toRunnerQuestion),
-    };
-  }
-
-  return {
-    title: baseTitle,
-    durationSec: durationMin * 60,
-    passRule,
-    items: picked.map(toRunnerQuestion),
-  };
-}
-
 function buildExamForSetIdClient(
   store: StaticStore,
   runtime: RuntimeState,
   setId: string,
-  options: {
-    trackName?: string;
-    count?: number;
-    subject?: string;
-    topic?: string;
-    shuffleMode?: boolean;
-    setIndex?: number;
-  }
+  options: BuildExamOptions
 ) {
   const all = getAllQuestionsMergedClient(store, runtime);
-
-  if (setId === 'mistakes') {
-    const picked = runtime.profile.mistakeIds
-      .map((id) => findQuestionByIdClient(id, store, runtime))
-      .filter((q): q is QuestionRecord => Boolean(q));
-    return withSubjectFilter(picked, 'ซ่อมข้อสอบที่ตอบผิด', Math.max(10, picked.length), 'overall', options.subject);
-  }
-
-  if (setId === 'bookmarks') {
-    const picked = runtime.profile.bookmarks
-      .map((id) => findQuestionByIdClient(id, store, runtime))
-      .filter((q): q is QuestionRecord => Boolean(q));
-    return withSubjectFilter(
-      picked,
-      'ทบทวนข้อสอบที่ติดดาวไว้',
-      Math.max(10, picked.length),
-      'overall',
-      options.subject
-    );
-  }
-
-  if (setId === 'topic') {
-    const topicMatcher = resolveTopicSelection(options.topic);
-    const filtered = all
-      .filter(
-        (q) =>
-          (!options.subject || q.subject_key === options.subject) &&
-          topicMatcher.matches(q.title)
-      )
-      .slice()
-      .sort((a, b) => a.id - b.id);
-
-    if (options.setIndex && Number.isFinite(options.setIndex) && options.setIndex >= 1) {
-      const chunkSize = Math.max(5, Math.min(500, options.count || 20));
-      const totalSets = Math.max(1, Math.ceil(filtered.length / chunkSize));
-      const safeSetIdx = Math.min(Math.floor(options.setIndex), totalSets);
-      const start = (safeSetIdx - 1) * chunkSize;
-      const picked = filtered.slice(start, start + chunkSize);
-      const rangeText = picked.length > 0 ? ` (ข้อ ${start + 1}–${start + picked.length})` : '';
-      return {
-        title: `เจาะลึกหัวข้อ · ${topicMatcher.displayTopic} · ชุดที่ ${safeSetIdx}/${totalSets}${rangeText}`,
-        durationSec: Math.max(10, picked.length) * 60,
-        passRule: 'overall' as const,
-        items: picked.map(toRunnerQuestion),
-      };
-    }
-
-    const limit = Math.min(options.count || 30, filtered.length);
-    const picked = shuffle(filtered).slice(0, limit);
-    return {
-      title: `เจาะลึกหัวข้อ · ${topicMatcher.displayTopic}`,
-      durationSec: Math.max(10, picked.length) * 60,
-      passRule: 'overall' as const,
-      items: picked.map(toRunnerQuestion),
-    };
-  }
-
-  if (setId.startsWith('random')) {
-    const idxMatch = /^random-(\d+)$/.exec(setId);
-    const track =
-      (idxMatch && TRACKS[Number(idxMatch[1])]) ||
-      TRACKS.find((t) => t.name === options.trackName) ||
-      TRACKS[0];
-
-    const totalWeight = Object.values(track.weights).reduce((acc, w) => acc + w, 0) || 150;
-    const desiredTotal =
-      options.count && options.count > 0 && options.count < totalWeight
-        ? options.count
-        : totalWeight;
-
-    const collected: QuestionRecord[] = [];
-    const entries = (Object.keys(track.weights) as SubjectKey[]).filter((sk) => track.weights[sk] > 0);
-    for (let i = 0; i < entries.length; i++) {
-      const sk = entries[i];
-      const weight = track.weights[sk];
-      const targetCount =
-        i === entries.length - 1
-          ? Math.max(0, desiredTotal - collected.length)
-          : Math.max(1, Math.round((weight / totalWeight) * desiredTotal));
-      if (!targetCount) continue;
-      const pool = shuffle(all.filter((q) => q.subject_key === sk));
-      collected.push(...pool.slice(0, targetCount));
-    }
-    const finalItems = collected.slice(0, desiredTotal);
-    return withSubjectFilter(
-      finalItems,
-      `ข้อสอบสุ่มครบทุกวิชา · ${track.name}`,
-      desiredTotal === 150 ? 180 : Math.max(15, desiredTotal),
-      'groups',
-      options.subject
-    );
-  }
-
-  if (setId.startsWith('subject-')) {
-    const sk = setId.replace('subject-', '') as SubjectKey;
-    const meta = SUBJECT_MAP[sk] || SUBJECTS[0];
-    const chunkSize = Math.max(5, Math.min(150, options.count || 20));
-    const subjectPool = all
-      .filter((q) => q.subject_key === meta.key)
-      .slice()
-      .sort((a, b) => a.id - b.id);
-
-    if (options.setIndex && Number.isFinite(options.setIndex) && options.setIndex >= 1) {
-      const totalSets = Math.max(1, Math.ceil(subjectPool.length / chunkSize));
-      const safeSetIdx = Math.min(Math.floor(options.setIndex), totalSets);
-      const start = (safeSetIdx - 1) * chunkSize;
-      const picked = subjectPool.slice(start, start + chunkSize);
-      return {
-        title: `ชุดข้อสอบแยกวิชา · ${meta.name} ชุดที่ ${safeSetIdx}`,
-        durationSec: Math.max(5, picked.length) * 60,
-        passRule: 'overall' as const,
-        items: picked.map(toRunnerQuestion),
-      };
-    }
-
-    const pool = shuffle(subjectPool).slice(0, chunkSize);
-    return {
-      title: `ฝึกรายวิชา · ${meta.name} (${pool.length} ข้อ)`,
-      durationSec: Math.max(5, pool.length) * 60,
-      passRule: 'overall' as const,
-      items: pool.map(toRunnerQuestion),
-    };
-  }
-
-  const customIds = runtime.customSetQuestionIds[setId];
-  if (customIds?.length) {
-    const customMeta = runtime.customSets.find((s) => String(s.id) === setId);
-    const picked = customIds
-      .map((id) => findQuestionByIdClient(id, store, runtime))
-      .filter((q): q is QuestionRecord => Boolean(q));
-    return withSubjectFilter(
-      picked,
-      customMeta?.title || `ชุดข้อสอบกำหนดเอง #${setId}`,
-      customMeta?.timeMinutes || picked.length,
-      customMeta?.subjectKey ? 'overall' : 'groups',
-      options.subject
-    );
-  }
-
-  const fixedIds = store.meta.setsMap[setId];
-  const setMeta = store.meta.examSets.find((s) => String(s.id) === setId);
-  if (fixedIds && fixedIds.length > 0) {
-    let picked = fixedIds
-      .map((id) => store.questionsById.get(id))
-      .filter((q): q is QuestionRecord => Boolean(q));
-    if (options.shuffleMode && setMeta?.subjectKey) {
-      picked = shuffle(all.filter((q) => q.subject_key === setMeta.subjectKey)).slice(
-        0,
-        options.count || 20
-      );
-    }
-    return withSubjectFilter(
-      picked,
-      setMeta?.title || `ชุดข้อสอบ #${setId}`,
-      setMeta?.timeMinutes || picked.length,
-      setMeta?.kind === 'subject' ? 'overall' : 'groups',
-      options.subject
-    );
-  }
-
-  const fallback = shuffle(all).slice(0, 20);
-  return {
-    title: `ชุดข้อสอบฝึกหัด #${setId}`,
-    durationSec: 20 * 60,
-    passRule: 'overall' as const,
-    items: fallback.map(toRunnerQuestion),
-  };
+  return buildExamFromSource(
+    {
+      allQuestions: all,
+      findById: (id) => findQuestionByIdClient(id, store, runtime),
+      fixedIdsForSet: (sid) => runtime.customSetQuestionIds[sid] || store.meta.setsMap[sid],
+      setMetaForSet: (sid) =>
+        runtime.customSets.find((s) => String(s.id) === sid) ||
+        store.meta.examSets.find((s) => String(s.id) === sid),
+      profile: runtime.profile,
+    },
+    setId,
+    options
+  );
 }
 
 async function readBodyJson(
@@ -492,6 +294,9 @@ async function handleApiRequest(
       if (typeof body.track === 'string' && body.track.trim()) {
         runtime.profile.track = body.track.trim();
       }
+      if (typeof body.excludeCompleted === 'boolean') {
+        runtime.profile.excludeCompleted = body.excludeCompleted;
+      }
       if (body.toggleBookmarkId !== undefined) {
         const bid = Number(body.toggleBookmarkId);
         const set = new Set(runtime.profile.bookmarks || []);
@@ -499,11 +304,35 @@ async function handleApiRequest(
         else set.add(bid);
         runtime.profile.bookmarks = Array.from(set);
       }
+      if (Array.isArray(body.questionOutcomes)) {
+        const sanitized = body.questionOutcomes
+          .filter(
+            (item: unknown): item is { id: number; correct: boolean } =>
+              Boolean(item && typeof item === 'object' && 'id' in item)
+          )
+          .map((item: { id: unknown; correct: unknown }) => ({
+            id: Number(item.id),
+            correct: Boolean(item.correct),
+          }));
+        applyQuestionOutcomes(runtime.profile, sanitized);
+      }
       if (body.clearMistakes) {
         runtime.profile.mistakeIds = [];
       }
+      if (body.clearCorrect) {
+        runtime.profile.correctIds = [];
+      }
       if (body.clearBookmarks) {
         runtime.profile.bookmarks = [];
+      }
+      if (body.resetCompleted && typeof body.resetCompleted === 'object') {
+        const rc = body.resetCompleted as {
+          scope?: 'all' | 'subject' | 'topic';
+          subject?: SubjectKey;
+          topic?: string;
+          pool?: CompletedPoolMode;
+        };
+        resetCompletedHistory(runtime.profile, rc, getAllQuestionsMergedClient(store, runtime));
       }
       if (body.importSync && typeof body.importSync === 'object') {
         const imp = body.importSync as Partial<RuntimeState>;
@@ -517,6 +346,13 @@ async function handleApiRequest(
             mistakeIds: Array.isArray(imp.profile.mistakeIds)
               ? imp.profile.mistakeIds.map(Number)
               : runtime.profile.mistakeIds,
+            correctIds: Array.isArray(imp.profile.correctIds)
+              ? imp.profile.correctIds.map(Number)
+              : runtime.profile.correctIds || [],
+            excludeCompleted:
+              typeof imp.profile.excludeCompleted === 'boolean'
+                ? imp.profile.excludeCompleted
+                : runtime.profile.excludeCompleted ?? true,
           };
         }
         if (Array.isArray(imp.attempts)) {
@@ -558,6 +394,12 @@ async function handleApiRequest(
     const shuffleMode = searchParams.get('shuffle') === '1';
     const rawSet = searchParams.get('set');
     const setIndex = rawSet ? Number(rawSet) : undefined;
+    const excludeParam = searchParams.get('excludeCompleted');
+    const excludeCompleted =
+      excludeParam === '1' ? true : excludeParam === '0' ? false : undefined;
+    const rawPool = searchParams.get('pool');
+    const pool: CompletedPoolMode | undefined =
+      rawPool === 'correct' || rawPool === 'wrong' || rawPool === 'all' ? rawPool : undefined;
 
     const result = buildExamForSetIdClient(store, runtime, setId, {
       trackName,
@@ -566,6 +408,8 @@ async function handleApiRequest(
       topic,
       shuffleMode,
       setIndex,
+      excludeCompleted,
+      pool,
     });
     return jsonResponse({
       setId,
@@ -620,8 +464,7 @@ async function handleApiRequest(
         { title: string; subjectKey: SubjectKey; correct: number; total: number }
       >();
       const wrongIndices: number[] = [];
-      const wrongQuestionIds: number[] = [];
-      const correctedIds = new Set<number>();
+      const outcomes: QuestionOutcome[] = [];
       let score = 0;
 
       questionIds.forEach((qid, idx) => {
@@ -635,10 +478,11 @@ async function handleApiRequest(
         if (isCorrect) {
           score++;
           sStat.correct++;
-          correctedIds.add(qid);
         } else {
           wrongIndices.push(idx);
-          wrongQuestionIds.push(qid);
+        }
+        if (picked !== null && picked !== undefined) {
+          outcomes.push({ id: qid, correct: isCorrect });
         }
         subjectMap.set(q.subject_key, sStat);
 
@@ -724,10 +568,7 @@ async function handleApiRequest(
       runtime.attempts = [attempt, ...runtime.attempts];
       runtime.examProgress = null;
 
-      const mistakeSet = new Set(runtime.profile.mistakeIds || []);
-      for (const wid of wrongQuestionIds) mistakeSet.add(wid);
-      for (const cid of correctedIds) mistakeSet.delete(cid);
-      runtime.profile.mistakeIds = Array.from(mistakeSet);
+      applyQuestionOutcomes(runtime.profile, outcomes);
 
       if (bookmarkedIds.length > 0) {
         const bSet = new Set(runtime.profile.bookmarks || []);
@@ -759,7 +600,10 @@ async function handleApiRequest(
 
       let filtered = getAllQuestionsMergedClient(store, runtime);
       if (subject) filtered = filtered.filter((q) => q.subject_key === subject);
-      if (topic) filtered = filtered.filter((q) => q.title === topic);
+      if (topic) {
+        const matcher = resolveTopicSelection(topic);
+        filtered = filtered.filter((q) => matcher.matches(q.title));
+      }
       if (batch) filtered = filtered.filter((q) => q.batch === batch);
       if (hasImage) {
         filtered = filtered.filter(
@@ -909,7 +753,7 @@ async function handleApiRequest(
       const pool = getAllQuestionsMergedClient(store, runtime).filter(
         (q) => !subjectKey || q.subject_key === subjectKey
       );
-      const pickedIds = shuffle(pool)
+      const pickedIds = shufflePool(pool)
         .slice(0, count)
         .map((q) => q.id);
 

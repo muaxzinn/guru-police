@@ -11,7 +11,8 @@ export default function CatalogSubjectPage() {
   const store = getStore();
 
   const items: SubjectOverviewItem[] = SUBJECTS.map((s) => {
-    const count = all.filter((q) => q.subject_key === s.key).length;
+    const subjectQs = all.filter((q) => q.subject_key === s.key);
+    const count = subjectQs.length;
     const topics = store.topics
       .filter((t) => t.subjectKey === s.key)
       .map((t) => ({ title: t.title, count: t.count }));
@@ -20,12 +21,13 @@ export default function CatalogSubjectPage() {
       key: s.key,
       count,
       subSetCount: Math.max(1, Math.ceil(count / 20)),
+      questionIds: subjectQs.map((q) => q.id),
       topics,
     };
   });
 
   return (
-    <div className="min-h-screen bg-bg text-ink">
+    <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
       <SiteHeader mode="app" />
       <main className="mx-auto max-w-5xl px-4 py-8">
         <Link href="/catalog" className="inline-flex items-center gap-1.5 text-xs font-bold text-muted hover:text-brand">

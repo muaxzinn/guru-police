@@ -16,6 +16,9 @@ export function generateStaticParams() {
     'mistakes',
     'bookmarks',
     'topic',
+    'completed-form',
+    'completed-subject',
+    'completed-topic',
   ]);
   return Array.from(ids).map((setId) => ({ setId }));
 }

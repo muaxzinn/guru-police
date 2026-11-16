@@ -16,13 +16,16 @@ import { SubjectIcon } from '@/components/SubjectIcon';
 export function StartExamModalButton({
   defaultTrack,
   label = 'เริ่มทำข้อสอบ',
+  excludeCompleted = false,
 }: {
   defaultTrack?: string;
   label?: string;
+  excludeCompleted?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const initialTrack = TRACKS.find((t) => t.name === defaultTrack)?.id ?? 0;
   const [trackId, setTrackId] = useState<number>(initialTrack);
+  const excludeParam = excludeCompleted ? '&excludeCompleted=1' : '';
 
   return (
     <>
@@ -80,7 +83,7 @@ export function StartExamModalButton({
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link
-                  href={`/exam/random-${trackId}?mode=real`}
+                  href={`/exam/random-${trackId}?mode=real${excludeParam}`}
                   onClick={() => setOpen(false)}
                   className="inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white hover:bg-brand-dark"
                 >
@@ -88,7 +91,7 @@ export function StartExamModalButton({
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
                 <Link
-                  href={`/exam/random-${trackId}?mode=practice`}
+                  href={`/exam/random-${trackId}?mode=practice${excludeParam}`}
                   onClick={() => setOpen(false)}
                   className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-panel px-4 py-2 text-xs font-bold text-ink hover:border-brand/50"
                 >
@@ -116,7 +119,7 @@ export function StartExamModalButton({
                 {SUBJECTS.map((s) => (
                   <Link
                     key={s.key}
-                    href={`/exam/subject-${s.key}?set=1&count=20&mode=practice&fresh=1`}
+                    href={`/exam/subject-${s.key}?set=1&count=20&mode=practice&fresh=1${excludeParam}`}
                     onClick={() => setOpen(false)}
                     className="flex items-center gap-2 rounded-xl border border-line bg-panel px-2.5 py-2 text-xs font-bold text-ink transition-colors hover:border-brand/50 hover:text-brand"
                   >

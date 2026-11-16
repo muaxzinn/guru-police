@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
+  applyQuestionOutcomes,
   findQuestionById,
   readRuntimeState,
   writeRuntimeState,
@@ -7,6 +8,7 @@ import {
   type AttemptRecord,
   type AttemptSubjectStat,
   type AttemptTopicStat,
+  type QuestionOutcome,
 } from '@/lib/server-db';
 import { SUBJECT_MAP, type SubjectKey } from '@/lib/constants';
 
@@ -36,8 +38,7 @@ export async function POST(req: NextRequest) {
   const subjectMap = new Map<SubjectKey, { correct: number; total: number }>();
   const topicMap = new Map<string, { title: string; subjectKey: SubjectKey; correct: number; total: number }>();
   const wrongIndices: number[] = [];
-  const wrongQuestionIds: number[] = [];
-  const correctedIds = new Set<number>();
+  const outcomes: QuestionOutcome[] = [];
   let score = 0;
 
   questionIds.forEach((qid, idx) => {
@@ -51,10 +52,11 @@ export async function POST(req: NextRequest) {
     if (isCorrect) {
       score++;
       sStat.correct++;
-      correctedIds.add(qid);
     } else {
       wrongIndices.push(idx);
-      wrongQuestionIds.push(qid);
+    }
+    if (picked !== null && picked !== undefined) {
+      outcomes.push({ id: qid, correct: isCorrect });
     }
     subjectMap.set(q.subject_key, sStat);
 
@@ -135,11 +137,8 @@ export async function POST(req: NextRequest) {
   runtime.attempts = [attempt, ...runtime.attempts];
   runtime.examProgress = null;
 
-  // Smart Mistake Notebook: add new wrong answers, remove ones now answered correctly
-  const mistakeSet = new Set(runtime.profile.mistakeIds || []);
-  for (const wid of wrongQuestionIds) mistakeSet.add(wid);
-  for (const cid of correctedIds) mistakeSet.delete(cid);
-  runtime.profile.mistakeIds = Array.from(mistakeSet);
+  // Global Question History: record latest correct/wrong outcome for every answered question
+  applyQuestionOutcomes(runtime.profile, outcomes);
 
   // Persist any newly bookmarked questions
   if (bookmarkedIds.length > 0) {

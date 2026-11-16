@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { ArrowRight, Clock, Layers } from 'lucide-react';
 import { SUBJECT_MAP, SUBJECTS, type SubjectKey } from '@/lib/constants';
 import type { AttemptRecord, ExamSetSummary } from '@/lib/server-db';
+import { useProfileHistory } from '@/lib/use-profile-history';
 import { SubjectIcon } from '@/components/SubjectIcon';
+import { QuestionPoolSettingsBar } from '@/components/QuestionPoolSettingsBar';
 
 interface CatalogFormClientProps {
   sets: ExamSetSummary[];
@@ -19,14 +21,26 @@ export function CatalogFormClient({
   const [sets, setSets] = useState<ExamSetSummary[]>(initialSets);
   const [attempts, setAttempts] = useState<AttemptRecord[]>(initialAttempts);
   const [selectedSubject, setSelectedSubject] = useState<SubjectKey | ''>('');
+  const [totalQuestions, setTotalQuestions] = useState<number>(7038);
+
+  const {
+    correctSet,
+    mistakeSet,
+    allCompletedSet,
+    excludeCompleted,
+    saving,
+    toggleExcludeCompleted,
+    resetCompleted,
+  } = useProfileHistory();
 
   useEffect(() => {
     let active = true;
     const syncData = async () => {
       try {
-        const [setsRes, attRes] = await Promise.all([
+        const [setsRes, attRes, healthRes] = await Promise.all([
           fetch('/api/admin/sets', { cache: 'no-store' }),
           fetch('/api/attempts', { cache: 'no-store' }),
+          fetch('/api/health', { cache: 'no-store' }),
         ]);
         if (!active) return;
         if (setsRes.ok) {
@@ -38,6 +52,10 @@ export function CatalogFormClient({
         if (attRes.ok) {
           const a = await attRes.json();
           if (Array.isArray(a.attempts)) setAttempts(a.attempts);
+        }
+        if (healthRes.ok) {
+          const h = await healthRes.json();
+          if (typeof h.questions === 'number') setTotalQuestions(h.questions);
         }
       } catch {
         // keep initial snapshot
@@ -64,8 +82,28 @@ export function CatalogFormClient({
     return sets.filter((s) => (s.subjectBreakdown?.[selectedSubject] || 0) > 0);
   }, [sets, selectedSubject]);
 
+  const excludeParam = excludeCompleted ? '&excludeCompleted=1' : '&excludeCompleted=0';
+
   return (
     <div className="space-y-6">
+      <QuestionPoolSettingsBar
+        totalQuestions={totalQuestions}
+        correctCount={correctSet.size}
+        wrongCount={mistakeSet.size}
+        excludeCompleted={excludeCompleted}
+        onToggleExclude={toggleExcludeCompleted}
+        saving={saving}
+        onOpenReset={() => {
+          if (
+            window.confirm(
+              `ต้องการรีเซ็ตประวัติข้อสอบที่เคยทำทั้งหมด (${allCompletedSet.size} ข้อ) เพื่อให้นำกลับมาฝึกใหม่ใช่หรือไม่?`
+            )
+          ) {
+            void resetCompleted({ scope: 'all', pool: 'all' });
+          }
+        }}
+      />
+
       {/* Subject Filter Strip */}
       <div className="rounded-card border border-line bg-panel p-4 shadow-card">
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -166,13 +204,13 @@ export function CatalogFormClient({
 
                 <div className="flex flex-wrap gap-2">
                   <Link
-                    href={`/exam/${s.id}?mode=practice&fresh=1${subjectParam}`}
+                    href={`/exam/${s.id}?mode=practice&fresh=1${subjectParam}${excludeParam}`}
                     className="rounded-xl border border-line bg-bg2 px-3.5 py-2 text-xs font-bold text-ink transition-colors hover:border-brand/50 hover:text-brand"
                   >
                     โหมดฝึกซ้อม
                   </Link>
                   <Link
-                    href={`/exam/${s.id}?mode=real&fresh=1${subjectParam}`}
+                    href={`/exam/${s.id}?mode=real&fresh=1${subjectParam}${excludeParam}`}
                     className="inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-brand-dark"
                   >
                     <span>เริ่มสอบจริง</span>
@@ -193,7 +231,7 @@ export function CatalogFormClient({
                       return (
                         <Link
                           key={sub.key}
-                          href={`/exam/${s.id}?subject=${sub.key}&mode=practice&fresh=1`}
+                          href={`/exam/${s.id}?subject=${sub.key}&mode=practice&fresh=1${excludeParam}`}
                           className={`inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-1 text-xs font-bold transition-colors ${
                             highlighted
                               ? 'border-brand bg-brand/10 text-brand'
