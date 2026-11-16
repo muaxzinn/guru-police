@@ -4,6 +4,7 @@ import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
+  ArrowLeft,
   Bookmark,
   ChevronLeft,
   ChevronRight,
@@ -11,6 +12,7 @@ import {
   Eye,
   EyeOff,
   Image as ImageIcon,
+  Layers,
   Play,
   Search,
   X,
@@ -263,6 +265,121 @@ function QuestionBankInner() {
               พบ <span className="font-bold text-ink">{total.toLocaleString()}</span> ข้อ · หน้า {page}/{totalPages}
             </div>
           </div>
+        </section>
+
+        {/* Block-Card Topic Browser (7 Main Subject Cards -> Sub-Topic Cards) */}
+        <section
+          aria-label="เลือกจากการ์ดวิชาหลักและหัวข้อย่อย"
+          className="mt-4 rounded-card border border-line bg-panel p-4 shadow-card overflow-hidden space-y-3"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
+            <div className="flex items-center gap-2 text-xs font-extrabold text-ink min-w-0">
+              <Layers className="h-4 w-4 text-brand shrink-0" />
+              <span className="truncate">
+                {subject
+                  ? `การ์ดหัวข้อย่อย · วิชา${SUBJECT_MAP[subject as SubjectKey]?.name || subject}`
+                  : 'เลือกจากการ์ดวิชาหลัก (คลิกเพื่อดูหัวข้อย่อย)'}
+              </span>
+            </div>
+
+            {subject && (
+              <div className="flex flex-wrap items-center gap-1.5">
+                {topic && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTopic('');
+                      setPage(1);
+                    }}
+                    className="inline-flex items-center gap-1 rounded-xl border border-line bg-bg2/70 px-2.5 py-1 text-[11px] font-bold text-muted hover:text-ink"
+                  >
+                    <X className="h-3 w-3" />
+                    <span>แสดงทุกหัวข้อในวิชานี้</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSubject('');
+                    setTopic('');
+                    setPage(1);
+                  }}
+                  className="inline-flex items-center gap-1 rounded-xl border border-brand/35 bg-brand/10 px-2.5 py-1 text-[11px] font-extrabold text-brand hover:bg-brand hover:text-white transition"
+                >
+                  <ArrowLeft className="h-3 w-3" />
+                  <span>กลับไปการ์ดวิชาหลัก (7 วิชา)</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {!subject ? (
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 lg:grid-cols-7 min-w-0">
+              {SUBJECTS.map((s) => {
+                const subTopics = topics.filter((t) => t.subjectKey === s.key);
+                const subQuestionCount = subTopics.reduce((sum, t) => sum + t.count, 0);
+                return (
+                  <button
+                    key={s.key}
+                    type="button"
+                    onClick={() => {
+                      setSubject(s.key);
+                      setTopic('');
+                      setPage(1);
+                    }}
+                    className="flex min-w-0 flex-col items-start justify-between gap-2 rounded-2xl border border-line bg-bg2/60 p-3 text-left transition hover:border-brand/60 hover:bg-brand/5"
+                  >
+                    <div className="flex w-full items-center justify-between gap-1">
+                      <SubjectIcon subjectKey={s.key} size="sm" />
+                      <span className="font-mono text-[10px] font-bold text-brand shrink-0">
+                        {subTopics.length} บท
+                      </span>
+                    </div>
+                    <div className="w-full min-w-0 space-y-0.5">
+                      <div className="truncate text-xs font-extrabold text-ink">{s.shortName}</div>
+                      {subQuestionCount > 0 && (
+                        <div className="font-mono text-[10px] text-muted">
+                          {subQuestionCount.toLocaleString()} ข้อ
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            (() => {
+              const subjectTopics = topics.filter((t) => t.subjectKey === subject);
+              const activeMatcher = topic ? resolveTopicSelection(topic) : null;
+              return (
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 min-w-0">
+                  {subjectTopics.map((t) => {
+                    const active = activeMatcher ? activeMatcher.matches(t.title) : false;
+                    return (
+                      <button
+                        key={`${t.subjectKey}-${t.title}`}
+                        type="button"
+                        onClick={() => {
+                          setTopic(t.title);
+                          setPage(1);
+                        }}
+                        className={`flex min-w-0 items-center justify-between gap-2 rounded-xl border px-3 py-2 text-left text-xs transition ${
+                          active
+                            ? 'border-brand bg-brand/10 font-extrabold text-brand ring-1 ring-brand/30'
+                            : 'border-line bg-bg2/60 font-semibold text-ink hover:border-brand/50'
+                        }`}
+                      >
+                        <span className="min-w-0 truncate">{t.title.replace(/_/g, ' ')}</span>
+                        <span className="shrink-0 font-mono text-[11px] font-bold text-brand">
+                          {t.count} ข้อ
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              );
+            })()
+          )}
         </section>
 
         {/* Questions List */}

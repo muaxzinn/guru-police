@@ -4,11 +4,10 @@ import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   Archive,
-  BookOpen,
+  ArrowLeft,
+  ArrowRight,
   BookOpenCheck,
   CheckCircle2,
-  ChevronDown,
-  ChevronUp,
   Clock,
   FileSpreadsheet,
   Layers,
@@ -57,7 +56,7 @@ export function CatalogCompletedClient({
   const [topicChunkSize, setTopicChunkSize] = useState<15 | 20 | 30>(20);
   const [topicSubjectFilter, setTopicSubjectFilter] = useState<SubjectKey | 'all'>('all');
   const [topicQuery, setTopicQuery] = useState('');
-  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+  const [selectedCompletedTopicKey, setSelectedCompletedTopicKey] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
   const activeIdSet = useMemo(() => {
@@ -264,7 +263,10 @@ export function CatalogCompletedClient({
                 type="button"
                 role="tab"
                 aria-selected={active}
-                onClick={() => setPoolMode(tab.key)}
+                onClick={() => {
+                  setPoolMode(tab.key);
+                  setSelectedCompletedTopicKey(null);
+                }}
                 className={`flex flex-col justify-between gap-2 rounded-2xl border p-4 text-left transition ${
                   active
                     ? 'border-brand bg-brand/10 ring-2 ring-brand/25'
@@ -618,203 +620,419 @@ export function CatalogCompletedClient({
           </div>
         </section>
       ) : (
-        /* Structure 3: By Sub-Topics */
-        <section className="space-y-4">
-          <div className="rounded-card border border-line bg-panel p-4 sm:p-5 shadow-card space-y-3.5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="relative flex-1">
-                <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-muted" />
-                <input
-                  value={topicQuery}
-                  onChange={(e) => setTopicQuery(e.target.value)}
-                  placeholder="ค้นหาหัวข้อย่อยที่เคยทำ เช่น Word, Excel, อาญา, อนุกรม..."
-                  className="w-full rounded-xl border border-line bg-bg2/60 py-2 pl-9 pr-3 text-sm outline-none focus:border-brand"
-                />
-              </div>
+        /* Structure 3: Block-Card Drill-Down by Sub-Topics */
+        (() => {
+          const selectedTopicItem = selectedCompletedTopicKey
+            ? matchingTopics.find((t) => `${t.subjectKey}::${t.title}` === selectedCompletedTopicKey) || null
+            : null;
+          const isTopicLevel1 =
+            topicSubjectFilter === 'all' && !topicQuery.trim() && !selectedTopicItem;
+          const isTopicLevel3 = selectedTopicItem !== null;
 
-              <div className="flex items-center gap-1.5 rounded-xl border border-line bg-bg2 p-1 text-xs font-bold shrink-0">
-                {([15, 20, 30] as const).map((sz) => (
+          return (
+            <section className="space-y-4">
+              <div className="rounded-card border border-line bg-panel p-4 sm:p-5 shadow-card space-y-3.5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="relative flex-1">
+                    <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-muted" />
+                    <input
+                      value={topicQuery}
+                      onChange={(e) => {
+                        setTopicQuery(e.target.value);
+                        setSelectedCompletedTopicKey(null);
+                      }}
+                      placeholder="ค้นหาหัวข้อย่อยที่เคยทำ เช่น Word, Excel, อาญา, อนุกรม..."
+                      className="w-full rounded-xl border border-line bg-bg2/60 py-2 pl-9 pr-3 text-sm outline-none focus:border-brand"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-1.5 rounded-xl border border-line bg-bg2 p-1 text-xs font-bold shrink-0">
+                    {([15, 20, 30] as const).map((sz) => (
+                      <button
+                        key={sz}
+                        type="button"
+                        onClick={() => setTopicChunkSize(sz)}
+                        className={`rounded-lg px-2.5 py-1 transition-colors ${
+                          topicChunkSize === sz ? 'bg-panel text-brand shadow-sm' : 'text-muted hover:text-ink'
+                        }`}
+                      >
+                        ชุดละ {sz} ข้อ
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {!isTopicLevel1 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setTopicSubjectFilter('all');
+                        setTopicQuery('');
+                        setSelectedCompletedTopicKey(null);
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-brand/35 bg-brand/10 px-3 py-1 text-xs font-extrabold text-brand transition hover:bg-brand hover:text-white"
+                    >
+                      <ArrowLeft className="h-3.5 w-3.5" />
+                      <span>กลับไปเลือกการ์ดวิชาหลัก (7 วิชา)</span>
+                    </button>
+                  )}
+
                   <button
-                    key={sz}
                     type="button"
-                    onClick={() => setTopicChunkSize(sz)}
-                    className={`rounded-lg px-2.5 py-1 transition-colors ${
-                      topicChunkSize === sz ? 'bg-panel text-brand shadow-sm' : 'text-muted hover:text-ink'
+                    onClick={() => {
+                      setTopicSubjectFilter('all');
+                      setSelectedCompletedTopicKey(null);
+                    }}
+                    className={`rounded-full border px-3 py-1 text-xs font-bold transition ${
+                      topicSubjectFilter === 'all'
+                        ? 'border-brand bg-brand text-white'
+                        : 'border-line bg-bg2 text-muted hover:text-ink'
                     }`}
                   >
-                    ชุดละ {sz} ข้อ
+                    ทุกวิชา
                   </button>
-                ))}
+                  {subjectStats.map(({ meta, matchCount }) => (
+                    <button
+                      key={meta.key}
+                      type="button"
+                      onClick={() => {
+                        setTopicSubjectFilter(meta.key);
+                        setSelectedCompletedTopicKey(null);
+                      }}
+                      className={`rounded-full border px-3 py-1 text-xs font-bold transition ${
+                        topicSubjectFilter === meta.key
+                          ? 'border-brand bg-brand text-white'
+                          : 'border-line bg-bg2 text-muted hover:text-ink'
+                      }`}
+                    >
+                      {meta.shortName} ({matchCount})
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="flex flex-wrap gap-1.5">
-              <button
-                type="button"
-                onClick={() => setTopicSubjectFilter('all')}
-                className={`rounded-full border px-3 py-1 text-xs font-bold transition ${
-                  topicSubjectFilter === 'all'
-                    ? 'border-brand bg-brand text-white'
-                    : 'border-line bg-bg2 text-muted hover:text-ink'
-                }`}
-              >
-                ทุกวิชา
-              </button>
-              {subjectStats.map(({ meta, matchCount }) => (
-                <button
-                  key={meta.key}
-                  type="button"
-                  onClick={() => setTopicSubjectFilter(meta.key)}
-                  className={`rounded-full border px-3 py-1 text-xs font-bold transition ${
-                    topicSubjectFilter === meta.key
-                      ? 'border-brand bg-brand text-white'
-                      : 'border-line bg-bg2 text-muted hover:text-ink'
-                  }`}
-                >
-                  {meta.shortName} ({matchCount})
-                </button>
-              ))}
-            </div>
-          </div>
+              {isTopicLevel1 ? (
+                /* Level 1: 7 Main Subject Block Cards */
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {subjectStats.map(({ meta, matchCount, correctCount, wrongCount }) => {
+                    const topicsWithMatches = (topicsBySubject[meta.key] || []).filter((tp) =>
+                      tp.questionIds.some((qid) => activeIdSet.has(qid))
+                    );
 
-          {matchingTopics.length === 0 ? (
-            <div className="rounded-card border border-line bg-panel p-10 text-center space-y-2 shadow-card">
-              <p className="text-base font-extrabold text-ink">ไม่พบหัวข้อย่อยในเงื่อนไขที่เลือก</p>
-              <p className="text-xs text-muted">ลองเลือก &ldquo;ทุกวิชา&rdquo; หรือเปลี่ยนคำค้นหาใหม่อีกครั้ง</p>
-            </div>
-          ) : (
-            <div className="grid gap-4 md:grid-cols-2">
-              {matchingTopics.map((item) => {
-                const subMeta = SUBJECT_MAP[item.subjectKey];
-                const totalSets = Math.max(1, Math.ceil(item.matchCount / topicChunkSize));
-                const topicParam = encodeURIComponent(item.rawTitles.join('||'));
-                const cardId = `${item.subjectKey}::${item.title}`;
-                const isExpanded = Boolean(expandedCards[cardId]);
-                const visibleSetCount = isExpanded ? totalSets : Math.min(totalSets, 6);
+                    return (
+                      <button
+                        key={meta.key}
+                        type="button"
+                        onClick={() => {
+                          setTopicSubjectFilter(meta.key);
+                          setSelectedCompletedTopicKey(null);
+                        }}
+                        className="group flex flex-col justify-between gap-4 rounded-card border border-line bg-panel p-5 text-left shadow-card card-hover transition hover:border-brand/60"
+                      >
+                        <div className="space-y-3 w-full">
+                          <div className="flex items-start justify-between gap-2">
+                            <SubjectIcon subjectKey={meta.key} size="md" />
+                            <span className="rounded-full bg-brand/10 px-2.5 py-0.5 font-mono text-[11px] font-extrabold text-brand">
+                              {topicsWithMatches.length} หัวข้อย่อย
+                            </span>
+                          </div>
 
-                return (
-                  <article
-                    key={cardId}
-                    className="flex flex-col justify-between gap-4 rounded-card border border-line bg-panel p-5 shadow-card"
-                  >
-                    <div className="space-y-3">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-start gap-2.5 min-w-0">
-                          <SubjectIcon subjectKey={item.subjectKey} size="sm" />
-                          <div className="min-w-0">
-                            <div className="flex flex-wrap items-center gap-1.5">
-                              <span className="text-[11px] font-extrabold text-brand">
-                                {subMeta.shortName}
+                          <div>
+                            <h3 className="text-base font-extrabold text-ink group-hover:text-brand transition-colors">
+                              {meta.name}
+                            </h3>
+                            <p className="mt-1 text-xs text-muted">
+                              ตรงกับกลุ่ม{poolLabel}:{' '}
+                              <strong className="font-mono text-brand">{matchCount} ข้อ</strong>{' '}
+                              <span className="text-[11px]">
+                                (ถูก <span className="text-teal-ink font-bold">{correctCount}</span> · ผิด{' '}
+                                <span className="text-accent font-bold">{wrongCount}</span>)
                               </span>
-                              <span className="rounded-full border border-line bg-bg2 px-2 py-0.5 text-[11px] font-bold text-muted">
-                                {item.category}
-                              </span>
-                            </div>
-                            <h4 className="mt-1 text-base font-extrabold text-ink leading-snug">
-                              {item.displayTitle}
-                            </h4>
+                            </p>
                           </div>
-                        </div>
 
-                        <div className="text-right shrink-0">
-                          <div className="font-mono text-sm font-extrabold text-brand">
-                            {item.matchCount}/{item.count} ข้อ
-                          </div>
-                          <div className="font-mono text-[10px] text-muted">
-                            ถูก {item.correctInTopic} · ผิด {item.wrongInTopic}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-[11px] font-bold text-muted">
-                          <span className="inline-flex items-center gap-1">
-                            <BookOpen className="h-3.5 w-3.5 text-teal-ink" />
-                            <span>ชุดย่อย ({totalSets} ชุด · ชุดละ {topicChunkSize} ข้อ)</span>
-                          </span>
-                          {totalSets > 6 && (
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setExpandedCards((prev) => ({
-                                  ...prev,
-                                  [cardId]: !prev[cardId],
-                                }))
-                              }
-                              className="inline-flex items-center gap-1 text-brand hover:underline"
-                            >
-                              <span>{isExpanded ? 'ย่อลง' : `ดูครบทั้ง ${totalSets} ชุด`}</span>
-                              {isExpanded ? (
-                                <ChevronUp className="h-3.5 w-3.5" />
-                              ) : (
-                                <ChevronDown className="h-3.5 w-3.5" />
+                          {topicsWithMatches.length > 0 ? (
+                            <div className="flex flex-wrap gap-1.5">
+                              {topicsWithMatches.slice(0, 3).map((tp) => (
+                                <span
+                                  key={tp.title}
+                                  className="max-w-full truncate rounded-lg border border-line bg-bg2/60 px-2 py-1 text-[11px] font-semibold text-muted"
+                                >
+                                  {tp.displayTitle.replace(/_/g, ' ')}
+                                </span>
+                              ))}
+                              {topicsWithMatches.length > 3 && (
+                                <span className="rounded-lg border border-dashed border-brand/40 bg-brand/5 px-2 py-1 font-mono text-[11px] font-bold text-brand">
+                                  +{topicsWithMatches.length - 3} หัวข้อ
+                                </span>
                               )}
-                            </button>
+                            </div>
+                          ) : (
+                            <p className="rounded-xl border border-dashed border-line bg-bg2/40 px-3 py-2 text-[11px] text-muted">
+                              ยังไม่มีข้อสอบในกลุ่ม &ldquo;{poolLabel}&rdquo;
+                            </p>
                           )}
                         </div>
 
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                          {Array.from({ length: visibleSetCount }, (_, idx) => {
-                            const setNum = idx + 1;
-                            const startQ = idx * topicChunkSize + 1;
-                            const endQ = Math.min(item.matchCount, setNum * topicChunkSize);
-                            return (
-                              <Link
-                                key={setNum}
-                                href={`/exam/completed-topic?pool=${poolMode}&subject=${item.subjectKey}&topic=${topicParam}&set=${setNum}&count=${topicChunkSize}&mode=practice&fresh=1`}
-                                className="flex items-center justify-between gap-1 rounded-xl border border-line bg-bg2/60 px-2.5 py-1.5 text-[11px] font-bold text-ink transition hover:border-brand/50 hover:text-brand"
-                              >
-                                <span>ชุดที่ {setNum}</span>
-                                <span className="font-mono text-[10px] text-muted">
-                                  {startQ}–{endQ}
+                        <div className="flex w-full items-center justify-between gap-2 border-t border-line pt-3 text-xs font-extrabold text-brand">
+                          <span>เปิดดูการ์ดหัวข้อย่อย ({topicsWithMatches.length} บท)</span>
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : isTopicLevel3 && selectedTopicItem ? (
+                /* Level 3: Set Block Cards for Selected Completed Sub-Topic */
+                (() => {
+                  const item = selectedTopicItem;
+                  const subMeta = SUBJECT_MAP[item.subjectKey];
+                  const totalSets = Math.max(1, Math.ceil(item.matchCount / topicChunkSize));
+                  const topicParam = encodeURIComponent(item.rawTitles.join('||'));
+
+                  return (
+                    <div className="space-y-4">
+                      <div className="rounded-card border border-line bg-panel p-5 shadow-card space-y-4">
+                        <div className="flex flex-wrap items-center justify-between gap-2.5">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedCompletedTopicKey(null)}
+                              className="inline-flex items-center gap-1.5 rounded-xl border border-brand/35 bg-brand/10 px-3.5 py-2 text-xs font-extrabold text-brand transition hover:bg-brand hover:text-white"
+                            >
+                              <ArrowLeft className="h-3.5 w-3.5" />
+                              <span>กลับไปเลือกการ์ดหัวข้อย่อย</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedCompletedTopicKey(null);
+                                setTopicSubjectFilter('all');
+                                setTopicQuery('');
+                              }}
+                              className="inline-flex items-center gap-1 rounded-xl border border-line bg-bg2 px-3 py-2 text-xs font-bold text-muted hover:text-ink"
+                            >
+                              <span>กลับไปการ์ดวิชาหลัก</span>
+                            </button>
+                          </div>
+
+                          <button
+                            type="button"
+                            disabled={saving}
+                            onClick={async () => {
+                              if (!window.confirm(`รีเซ็ตประวัติหัวข้อ "${item.displayTitle}" ในหมวด ${poolLabel}?`)) {
+                                return;
+                              }
+                              await resetForTopic(item.subjectKey, item.rawTitles.join('||'), poolMode);
+                              setSelectedCompletedTopicKey(null);
+                              pushNotice(`รีเซ็ตประวัติหัวข้อ "${item.displayTitle}" เรียบร้อยแล้ว`);
+                            }}
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-accent/40 bg-accent/10 px-3 py-1.5 text-xs font-bold text-accent transition hover:bg-accent hover:text-white"
+                          >
+                            <RotateCcw className="h-3.5 w-3.5" />
+                            <span>รีเซ็ตบทนี้ ({item.matchCount} ข้อ)</span>
+                          </button>
+                        </div>
+
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div className="flex items-start gap-3 min-w-0">
+                            <SubjectIcon subjectKey={item.subjectKey} size="md" />
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-center gap-1.5">
+                                <span className="text-xs font-extrabold text-brand">{subMeta.name}</span>
+                                <span className="rounded-full border border-line bg-bg2 px-2 py-0.5 text-[11px] font-bold text-muted">
+                                  {item.category}
                                 </span>
-                              </Link>
-                            );
-                          })}
+                              </div>
+                              <h3 className="mt-1 text-lg sm:text-xl font-extrabold text-ink break-words">
+                                {item.displayTitle.replace(/_/g, ' ')}
+                              </h3>
+                              <p className="mt-0.5 text-xs text-muted">
+                                พบ {item.matchCount}/{item.count} ข้อในหมวด &ldquo;{poolLabel}&rdquo; · ถูก{' '}
+                                <strong className="text-teal-ink">{item.correctInTopic}</strong> · ผิด{' '}
+                                <strong className="text-accent">{item.wrongInTopic}</strong>
+                              </p>
+                            </div>
+                          </div>
+
+                          <Link
+                            href={`/exam/completed-topic?pool=${poolMode}&subject=${item.subjectKey}&topic=${topicParam}&count=${item.matchCount}&set=1&mode=practice&fresh=1`}
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2 px-3.5 py-2 text-xs font-bold text-ink hover:border-brand/50 hover:text-brand"
+                          >
+                            <Sparkles className="h-3.5 w-3.5 text-teal-ink" />
+                            <span>ทำครบทั้งหมด ({item.matchCount} ข้อ)</span>
+                          </Link>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line pt-3">
-                      <div className="flex flex-wrap gap-2">
-                        <Link
-                          href={`/exam/completed-topic?pool=${poolMode}&subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${topicChunkSize}&mode=practice&fresh=1`}
-                          className="inline-flex items-center gap-1 rounded-xl bg-brand px-3 py-1.5 text-xs font-extrabold text-white hover:bg-brand-dark"
-                        >
-                          <Play className="h-3.5 w-3.5" />
-                          <span>เริ่มชุดที่ 1</span>
-                        </Link>
-                        <Link
-                          href={`/exam/completed-topic?pool=${poolMode}&subject=${item.subjectKey}&topic=${topicParam}&count=${item.matchCount}&set=1&mode=practice&fresh=1`}
-                          className="inline-flex items-center gap-1 rounded-xl border border-line bg-bg2 px-3 py-1.5 text-xs font-bold text-ink hover:border-brand/50 hover:text-brand"
-                        >
-                          <Sparkles className="h-3.5 w-3.5 text-teal-ink" />
-                          <span>ครบ {item.matchCount} ข้อ</span>
-                        </Link>
+                      <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+                        {Array.from({ length: totalSets }, (_, idx) => {
+                          const setNum = idx + 1;
+                          const startQ = idx * topicChunkSize + 1;
+                          const endQ = Math.min(item.matchCount, setNum * topicChunkSize);
+                          const qCount = Math.max(0, endQ - startQ + 1);
+                          return (
+                            <div
+                              key={setNum}
+                              className="flex flex-col justify-between gap-3 rounded-2xl border border-line bg-panel p-4 shadow-card transition hover:border-brand/50"
+                            >
+                              <div className="space-y-1.5">
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className="rounded-xl bg-brand/10 px-2.5 py-1 font-mono text-xs font-extrabold text-brand">
+                                    ชุดที่ {setNum}
+                                  </span>
+                                  <span className="inline-flex items-center gap-1 font-mono text-xs text-muted">
+                                    <Clock className="h-3.5 w-3.5" />
+                                    <span>{Math.max(10, qCount)} นาที</span>
+                                  </span>
+                                </div>
+                                <div className="text-sm font-extrabold text-ink">
+                                  ช่วงข้อที่ <span className="font-mono">{startQ}–{endQ}</span> ({qCount} ข้อ)
+                                </div>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-2 pt-1">
+                                <Link
+                                  href={`/exam/completed-topic?pool=${poolMode}&subject=${item.subjectKey}&topic=${topicParam}&set=${setNum}&count=${topicChunkSize}&mode=practice&fresh=1`}
+                                  className="rounded-xl border border-line bg-bg2 py-2 text-center text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+                                >
+                                  โหมดฝึกซ้อม
+                                </Link>
+                                <Link
+                                  href={`/exam/completed-topic?pool=${poolMode}&subject=${item.subjectKey}&topic=${topicParam}&set=${setNum}&count=${topicChunkSize}&mode=real&fresh=1`}
+                                  className="rounded-xl bg-brand py-2 text-center text-xs font-extrabold text-white transition hover:bg-brand-dark"
+                                >
+                                  จับเวลาจริง
+                                </Link>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-
-                      <button
-                        type="button"
-                        disabled={saving}
-                        onClick={async () => {
-                          if (!window.confirm(`รีเซ็ตประวัติหัวข้อ "${item.displayTitle}" ในหมวด ${poolLabel}?`)) {
-                            return;
-                          }
-                          await resetForTopic(item.subjectKey, item.rawTitles.join('||'), poolMode);
-                          pushNotice(`รีเซ็ตประวัติหัวข้อ "${item.displayTitle}" เรียบร้อยแล้ว`);
-                        }}
-                        className="inline-flex items-center gap-1 text-[11px] font-bold text-muted hover:text-accent"
-                      >
-                        <RotateCcw className="h-3 w-3" />
-                        <span>รีเซ็ตบทนี้</span>
-                      </button>
                     </div>
-                  </article>
-                );
-              })}
-            </div>
-          )}
-        </section>
+                  );
+                })()
+              ) : matchingTopics.length === 0 ? (
+                <div className="rounded-card border border-line bg-panel p-10 text-center space-y-2 shadow-card">
+                  <p className="text-base font-extrabold text-ink">ไม่พบหัวข้อย่อยในเงื่อนไขที่เลือก</p>
+                  <p className="text-xs text-muted">ลองกดกลับไปเลือกการ์ดวิชาหลักหรือเปลี่ยนคำค้นหาใหม่อีกครั้ง</p>
+                </div>
+              ) : (
+                /* Level 2: Sub-Topic Block Cards */
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {matchingTopics.map((item) => {
+                    const subMeta = SUBJECT_MAP[item.subjectKey];
+                    const totalSets = Math.max(1, Math.ceil(item.matchCount / topicChunkSize));
+                    const topicParam = encodeURIComponent(item.rawTitles.join('||'));
+                    const cardId = `${item.subjectKey}::${item.title}`;
+
+                    return (
+                      <article
+                        key={cardId}
+                        className="flex flex-col justify-between gap-4 overflow-hidden rounded-card border border-line bg-panel p-5 shadow-card card-hover"
+                      >
+                        <div className="space-y-3">
+                          <div className="flex items-start gap-2.5 min-w-0">
+                            <SubjectIcon subjectKey={item.subjectKey} size="sm" />
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-1.5">
+                                <span className="text-[11px] font-extrabold text-brand">
+                                  {subMeta.shortName}
+                                </span>
+                                <span className="max-w-full truncate rounded-full border border-line bg-bg2 px-2 py-0.5 text-[11px] font-bold text-muted">
+                                  {item.category}
+                                </span>
+                              </div>
+                              <h4 className="mt-1 text-base font-extrabold text-ink leading-snug break-words">
+                                {item.displayTitle.replace(/_/g, ' ')}
+                              </h4>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="rounded-xl border border-line bg-bg2/60 p-2.5">
+                              <div className="text-[11px] font-bold text-muted">ข้อในกลุ่มนี้</div>
+                              <div className="mt-0.5 font-mono text-sm font-extrabold text-brand">
+                                {item.matchCount}/{item.count} ข้อ
+                              </div>
+                              <div className="font-mono text-[10px] text-muted">
+                                ถูก {item.correctInTopic} · ผิด {item.wrongInTopic}
+                              </div>
+                            </div>
+                            <div className="rounded-xl border border-line bg-bg2/60 p-2.5">
+                              <div className="text-[11px] font-bold text-muted">จำนวนชุดบล็อก</div>
+                              <div className="mt-0.5 font-mono text-sm font-extrabold text-ink">
+                                {totalSets} ชุดย่อย
+                              </div>
+                              <div className="font-mono text-[10px] text-muted">
+                                ชุดละ {topicChunkSize} ข้อ
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2 border-t border-line pt-3">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setTopicSubjectFilter(item.subjectKey);
+                              setSelectedCompletedTopicKey(cardId);
+                            }}
+                            className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand px-3 py-2.5 text-xs font-extrabold text-white transition hover:bg-brand-dark"
+                          >
+                            <Layers className="h-3.5 w-3.5" />
+                            <span>เปิดบล็อกชุดข้อสอบ ({totalSets} ชุด)</span>
+                            <ArrowRight className="h-3.5 w-3.5" />
+                          </button>
+
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <div className="flex flex-wrap gap-1.5">
+                              <Link
+                                href={`/exam/completed-topic?pool=${poolMode}&subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${topicChunkSize}&mode=practice&fresh=1`}
+                                className="inline-flex items-center gap-1 rounded-xl border border-line bg-bg2 px-3 py-1.5 text-xs font-bold text-ink hover:border-brand/50 hover:text-brand"
+                              >
+                                <Play className="h-3.5 w-3.5 text-brand" />
+                                <span>เริ่มชุดที่ 1</span>
+                              </Link>
+                              <Link
+                                href={`/exam/completed-topic?pool=${poolMode}&subject=${item.subjectKey}&topic=${topicParam}&count=${item.matchCount}&set=1&mode=practice&fresh=1`}
+                                className="inline-flex items-center gap-1 rounded-xl border border-line bg-bg2 px-3 py-1.5 text-xs font-bold text-ink hover:border-brand/50 hover:text-brand"
+                              >
+                                <Sparkles className="h-3.5 w-3.5 text-teal-ink" />
+                                <span>ครบ {item.matchCount}</span>
+                              </Link>
+                            </div>
+
+                            <button
+                              type="button"
+                              disabled={saving}
+                              onClick={async () => {
+                                if (
+                                  !window.confirm(
+                                    `รีเซ็ตประวัติหัวข้อ "${item.displayTitle}" ในหมวด ${poolLabel}?`
+                                  )
+                                ) {
+                                  return;
+                                }
+                                await resetForTopic(item.subjectKey, item.rawTitles.join('||'), poolMode);
+                                pushNotice(`รีเซ็ตประวัติหัวข้อ "${item.displayTitle}" เรียบร้อยแล้ว`);
+                              }}
+                              className="inline-flex items-center gap-1 text-[11px] font-bold text-muted hover:text-accent"
+                            >
+                              <RotateCcw className="h-3 w-3" />
+                              <span>รีเซ็ต</span>
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          );
+        })()
       )}
     </div>
   );

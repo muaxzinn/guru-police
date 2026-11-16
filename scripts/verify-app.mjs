@@ -301,9 +301,12 @@ async function main() {
     await page.locator('button:has-text("ล้างตัวกรอง")').click();
     await page.waitForTimeout(300);
     assert.equal(await page.locator('select').nth(0).inputValue(), '', 'Reset button should clear subject filter');
-    console.log('   Verified /bank URL deep-linking & reset filter');
+    await page.locator('section[aria-label="เลือกจากการ์ดวิชาหลักและหัวข้อย่อย"] button:has-text("คอมพิวเตอร์")').click();
+    await page.waitForSelector('button:has-text("กลับไปการ์ดวิชาหลัก (7 วิชา)")', { timeout: 5000 });
+    await page.locator('button:has-text("กลับไปการ์ดวิชาหลัก (7 วิชา)")').click();
+    console.log('   Verified /bank URL deep-linking, block-card browser & reset filter');
 
-    // Verify /catalog/topics Question Pool Settings toggle
+    // Verify /catalog/topics Question Pool Settings toggle & 3-level Block Card drill-down
     await page.goto(`${BASE_URL}/catalog/topics`, { waitUntil: 'networkidle' });
     await page.waitForSelector('text=ตั้งค่าการจัดชุดข้อสอบ (Question Pool Mode)', { timeout: 5000 });
     await page.locator('button:has-text("ใช้ข้อสอบรวมตามเดิม")').click();
@@ -311,7 +314,17 @@ async function main() {
     await page.locator('button:has-text("ไม่นำข้อที่เคยทำมาขึ้นซ้ำ")').click();
     await page.waitForTimeout(200);
 
-    // Verify /catalog/completed 3 status tabs & 3 structure views
+    await page.waitForSelector('section[aria-label="การ์ดวิชาหลักทั้ง 7 วิชา"]', { timeout: 5000 });
+    await page.locator('section[aria-label="การ์ดวิชาหลักทั้ง 7 วิชา"] button:has-text("คอมพิวเตอร์")').click();
+    await page.waitForSelector('article:has-text("Microsoft Word (การจัดการเอกสาร)")', { timeout: 5000 });
+    await page
+      .locator('article:has-text("Microsoft Word (การจัดการเอกสาร)") button:has-text("เปิดบล็อกชุดข้อสอบ")')
+      .click();
+    await page.waitForSelector('section[aria-label="บล็อกชุดข้อสอบย่อย"] >> text=ชุดที่ 1', { timeout: 5000 });
+    await page.locator('section[aria-label="บล็อกชุดข้อสอบย่อย"] button:has-text("กลับไปการ์ดวิชาหลัก (7 วิชา)")').click();
+    await page.waitForSelector('section[aria-label="การ์ดวิชาหลักทั้ง 7 วิชา"]', { timeout: 5000 });
+
+    // Verify /catalog/completed 3 status tabs & 3 structure views (including Block Card topic tab)
     await page.goto(`${BASE_URL}/catalog/completed`, { waitUntil: 'networkidle' });
     await page.waitForSelector('text=1. เลือกกลุ่มข้อสอบที่เคยทำแล้ว', { timeout: 5000 });
     await page.locator('[role="tab"]:has-text("ทำถูกอย่างเดียว")').click();
@@ -321,8 +334,10 @@ async function main() {
     await page.waitForSelector('text=จัดชุดแยกรายวิชา 7 วิชา', { timeout: 5000 });
     await page.locator('[role="tab"]:has-text("แยกหัวข้อย่อยรายบท")').click();
     await page.waitForSelector('input[placeholder*="ค้นหาหัวข้อย่อย"]', { timeout: 5000 });
+    await page.locator('button:has-text("เปิดดูการ์ดหัวข้อย่อย")').first().click();
+    await page.waitForSelector('button:has-text("กลับไปเลือกการ์ดวิชาหลัก (7 วิชา)")', { timeout: 5000 });
     await page.locator('[role="tab"]:has-text("ชุดข้อสอบรวม 150 ข้อ")').click();
-    console.log('   Verified /catalog/topics pool toggle and /catalog/completed 3 tabs x 3 structures');
+    console.log('   Verified /catalog/topics 3-level block cards and /catalog/completed 3 tabs x 3 structures');
 
     await page.goto(`${BASE_URL}/exam/201?mode=practice&fresh=1`, { waitUntil: 'networkidle' });
     await page.waitForSelector('text=ตั้งค่ารูปแบบการทำข้อสอบ', { timeout: 10000 });
