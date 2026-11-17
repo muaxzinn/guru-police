@@ -1,6 +1,6 @@
 {
-  "name": "GURU POLICE — ข้อสอบตำรวจ",
-  "short_name": "GURU POLICE",
+  "name": "NAISIB PRO — ติวสอบนายสิบตำรวจ",
+  "short_name": "NAISIB PRO",
   "description": "ฝึกทำข้อสอบตำรวจเสมือนจริง พร้อมเฉลยละเอียด",
   "start_url": "./dashboard/",
   "display": "standalone",
