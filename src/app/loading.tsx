@@ -6,7 +6,7 @@ export default function RootLoading() {
     <AppLoadingScreen
       variant="page"
       includeHeader={true}
-      title="กำลังเตรียมระบบ GURU POLICE V2..."
+      title="กำลังเตรียมระบบ NAISIB PRO..."
       subtitle="กำลังโหลดคลังข้อสอบนายสิบตำรวจ 7,038 ข้อ และข้อมูลผู้ใช้งาน"
     />
   );

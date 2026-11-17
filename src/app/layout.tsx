@@ -31,7 +31,7 @@ const SITE_URL =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'GURU POLICE — ติวสอบนายสิบตำรวจ ตัวจริง',
+  title: 'NAISIB PRO — ติวสอบนายสิบตำรวจ ตัวจริง',
   description:
     'คลังข้อสอบนายสิบตำรวจ 7,038 ข้อ ครบ 7 วิชา เฉลยละเอียด วิเคราะห์จุดอ่อนรายหัวข้อ และโหมดสอบจับเวลาเสมือนจริง',
   manifest: `${BASE_PATH}/manifest.webmanifest`,
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     apple: `${BASE_PATH}/apple-icon.png`,
   },
   openGraph: {
-    title: 'GURU POLICE — ติวสอบนายสิบตำรวจ ตัวจริง',
+    title: 'NAISIB PRO — ติวสอบนายสิบตำรวจ ตัวจริง',
     description: 'คลังข้อสอบ 7,038 ข้อ · ฝึกฟรี ไม่ต้องสมัคร · ครบ 7 วิชา พร้อมเฉลยละเอียด',
     type: 'website',
     locale: 'th_TH',
@@ -52,13 +52,13 @@ export const metadata: Metadata = {
         url: `${BASE_PATH}/og-banner.png`,
         width: 1200,
         height: 630,
-        alt: 'GURU POLICE — ติวสอบนายสิบตำรวจ ตัวจริง',
+        alt: 'NAISIB PRO — ติวสอบนายสิบตำรวจ ตัวจริง',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GURU POLICE — ติวสอบนายสิบตำรวจ ตัวจริง',
+    title: 'NAISIB PRO — ติวสอบนายสิบตำรวจ ตัวจริง',
     description: 'คลังข้อสอบ 7,038 ข้อ · ฝึกฟรี ไม่ต้องสมัคร · ครบ 7 วิชา พร้อมเฉลยละเอียด',
     images: [`${BASE_PATH}/og-banner.png`],
   },

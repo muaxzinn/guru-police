@@ -167,7 +167,7 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
               <ShieldCheck className="h-4.5 w-4.5" />
             </span>
             <span>
-              GURU <span className="text-brand">POLICE</span>
+              NAISIB <span className="text-brand">PRO</span>
             </span>
           </Link>
 

@@ -244,7 +244,7 @@ export function DashboardClient({
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `guru-police-sync-${todayIso || 'backup'}.json`;
+    link.download = `naisib-pro-sync-${todayIso || 'backup'}.json`;
     link.click();
     URL.revokeObjectURL(url);
     setSyncNotice('ดาวน์โหลดไฟล์สำรองข้อมูลเรียบร้อยแล้ว');
@@ -880,7 +880,7 @@ export function DashboardClient({
                   <div>
                     <div className="text-sm font-bold text-ink">{row.nameMasked}</div>
                     {row.isChampion && (
-                      <div className="text-[11px] font-bold text-gold-ink">GURU Test Champion</div>
+                      <div className="text-[11px] font-bold text-gold-ink">NAISIB PRO Champion</div>
                     )}
                   </div>
                 </div>

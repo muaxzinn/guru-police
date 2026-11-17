@@ -21,8 +21,8 @@ interface AppLoadingScreenProps {
 
 const DEFAULT_COPY: Record<LoadingVariant, { title: string; subtitle: string; badge: string }> = {
   page: {
-    badge: 'GURU POLICE V2 · FAST ENGINE',
-    title: 'กำลังเตรียมระบบ GURU POLICE V2...',
+    badge: 'NAISIB PRO · FAST ENGINE',
+    title: 'กำลังเตรียมระบบ NAISIB PRO...',
     subtitle: 'กำลังโหลดคลังข้อสอบนายสิบตำรวจและสถานะล่าสุดของคุณ',
   },
   exam: {
@@ -85,7 +85,7 @@ export function AppLoadingScreen({
                 <ShieldCheck className="h-5 w-5" />
               </span>
               <span className="text-base sm:text-lg">
-                GURU <span className="text-brand">POLICE</span>
+                NAISIB <span className="text-brand">PRO</span>
               </span>
             </div>
             <div className="hidden items-center gap-2 xl:flex">

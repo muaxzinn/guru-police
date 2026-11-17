@@ -407,7 +407,7 @@ export default function LandingPage() {
 
       <footer className="border-t border-line bg-panel py-8 text-center text-xs text-muted">
         <div className="mx-auto max-w-6xl px-4">
-          GURU POLICE V2 · ติวสอบนายสิบตำรวจ · ข้อมูลข้อสอบและบทความครบถ้วนเพื่อการเตรียมสอบ
+          NAISIB PRO · ติวสอบนายสิบตำรวจ · ข้อมูลข้อสอบและบทความครบถ้วนเพื่อการเตรียมสอบ
         </div>
       </footer>
     </div>

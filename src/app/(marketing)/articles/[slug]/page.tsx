@@ -36,7 +36,7 @@ export default async function ArticleDetailPage({
         <article className="mt-4 rounded-card border border-line bg-panel p-6 shadow-card sm:p-8">
           <div className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-xs font-bold text-brand">
             <BookOpen className="h-3.5 w-3.5" />
-            <span>บทความเตรียมสอบ GURU POLICE</span>
+            <span>บทความเตรียมสอบ NAISIB PRO</span>
           </div>
           <h1 className="mt-3 text-2xl font-extrabold leading-snug sm:text-3xl">{article.h1}</h1>
           <p className="mt-2 text-sm text-muted">{article.description}</p>
