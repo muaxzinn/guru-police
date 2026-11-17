@@ -24,8 +24,8 @@ test('rich-text-parser: isImageUrlString detects SVGs, local images, external UR
   assert.equal(isImageUrlString('  /question-images/foo.png  '), true);
   assert.equal(isImageUrlString('https://example.com/diagram.webp'), true);
   assert.equal(isImageUrlString('http://cdn.test.com/fig.jpg'), true);
-  assert.equal(isImageUrlString('/qimg/set/q1.png'), true);
-  assert.equal(isImageUrlString('/simg/bucket/q2.jpg'), true);
+  assert.equal(isImageUrlString('/qimg/set/q1.png'), false);
+  assert.equal(isImageUrlString('/simg/bucket/q2.jpg'), false);
 
   assert.equal(isImageUrlString('เลือกข้อที่ถูกต้องที่สุด'), false);
   assert.equal(isImageUrlString('$\\frac{1}{2}$'), false);

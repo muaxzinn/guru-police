@@ -1,5 +1,5 @@
 export const IMAGE_URL_ONLY_RE =
-  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)(?:\?\S*)?|\/question-images\/\S+\.(?:png|jpe?g|webp|gif|svg)(?:\?\S*)?|\/question-svgs\/\S+\.svg(?:\?\S*)?|\/qimg\/\S+|\/simg\/\S+)$/i;
+  /^(?:https?:\/\/\S+\.(?:png|jpe?g|webp|gif|svg)(?:\?\S*)?|\/question-images\/\S+\.(?:png|jpe?g|webp|gif|svg)(?:\?\S*)?|\/question-svgs\/\S+\.svg(?:\?\S*)?)$/i;
 
 export function isImageUrlString(val?: string | null): boolean {
   if (!val) return false;

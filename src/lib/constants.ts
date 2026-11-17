@@ -84,7 +84,6 @@ export const BRAND_PALETTES: Array<{
 
 export const CHOICE_LABELS = ['ก', 'ข', 'ค', 'ง'] as const;
 export const AWAY_TIMEOUT_MINUTES = 15;
-export const LINE_OA_URL = 'https://line.me/R/ti/p/@gurupolice';
 
 export function normalizeTopicTitleKey(title: string): string {
   return title
