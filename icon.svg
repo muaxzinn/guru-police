@@ -1,9 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="GURU POLICE">
-  <!-- Brand red (--brand red preset, rgb(230 7 7)) on a rounded tile: a solid
-       ground keeps the mark legible at 16px in both light and dark tab bars,
-       where a bare glyph would disappear against one of them. -->
-  <rect width="64" height="64" rx="14" fill="#E60707" />
-  <!-- G drawn as a path, not text: a favicon can't rely on a font being present. -->
+  <rect width="64" height="64" rx="14" fill="#1D4ED8" />
   <path
     d="M44 23 A15 15 0 1 0 44 41 L44 32 L34 32"
     fill="none"
