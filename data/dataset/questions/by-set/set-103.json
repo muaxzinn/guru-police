@@ -1,263 +1,402 @@
 [
   {
     "id": 7000,
-    "b": "She enjoys _________ a shower in the morning.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Clauses and Verb Forms",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "She enjoys _________ a shower in the morning.",
+    "img": null,
     "opts": [
       "taking",
       "to take",
       "take",
       "takes"
     ],
-    "c": 0,
-    "t": "Clauses and Verb Forms",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 0,
+    "correct_label": "ก",
+    "explanation": "จากโจทย์แปลได้ว่า\nเธอเพลิดเพลิน _________ อาบน้ำในตอนเช้า.\nเนื่องจาก enjoy ต้องตามด้วย gerund (V.ing) จากประโยค She enjoys\ntaking a shower in the morning. จะแปลว่า\nเธอเพลิดเพลินกับการอาบน้ำในตอนเช้า\nดังนั้น ข้อ 1. taking จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6722,
-    "b": "This is _____ easy question for new students.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Parts of Speech",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "This is _____ easy question for new students.",
+    "img": null,
     "opts": [
       "a",
       "an",
       "some",
       "many"
     ],
-    "c": 1,
-    "t": "Parts of Speech",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 1,
+    "correct_label": "ข",
+    "explanation": "จากโจทย์แปลได้ว่า\nนี่เป็นคำถามง่าย ๆ สำหรับนักเรียนใหม่\nquestion เป็นคำนามนับได้เอกพจน์ แต่มีคำคุณศัพท์ easy อยู่ข้างหน้า\nและ easy ขึ้นต้นด้วยเสียงสระ จึงใช้ an easy question\nดังนั้น ข้อ 2. an จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6156,
-    "b": "Mike Brodsky is buying a ticket\nMike : A ticket to New York, please.\nClerk : ______?______.\nMike : Oh, one way.\nFill in the blank to complete.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Conversation",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "Mike Brodsky is buying a ticket\nMike : A ticket to New York, please.\nClerk : ______?______.\nMike : Oh, one way.\nFill in the blank to complete.",
+    "img": null,
     "opts": [
       "Are you single?",
       "One way or round trip?",
       "Is it one way traffic?",
       "Single or Double?"
     ],
-    "c": 1,
-    "t": "Conversation",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 1,
+    "correct_label": "ข",
+    "explanation": "จากโจทย์แปลได้ว่า ไมค์ บรอด์สกี กำลังซื้อตั๋ว\nไมค์ : ตั๋วไปนิวยอร์ก 1 ใบครับ\nเสมียน : ______?______.\nไมค์ : โอ้ เที่ยวเดียวครับ\nเติมคำลงในช่องว่างให้สมบูรณ์\n1. คุณโสดหรือไม่?\n2. ตั๋วเที่ยวเดียวหรือตั๋วไป - กลับ?\n3. มันคือทางรถทางเดียวใช่ไหม?\n4. เดี่ยวหรือคู่?\nดังนั้น ข้อ 2. one way or round trip? จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6777,
-    "b": "The road becomes very __________ after heavy rain.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Parts of Speech",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "The road becomes very __________ after heavy rain.",
+    "img": null,
     "opts": [
       "danger",
       "dangerous",
       "dangerously",
       "endanger"
     ],
-    "c": 1,
-    "t": "Parts of Speech",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 1,
+    "correct_label": "ข",
+    "explanation": "จากโจทย์แปลได้ว่า\nถนนกลายเป็น ______ มากหลังจากฝนตกหนัก\n1.  อันตราย (n.)\n2.  ที่อันตราย (adj.)\n3.  อย่างอันตราย (adv.)\n4.  ทำให้ตกอยู่ในอันตราย (v.)\nเนื่องจาก become เป็น linking verb จึงต้องตามด้วย adjective เพื่อบอกลักษณะของประธาน the road\nดังนั้น ข้อ 2. dangerous จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 7111,
-    "b": "",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Reading",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "",
+    "img": "/question-svgs/6b61815ec7c5a5c5.svg",
     "opts": [
       "You can’t park your bicycle here",
       "You can’t ride your bicycle here",
       "You should leave your bicycle here",
       "You should walk with your bicycle here"
     ],
-    "c": 1,
-    "img": "/question-svgs/6b61815ec7c5a5c5.svg",
-    "t": "Reading",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 1,
+    "correct_label": "ข",
+    "explanation": "จากโจทย์แปลได้ว่า ป้ายข้างบนหมายถึง “__________________”\n1.  คุณไม่สามารถจอดจักรยานที่นี่ได้\n2.  คุณไม่สามารถปั่นจักรยานที่นี่ได้\n3.  คุณไม่ควรทิ้งจักรยานของคุณที่นี่\n4.  คุณควรเดินจูงจักรยานที่นี่\nดังนั้น ข้อ 2. You can’t ride your bicycle here จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6893,
-    "b": "Both dad and mom _________ coming to the parent-teacher conference.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Tenses and Passive voice",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "Both dad and mom _________ coming to the parent-teacher conference.",
+    "img": null,
     "opts": [
       "was",
       "are",
       "be",
       "is"
     ],
-    "c": 1,
-    "t": "Tenses and Passive voice",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 1,
+    "correct_label": "ข",
+    "explanation": "จากโจทย์แปลได้ว่า ทั้งพ่อและแม่_________ กำลังไปประชุมผู้ปกครอง.\nเนื่องจาก Both…and… แปลว่าทั้งสองเป็นพหูพจน์จะต้องใช้กริยาที่เป็นพหูพจน์เช่นกัน\nดังนั้น ข้อ 2. are จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6571,
-    "b": "WORLD RESIDENCE\nSERVICED APARTMENT\n\n\"FEEL LIKE HOME IN BANGKOK\" a quality apt., Just minutes away from Silom & Sathorn Rd., F/F, laundry service, hot water, fitness gym, bar & restaurant, business center, Daily Fr. 900 Bht. Incl. B/F, Monthly Fr27,000 Bht. For reservation\n\nTel. 866-0382, 862-1443 Fax. 802-1255\nEmail : worldres @ infonews.co.th.\n\nWhat kind of place is advertised?",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Reading",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "WORLD RESIDENCE\nSERVICED APARTMENT\n\n\"FEEL LIKE HOME IN BANGKOK\" a quality apt., Just minutes away from Silom & Sathorn Rd., F/F, laundry service, hot water, fitness gym, bar & restaurant, business center, Daily Fr. 900 Bht. Incl. B/F, Monthly Fr27,000 Bht. For reservation\n\nTel. 866-0382, 862-1443 Fax. 802-1255\nEmail : worldres @ infonews.co.th.\n\nWhat kind of place is advertised?",
+    "img": null,
     "opts": [
       "A serviced apartment",
       "A department store",
       "A public library",
       "A hospital"
     ],
-    "c": 0,
-    "t": "Reading",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 0,
+    "correct_label": "ก",
+    "explanation": "จากโจทย์แปลได้ว่า สถานที่ประเภทใดที่กำลังโฆษณาอยู่\n1. เซอร์วิสอพาร์ตเมนต์\n2. ห้างสรรพสินค้า\n3. ห้องสมุดสาธารณะ\n4. โรงพยาบาล\nดังนั้นข้อ 1. A serviced apartment จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6611,
-    "b": "The human body continuously produces heat which derives from eating food. When a man is working, his body produces more heat than when he is at rest. But the body cannot store heat. The inner temperature of the body must remain constant at 37°C. People become ill if their temperature rises much above this.\nFrom the passage, heat is produced because ____________.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Reading",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "The human body continuously produces heat which derives from eating food. When a man is working, his body produces more heat than when he is at rest. But the body cannot store heat. The inner temperature of the body must remain constant at 37°C. People become ill if their temperature rises much above this.\nFrom the passage, heat is produced because ____________.",
+    "img": null,
     "opts": [
       "we have to work",
       "we drink water",
       "we eat food",
       "the weather is hot"
     ],
-    "c": 2,
-    "t": "Reading",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 2,
+    "correct_label": "ค",
+    "explanation": "จากโจทย์แปลได้ว่า\nร่างกายของมนุษย์ผลิตความร้อนอยู่อย่างต่อเนื่อง ซึ่งความร้อนนี้ได้มาจากอาหารที่รับประทานเข้าไป เมื่อคนเราทำงาน ร่างกายจะผลิตความร้อนมากกว่าตอนที่กำลังพักผ่อน แต่ทว่าร่างกายไม่สามารถสะสมความร้อนไว้ได้ อุณหภูมิภายในร่างกายจึงต้องคงที่อยู่ที่ 37 องศาเซลเซียส ผู้คนจะเจ็บป่วยหากอุณหภูมิร่างกายของพวกเขาสูงขึ้นเกินกว่าระดับนี้มาก\nจากบทความความร้อนถูกผลิตเพราะ ____________.\n1. พวกเราต้องทำงาน\n2. พวกเราดื่มน้ำ\n3. พวกเรากินอาหาร\n4. อากาศร้อน\nสังเกตได้จากประโยค The human body continuously produces heat which derives from eating food. ดังนั้น ข้อ 3. we eat food จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6905,
-    "b": "You can’t fix my bike, _________?",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Tenses and Passive voice",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "You can’t fix my bike, _________?",
+    "img": null,
     "opts": [
       "can you",
       "can’t you",
       "do you",
       "don’t you"
     ],
-    "c": 0,
-    "t": "Tenses and Passive voice",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 0,
+    "correct_label": "ก",
+    "explanation": "จากโจทย์แปลได้ว่า\nคุณซ่อมจักรยานของฉันไม่ได้ ใช่ไหม?\nเนื่องจาก ในประโยคมี can ซึ่งเป็น V.ช่วย ประโยคข้างหน้าเป็นปฏิเสธ question tag ต้องเป็นบอกเล่า\nดังนั้น ข้อ 1. can you จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6877,
-    "b": "In December, Christmas music ____________ on the radio.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Tenses and Passive voice",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "In December, Christmas music ____________ on the radio.",
+    "img": null,
     "opts": [
       "hears",
       "heard",
       "is heard",
       "has heard"
     ],
-    "c": 2,
-    "t": "Tenses and Passive voice",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 2,
+    "correct_label": "ค",
+    "explanation": "จากโจทย์แปลได้ว่า\nในเดือนธันวาคม เพลงคริสต์มาส ____________ บนวิทยุ.\nเนื่องจาก hear แปลว่า ได้ยิน และเพลงคริสต์มาสไม่สามารถได้ยินเองได้\nต้องถูกได้ยินจึงใช้โครงสร้าง Passive voice  V.to be + V.3\nดังนั้น ข้อ 3. is heard จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6831,
-    "b": "Not only the workers ____ the managers are going to the union meeting.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Connectors and Prepositions",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "Not only the workers ____ the managers are going to the union meeting.",
+    "img": null,
     "opts": [
       "or",
       "but also",
       "nor",
       "and"
     ],
-    "c": 1,
-    "t": "Connectors and Prepositions",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 1,
+    "correct_label": "ข",
+    "explanation": "จากโจทย์แปลได้ว่า\nไม่เพียงแต่คนงาน ______ ผู้จัดการก็จะไปประชุมสหภาพด้วย\nเนื่องจาก Not only ใช้คู่กับ but also มีความหมายว่า ไม่ใช่แค่…..แต่…(ด้วย)\nดังนั้น ข้อ 2. but also จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6397,
-    "b": "I heard that the man who __________ the bank last week has been\narrested.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Vocabulary",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "I heard that the man who __________ the bank last week has been\narrested.",
+    "img": null,
     "opts": [
       "stole",
       "attacked",
       "robbed",
       "kidnapped"
     ],
-    "c": 2,
-    "t": "Vocabulary",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 2,
+    "correct_label": "ค",
+    "explanation": "จากโจทย์แปลได้ว่า ฉันได้ยินว่าผู้ชายที่ ___________ ธนาคารเมื่ออาทิตย์ที่แล้วถูกจับกุม\n1.  ขโมย\n2.  จู่โจม\n3.  ปล้น\n4.  ลักพาตัว\nดังนั้น ข้อ 3. robbed จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6715,
-    "b": "There was ______ tsunami in Thailand.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Parts of Speech",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "There was ______ tsunami in Thailand.",
+    "img": null,
     "opts": [
       "a",
       "an",
       "much",
       "-"
     ],
-    "c": 0,
-    "t": "Parts of Speech",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 0,
+    "correct_label": "ก",
+    "explanation": "จากโจทย์แปลได้ว่า\nเคยเกิดสึนามิขึ้นในประเทศไทย\ntsunami เป็นคำนามนับได้เอกพจน์และขึ้นต้นด้วยเสียงพยัญชนะ /t/ จึงใช้ a tsunami\nดังนั้น ข้อ 1. a จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6221,
-    "b": "Conversation : Terry talks with Postal clerk\nTerry : A stamp for this postcard, please.\nOfficer : ___________________.\nTerry : Amsterdam.\nOfficer : Five euros, please.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Conversation",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "Conversation : Terry talks with Postal clerk\nTerry : A stamp for this postcard, please.\nOfficer : ___________________.\nTerry : Amsterdam.\nOfficer : Five euros, please.",
+    "img": null,
     "opts": [
       "How far is it?",
       "How is it?",
       "Where’s it going?",
       "Where are you from?"
     ],
-    "c": 2,
-    "t": "Conversation",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 2,
+    "correct_label": "ค",
+    "explanation": "จากโจทย์แปลได้ว่า\nTerry : ต้องการสแตมป์สำหรับโปสการ์ดนี้ครับ\nOfficer : ___________________.\nTerry : อัมสเตอร์ดัมครับ\nOfficer : ห้ายูโรครับ\n1. ไกลแค่ไหน?\n2. เป็นอย่างไรบ้าง?\n3. มันจะไปไหน?\n4. คุณมาจากที่ไหน?\nดังนั้น ข้อ 3. Where’s it going? จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6196,
-    "b": "A secretary is on the phone and wants to know the caller’s name so she asks politely, “_______, please?”",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Conversation",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "A secretary is on the phone and wants to know the caller’s name so she asks politely, “_______, please?”",
+    "img": null,
     "opts": [
       "Who do you want to call",
       "Who are you",
       "Who is saying that",
       "Who’s calling"
     ],
-    "c": 3,
-    "t": "Conversation",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 3,
+    "correct_label": "ง",
+    "explanation": "จากโจทย์แปลได้ว่า เลขากำลังคุยโทรศัพท์และต้องการทราบชื่อผู้ที่โทรมาดังนั้นเธอจึงถามอย่างสุภาพว่า “__________ คะ?”\n1. ต้องการพูดสายกับใคร\n2. คุณคือใคร\n3. ใครพูดแบบนั้น\n4. ใครกำลังพูดสาย\nดังนั้น ข้อ 4. Who’s calling จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 7003,
-    "b": "I avoid _________ late because it leads to GERD.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Clauses and Verb Forms",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "I avoid _________ late because it leads to GERD.",
+    "img": null,
     "opts": [
       "to eat",
       "eating",
       "eat",
       "eats"
     ],
-    "c": 1,
-    "t": "Clauses and Verb Forms",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 1,
+    "correct_label": "ข",
+    "explanation": "จากโจทย์แปลได้ว่า\nฉันหลีกเลี่ยง _________ ดึกเพราะมันทำให้เกิดกรดไหลย้อน\nเนื่องจาก avoid ต้องตามด้วย gerund (V.ing) จากประโยค I avoid eating\nlate because it leads to GERD.\nจะแปลว่า ฉันหลีกเลี่ยงการกินดึกเพราะมันทำให้เกิดกรดไหลย้อน.\nดังนั้น ข้อ 2. eating จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6502,
-    "b": "The decrease in white blood cells seems to _________ the antibiotic is working.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Vocabulary",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "The decrease in white blood cells seems to _________ the antibiotic is working.",
+    "img": null,
     "opts": [
       "comply",
       "imply",
       "reply",
       "apply"
     ],
-    "c": 1,
-    "t": "Vocabulary",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 1,
+    "correct_label": "ข",
+    "explanation": "จากโจทย์แปลได้ว่า การลดลงของเซลล์เม็ดเลือดขาวดูเหมือน _________ ยาปฏิชีวนะกำลังออกฤทธิ์\n1. ยินยอม, ทำตาม\n2. บ่งบอกถึง, บอกเป็นนัย\n3. ตอบกลับ\n4. ประยุกต์ใช้\nดังนั้น ข้อ 2. imply จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6427,
-    "b": "Forces were ______ after an emergency to help the people.",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Vocabulary",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "Forces were ______ after an emergency to help the people.",
+    "img": null,
     "opts": [
       "gathered",
       "depart",
       "separate",
       "nationality"
     ],
-    "c": 0,
-    "t": "Vocabulary",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 0,
+    "correct_label": "ก",
+    "explanation": "จากโจทย์แปลได้ว่า\nกองกำลังถูก ________ หลังจากเกิดเหตุฉุกเฉิน เพื่อช่วยเหลือประชาชน\n1. รวบรวม\n2. ออกจาก\n3. แบ่งแยก\n4. สัญชาติ\nดังนั้น ข้อ 1. gathered จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 6373,
-    "b": "Which is the odd one out?",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Vocabulary",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "Which is the odd one out?",
+    "img": null,
     "opts": [
       "complex",
       "odd",
       "unusual",
       "strange"
     ],
-    "c": 0,
-    "t": "Vocabulary",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 0,
+    "correct_label": "ก",
+    "explanation": "จากโจทย์แปลได้ว่า คำไหนที่ไม่เข้าพวก?\n1. ซับซ้อน\n2. แปลก\n3. แปลก, ไม่ปกติ\n4. แปลก\nดังนั้น ข้อ 1. complex จึงถูกต้อง",
+    "explanation_img": null
   },
   {
     "id": 7059,
-    "b": "You can swim very well, _________?",
+    "subject_key": "eng",
+    "set_id": null,
+    "title": "Special Grammar Points",
+    "batch": "03_ภาษาอังกฤษ_ลงครั้งที่1",
+    "stem": "You can swim very well, _________?",
+    "img": null,
     "opts": [
       "can you",
       "can't you",
       "do you",
       "don't you"
     ],
-    "c": 1,
-    "t": "Special Grammar Points",
-    "subject": "eng"
+    "opt_imgs": null,
+    "correct_index": 1,
+    "correct_label": "ข",
+    "explanation": "จากโจทย์แปลได้ว่า\nคุณว่ายน้ำเก่งมากใช่ไหม, _________?\nเนื่องจากประโยคหลักมี modal verb (can) question tag จึงต้องใช้ modal verb ตัวเดียวกัน และประโยคหลักเป็นบอกเล่า tag จึงต้องเป็นปฏิเสธ\nดังนั้น ข้อ 2. can't you จึงถูกต้อง",
+    "explanation_img": null
   }
 ]

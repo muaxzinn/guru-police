@@ -38,27 +38,15 @@ const IMAGE_URL_ONLY_RE =
 
 /**
  * @param {string | null | undefined} raw
- * @param {Map<string, string>} urlMap
  * @returns {string | null}
  */
-function resolveLocalImageUrl(raw, urlMap) {
+function resolveLocalImageUrl(raw) {
   if (!raw || typeof raw !== 'string') return null;
   const trimmed = raw.trim();
   if (!trimmed) return null;
   if (trimmed.startsWith('/question-images/') || trimmed.startsWith('/question-svgs/')) return trimmed;
-
-  const direct = urlMap.get(trimmed);
-  if (direct) return direct;
-
-  if (trimmed.startsWith('/qimg/')) {
-    const abs = `https://guru-eng-exam-images.netlify.app/${trimmed.slice('/qimg/'.length)}`;
-    return urlMap.get(abs) || trimmed;
-  }
-  if (trimmed.startsWith('/simg/')) {
-    const abs = `https://wnsgsamwljlkzgtvyssx.supabase.co/storage/v1/object/public/${trimmed.slice('/simg/'.length)}`;
-    return urlMap.get(abs) || trimmed;
-  }
-  return trimmed;
+  if (trimmed.startsWith('/')) return trimmed;
+  return null;
 }
 
 /**
@@ -78,20 +66,6 @@ function computeSubjectBreakdown(questionIds, byId) {
 }
 
 function generateStaticDataset() {
-  /** @type {Map<string, string>} */
-  const imageUrlMap = new Map();
-  const harvestReportPath = path.join(DATASET_DIR, 'harvest-report.json');
-  if (fs.existsSync(harvestReportPath)) {
-    const harvestReport = JSON.parse(fs.readFileSync(harvestReportPath, 'utf8'));
-    for (const item of harvestReport.downloaded_question_images || []) {
-      if (item.url && item.file) {
-        imageUrlMap.set(item.url, `/question-images/${item.file}`);
-      }
-    }
-  }
-  imageUrlMap.set('https://guru-eng-exam-images.netlify.app/i/01-9b4075aa/q269.png', '/question-images/retry-01-q269.png');
-  imageUrlMap.set('https://guru-eng-exam-images.netlify.app/i/01-2-b2282906/q31.png', '/question-images/retry-02-q31.png');
-
   /** @type {Array<Record<string, any>>} */
   const rawQuestions = JSON.parse(
     fs.readFileSync(path.join(DATASET_DIR, 'all-questions.json'), 'utf8')
@@ -101,22 +75,22 @@ function generateStaticDataset() {
   const questions = rawQuestions.map((q) => {
     const stemTrim = typeof q.stem === 'string' ? q.stem.trim() : '';
     const stemIsImg = Boolean(stemTrim && IMAGE_URL_ONLY_RE.test(stemTrim));
-    const resolvedStemImg = stemIsImg ? resolveLocalImageUrl(stemTrim, imageUrlMap) || stemTrim : null;
+    const resolvedStemImg = stemIsImg ? resolveLocalImageUrl(stemTrim) || stemTrim : null;
 
     const expTrim = typeof q.explanation === 'string' ? q.explanation.trim() : '';
     const expIsImg = Boolean(expTrim && IMAGE_URL_ONLY_RE.test(expTrim));
-    const resolvedExpImg = expIsImg ? resolveLocalImageUrl(expTrim, imageUrlMap) || expTrim : null;
+    const resolvedExpImg = expIsImg ? resolveLocalImageUrl(expTrim) || expTrim : null;
 
     /** @type {string[]} */
     const rawOpts = Array.isArray(q.opts) ? q.opts : [];
     /** @type {Array<string | null>} */
     const existingOptImgs = Array.isArray(q.opt_imgs) ? q.opt_imgs : [];
     const normalizedOptImgs = rawOpts.map((opt, idx) => {
-      const existing = resolveLocalImageUrl(existingOptImgs[idx], imageUrlMap);
+      const existing = resolveLocalImageUrl(existingOptImgs[idx]);
       if (existing) return existing;
       const optTrim = typeof opt === 'string' ? opt.trim() : '';
       if (optTrim && IMAGE_URL_ONLY_RE.test(optTrim)) {
-        return resolveLocalImageUrl(optTrim, imageUrlMap) || optTrim;
+        return resolveLocalImageUrl(optTrim) || optTrim;
       }
       return null;
     });
@@ -129,11 +103,11 @@ function generateStaticDataset() {
     return {
       ...q,
       stem: stemIsImg ? 'พิจารณารูปภาพต่อไปนี้แล้วเลือกคำตอบที่ถูกต้อง' : q.stem,
-      img: resolveLocalImageUrl(q.img, imageUrlMap) || resolvedStemImg,
+      img: resolveLocalImageUrl(q.img) || resolvedStemImg,
       opts: normalizedOpts,
       opt_imgs: normalizedOptImgs.some(Boolean) ? normalizedOptImgs : null,
       explanation: expIsImg ? '' : q.explanation,
-      explanation_img: resolveLocalImageUrl(q.explanation_img, imageUrlMap) || resolvedExpImg,
+      explanation_img: resolveLocalImageUrl(q.explanation_img) || resolvedExpImg,
     };
   });
 

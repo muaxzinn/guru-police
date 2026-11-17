@@ -6,7 +6,7 @@
     {
       "kind": "articles",
       "slug": "day-in-the-life-patrol",
-      "url": "https://examgurupolice.netlify.app/articles/day-in-the-life-patrol",
+      "url": "/articles/day-in-the-life-patrol",
       "title": "วันทำงานจริงของตำรวจสายตรวจ — GURU POLICE",
       "description": "ตื่นมาทำอะไรบ้าง เข้าเวรยังไง งานจริงต่างจากที่คิดแค่ไหน",
       "h1": "วันทำงานจริงของตำรวจสายตรวจ",
@@ -24,7 +24,7 @@
     {
       "kind": "articles",
       "slug": "decorations-and-insignia",
-      "url": "https://examgurupolice.netlify.app/articles/decorations-and-insignia",
+      "url": "/articles/decorations-and-insignia",
       "title": "เครื่องราชอิสริยาภรณ์และการประดับยศ — GURU POLICE",
       "description": "สัญลักษณ์เกียรติยศของข้าราชการ ความหมายและความสำคัญ",
       "h1": "เครื่องราชอิสริยาภรณ์และการประดับยศ",
@@ -40,7 +40,7 @@
     {
       "kind": "articles",
       "slug": "exam-structure-6-subjects",
-      "url": "https://examgurupolice.netlify.app/articles/exam-structure-6-subjects",
+      "url": "/articles/exam-structure-6-subjects",
       "title": "โครงสร้างข้อสอบนายสิบตำรวจ 6 วิชา — GURU POLICE",
       "description": "150 ข้อ 6 วิชา สัดส่วนเท่าไหร่ วิชาไหนคะแนนเยอะ วางแผนอ่านให้ตรงจุด",
       "h1": "โครงสร้างข้อสอบนายสิบตำรวจ 6 วิชา",
@@ -58,7 +58,7 @@
     {
       "kind": "articles",
       "slug": "forensic-work-explained",
-      "url": "https://examgurupolice.netlify.app/articles/forensic-work-explained",
+      "url": "/articles/forensic-work-explained",
       "title": "งานพิสูจน์หลักฐานคืออะไร — GURU POLICE",
       "description": "เบื้องหลังการไขคดีด้วยวิทยาศาสตร์ งานที่ต้องการความละเอียดสูง",
       "h1": "งานพิสูจน์หลักฐานคืออะไร",
@@ -76,7 +76,7 @@
     {
       "kind": "articles",
       "slug": "government-healthcare-rights",
-      "url": "https://examgurupolice.netlify.app/articles/government-healthcare-rights",
+      "url": "/articles/government-healthcare-rights",
       "title": "สิทธิรักษาพยาบาลข้าราชการ — GURU POLICE",
       "description": "สิทธิเบิกค่ารักษาสำหรับตัวเองและครอบครัว ครอบคลุมแค่ไหน",
       "h1": "สิทธิรักษาพยาบาลข้าราชการ",
@@ -94,7 +94,7 @@
     {
       "kind": "articles",
       "slug": "how-to-become-a-police-officer",
-      "url": "https://examgurupolice.netlify.app/articles/how-to-become-a-police-officer",
+      "url": "/articles/how-to-become-a-police-officer",
       "title": "เส้นทางสู่การเป็นตำรวจ: เริ่มต้นจากตรงไหนดี — GURU POLICE",
       "description": "อยากเป็นตำรวจแต่ไม่รู้จะเริ่มยังไง? สรุปเส้นทางตั้งแต่คุณวุฒิ การสอบ ไปจนถึงการบรรจุ",
       "h1": "เส้นทางสู่การเป็นตำรวจ: เริ่มต้นจากตรงไหนดี",
@@ -112,7 +112,7 @@
     {
       "kind": "articles",
       "slug": "leave-and-holidays",
-      "url": "https://examgurupolice.netlify.app/articles/leave-and-holidays",
+      "url": "/articles/leave-and-holidays",
       "title": "สิทธิลาและวันหยุดราชการ — GURU POLICE",
       "description": "ลาป่วย ลากิจ ลาพักผ่อน มีกี่แบบ ใช้สิทธิอย่างไร",
       "h1": "สิทธิลาและวันหยุดราชการ",
@@ -130,7 +130,7 @@
     {
       "kind": "articles",
       "slug": "noncommissioned-vs-commissioned",
-      "url": "https://examgurupolice.netlify.app/articles/noncommissioned-vs-commissioned",
+      "url": "/articles/noncommissioned-vs-commissioned",
       "title": "นายสิบ กับ นายร้อย ต่างกันอย่างไร — GURU POLICE",
       "description": "สองเส้นทางเข้าสู่วงการตำรวจ ต่างกันที่คุณวุฒิ การสอบ และเส้นทางความก้าวหน้า",
       "h1": "นายสิบ กับ นายร้อย ต่างกันอย่างไร",
@@ -148,7 +148,7 @@
     {
       "kind": "articles",
       "slug": "pension-and-gratuity",
-      "url": "https://examgurupolice.netlify.app/articles/pension-and-gratuity",
+      "url": "/articles/pension-and-gratuity",
       "title": "บำเหน็จบำนาญข้าราชการตำรวจ — GURU POLICE",
       "description": "ความมั่นคงหลังเกษียณ บำเหน็จกับบำนาญต่างกันอย่างไร",
       "h1": "บำเหน็จบำนาญข้าราชการตำรวจ",
@@ -166,7 +166,7 @@
     {
       "kind": "articles",
       "slug": "physical-test-and-interview",
-      "url": "https://examgurupolice.netlify.app/articles/physical-test-and-interview",
+      "url": "/articles/physical-test-and-interview",
       "title": "การทดสอบร่างกายและสอบสัมภาษณ์ — GURU POLICE",
       "description": "ผ่านข้อเขียนแล้วยังไม่จบ เตรียมตัวด่านร่างกายและสัมภาษณ์ให้พร้อม",
       "h1": "การทดสอบร่างกายและสอบสัมภาษณ์",
@@ -184,7 +184,7 @@
     {
       "kind": "articles",
       "slug": "police-career-tracks",
-      "url": "https://examgurupolice.netlify.app/articles/police-career-tracks",
+      "url": "/articles/police-career-tracks",
       "title": "สายงานตำรวจมีกี่สาย เลือกยังไง — GURU POLICE",
       "description": "อำนวยการ พิสูจน์หลักฐาน และสายอื่นๆ แต่ละสายทำงานต่างกันอย่างไร",
       "h1": "สายงานตำรวจมีกี่สาย เลือกยังไง",
@@ -202,7 +202,7 @@
     {
       "kind": "articles",
       "slug": "police-ethics-and-discipline",
-      "url": "https://examgurupolice.netlify.app/articles/police-ethics-and-discipline",
+      "url": "/articles/police-ethics-and-discipline",
       "title": "จรรยาบรรณและวินัยตำรวจ — GURU POLICE",
       "description": "หัวใจของอาชีพผู้พิทักษ์สันติราษฎร์ ความซื่อสัตย์และวินัย",
       "h1": "จรรยาบรรณและวินัยตำรวจ",
@@ -218,7 +218,7 @@
     {
       "kind": "articles",
       "slug": "police-exam-qualifications",
-      "url": "https://examgurupolice.netlify.app/articles/police-exam-qualifications",
+      "url": "/articles/police-exam-qualifications",
       "title": "คุณสมบัติผู้สมัครสอบนายสิบตำรวจที่ต้องรู้ — GURU POLICE",
       "description": "อายุเท่าไหร่ ส่วนสูงเท่าไหร่ วุฒิอะไรใช้ได้บ้าง รวมคุณสมบัติพื้นฐานก่อนสมัคร",
       "h1": "คุณสมบัติผู้สมัครสอบนายสิบตำรวจที่ต้องรู้",
@@ -236,7 +236,7 @@
     {
       "kind": "articles",
       "slug": "police-rank-progression",
-      "url": "https://examgurupolice.netlify.app/articles/police-rank-progression",
+      "url": "/articles/police-rank-progression",
       "title": "เส้นทางความก้าวหน้าและลำดับยศตำรวจ — GURU POLICE",
       "description": "เริ่มจากนายสิบแล้วไปต่อได้ถึงไหน ทำความรู้จักลำดับยศ",
       "h1": "เส้นทางความก้าวหน้าและลำดับยศตำรวจ",
@@ -254,7 +254,7 @@
     {
       "kind": "articles",
       "slug": "police-salary-and-allowance",
-      "url": "https://examgurupolice.netlify.app/articles/police-salary-and-allowance",
+      "url": "/articles/police-salary-and-allowance",
       "title": "เงินเดือนและเงินประจำตำแหน่งตำรวจ — GURU POLICE",
       "description": "โครงสร้างรายได้ของข้าราชการตำรวจ ประกอบด้วยอะไรบ้าง",
       "h1": "เงินเดือนและเงินประจำตำแหน่งตำรวจ",
@@ -272,7 +272,7 @@
     {
       "kind": "articles",
       "slug": "police-welfare-overview",
-      "url": "https://examgurupolice.netlify.app/articles/police-welfare-overview",
+      "url": "/articles/police-welfare-overview",
       "title": "สวัสดิการข้าราชการตำรวจมีอะไรบ้าง — GURU POLICE",
       "description": "รักษาพยาบาล ที่พัก บำเหน็จบำนาญ และสิทธิอื่นๆ ที่มากับอาชีพราชการ",
       "h1": "สวัสดิการข้าราชการตำรวจมีอะไรบ้าง",
@@ -290,7 +290,7 @@
     {
       "kind": "articles",
       "slug": "prepare-from-highschool",
-      "url": "https://examgurupolice.netlify.app/articles/prepare-from-highschool",
+      "url": "/articles/prepare-from-highschool",
       "title": "เตรียมตัวสอบตำรวจตั้งแต่ ม.ปลาย — GURU POLICE",
       "description": "ยังเรียนอยู่ก็เริ่มได้ วางพื้นฐานวิชาการและร่างกายไว้ล่วงหน้าเพื่อได้เปรียบ",
       "h1": "เตรียมตัวสอบตำรวจตั้งแต่ ม.ปลาย",
@@ -308,7 +308,7 @@
     {
       "kind": "articles",
       "slug": "study-plan-3-months",
-      "url": "https://examgurupolice.netlify.app/articles/study-plan-3-months",
+      "url": "/articles/study-plan-3-months",
       "title": "วางแผนอ่านหนังสือ 3 เดือนก่อนสอบ — GURU POLICE",
       "description": "แบ่งเวลาเป็นเฟส สร้างพื้นฐาน เก็บจุดอ่อน แล้วซ้อมเสมือนจริง",
       "h1": "วางแผนอ่านหนังสือ 3 เดือนก่อนสอบ",
@@ -326,7 +326,7 @@
     {
       "kind": "articles",
       "slug": "subjects-to-focus",
-      "url": "https://examgurupolice.netlify.app/articles/subjects-to-focus",
+      "url": "/articles/subjects-to-focus",
       "title": "รวมวิชาที่ต้องเน้นในการสอบนายสิบ — GURU POLICE",
       "description": "อยากได้คะแนนคุ้มแรง วิชาไหนควรทุ่ม วิชาไหนแค่ผ่านเกณฑ์",
       "h1": "รวมวิชาที่ต้องเน้นในการสอบนายสิบ",
@@ -344,7 +344,7 @@
     {
       "kind": "articles",
       "slug": "time-management-in-exam",
-      "url": "https://examgurupolice.netlify.app/articles/time-management-in-exam",
+      "url": "/articles/time-management-in-exam",
       "title": "เทคนิคทำข้อสอบให้ทันเวลา — GURU POLICE",
       "description": "150 ข้อใน 3 ชั่วโมง บริหารเวลายังไงไม่ให้ทำไม่ทัน",
       "h1": "เทคนิคทำข้อสอบให้ทันเวลา",
@@ -364,7 +364,7 @@
     {
       "kind": "news",
       "slug": "recruitment-2569-amnuaykan-forensic",
-      "url": "https://examgurupolice.netlify.app/news/recruitment-2569-amnuaykan-forensic",
+      "url": "/news/recruitment-2569-amnuaykan-forensic",
       "title": "เปิดรับสมัครนายสิบตำรวจ 2569 · สายอำนวยการ 800 และพิสูจน์หลักฐาน 100 อัตรา — GURU POLICE",
       "description": "สำนักงานตำรวจแห่งชาติเปิดรับสมัครนายสิบตำรวจสายอำนวยการ 800 อัตรา และสายพิสูจน์หลักฐาน 100 อัตรา พร้อมกำหนดการสอบและสถิติการแข่งขันย้อนหลัง",
       "h1": "เปิดรับสมัครนายสิบตำรวจ 2569 · สายอำนวยการ 800 และพิสูจน์หลักฐาน 100 อัตรา",
