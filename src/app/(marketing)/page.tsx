@@ -10,7 +10,6 @@ import {
   HelpCircle,
   Layers,
   Newspaper,
-  ShieldCheck,
   Sparkles,
   Target,
   Zap,
@@ -59,12 +58,7 @@ export default function LandingPage() {
         <section className="mx-auto max-w-6xl px-4 pb-12 pt-10 sm:pt-14">
           <div className="grid items-center gap-10 lg:grid-cols-12">
             <div className="lg:col-span-7 gp-rise">
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand/25 bg-brand/10 px-3.5 py-1.5 text-xs font-bold text-brand">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                <span>GURU POLICE V2 · คลังข้อสอบนายสิบตำรวจตัวจริง</span>
-              </div>
-
-              <h1 className="mt-4 text-3xl font-extrabold leading-[1.12] tracking-tight text-ink sm:text-5xl">
+              <h1 className="text-3xl font-bold leading-[1.15] tracking-tight text-ink sm:text-5xl">
                 ติวสอบนายสิบตำรวจ <span className="text-brand">ครบ {totalQ.toLocaleString()} ข้อ</span>{' '}
                 พร้อมวิเคราะห์จุดอ่อนรายหัวข้อ
               </h1>
@@ -77,14 +71,14 @@ export default function LandingPage() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/dashboard"
-                  className="inline-flex items-center gap-2 rounded-btn bg-brand px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-brand/25 transition-all hover:-translate-y-0.5 hover:bg-brand-dark"
+                  className="inline-flex items-center gap-2 rounded-btn bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
                 >
                   <span>เข้า Dashboard ทำข้อสอบทันที</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   href="/bank"
-                  className="inline-flex items-center gap-2 rounded-btn border border-line bg-panel px-5 py-3.5 text-sm font-bold text-ink transition-colors hover:border-brand/50 hover:text-brand"
+                  className="inline-flex items-center gap-2 rounded-btn border border-line bg-panel px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-brand/50 hover:text-brand"
                 >
                   <Database className="h-4 w-4 text-brand" />
                   <span>สำรวจคลัง {totalQ.toLocaleString()} ข้อ</span>
@@ -92,20 +86,20 @@ export default function LandingPage() {
               </div>
 
               <div className="mt-7 grid grid-cols-3 gap-3 sm:max-w-lg">
-                <div className="rounded-2xl border border-line bg-panel p-3.5">
-                  <div className="font-mono text-2xl font-extrabold text-brand">
+                <div className="rounded-card border border-line bg-panel p-3.5">
+                  <div className="font-mono text-2xl font-bold tabular-nums text-brand">
                     {totalQ.toLocaleString()}
                   </div>
                   <div className="mt-0.5 text-xs text-muted">ข้อสอบพร้อมเฉลย</div>
                 </div>
-                <div className="rounded-2xl border border-line bg-panel p-3.5">
-                  <div className="font-mono text-2xl font-extrabold text-teal-ink">
+                <div className="rounded-card border border-line bg-panel p-3.5">
+                  <div className="font-mono text-2xl font-bold tabular-nums text-teal-ink">
                     {store.topics.length}
                   </div>
                   <div className="mt-0.5 text-xs text-muted">หัวข้อเจาะลึกรายบท</div>
                 </div>
-                <div className="rounded-2xl border border-line bg-panel p-3.5">
-                  <div className="font-mono text-2xl font-extrabold text-ink">
+                <div className="rounded-card border border-line bg-panel p-3.5">
+                  <div className="font-mono text-2xl font-bold tabular-nums text-ink">
                     {store.examSets.length}
                   </div>
                   <div className="mt-0.5 text-xs text-muted">ชุดสอบ &amp; ฝึกรายวิชา</div>
@@ -114,39 +108,34 @@ export default function LandingPage() {
             </div>
 
             <div className="lg:col-span-5">
-              <div className="rounded-card border border-line bg-panel p-5 shadow-card">
-                {/* Exam Blueprint & Readiness Panel (Code-first SVG/UI replacing static banner image) */}
-                <div className="rounded-2xl border border-line bg-bg2/80 p-4">
+              <div className="rounded-card border border-line bg-panel p-5 shadow-card space-y-3.5">
+                {/* Exam Blueprint & Readiness Panel */}
+                <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-brand">
-                        EXAM BLUEPRINT · 2569
-                      </span>
-                      <h2 className="mt-0.5 text-sm font-extrabold text-ink">
-                        เกณฑ์ผ่าน 2 ภาค (≥ 60% ทั้งสองภาค)
-                      </h2>
-                    </div>
-                    <span className="rounded-xl bg-brand px-2.5 py-1 font-mono text-xs font-extrabold text-white">
+                    <h2 className="text-sm font-semibold text-ink">
+                      เกณฑ์ผ่าน 2 ภาค (≥ 60% ทั้งสองภาค)
+                    </h2>
+                    <span className="rounded-lg bg-brand/10 px-2.5 py-1 font-mono text-xs font-semibold text-brand tabular-nums">
                       150 ข้อ · 180 นาที
                     </span>
                   </div>
 
-                  <div className="mt-3.5 grid grid-cols-2 gap-2.5">
-                    <div className="rounded-xl border border-line bg-panel p-3">
-                      <div className="text-[11px] font-bold text-muted">ภาคทั่วไป</div>
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <div className="rounded-xl border border-line bg-bg2/40 p-3">
+                      <div className="text-xs font-medium text-muted">ภาคทั่วไป</div>
                       <div className="mt-1 flex items-baseline justify-between">
-                        <span className="font-mono text-lg font-extrabold text-teal-ink">40–55 ข้อ</span>
-                        <span className="font-mono text-[11px] font-bold text-teal-ink">เกณฑ์ ≥ 60%</span>
+                        <span className="font-mono text-base font-bold tabular-nums text-teal-ink">40–55 ข้อ</span>
+                        <span className="font-mono text-[11px] font-semibold text-teal-ink">≥ 60%</span>
                       </div>
-                      <div className="mt-1.5 text-[11px] text-muted">ความสามารถทั่วไป · ภาษาไทย</div>
+                      <div className="mt-1 text-[11px] text-muted">ความสามารถทั่วไป · ภาษาไทย</div>
                     </div>
-                    <div className="rounded-xl border border-line bg-panel p-3">
-                      <div className="text-[11px] font-bold text-muted">ภาคเฉพาะตำแหน่ง</div>
+                    <div className="rounded-xl border border-line bg-bg2/40 p-3">
+                      <div className="text-xs font-medium text-muted">ภาคเฉพาะตำแหน่ง</div>
                       <div className="mt-1 flex items-baseline justify-between">
-                        <span className="font-mono text-lg font-extrabold text-brand">95–110 ข้อ</span>
-                        <span className="font-mono text-[11px] font-bold text-brand">เกณฑ์ ≥ 60%</span>
+                        <span className="font-mono text-base font-bold tabular-nums text-brand">95–110 ข้อ</span>
+                        <span className="font-mono text-[11px] font-semibold text-brand">≥ 60%</span>
                       </div>
-                      <div className="mt-1.5 text-[11px] text-muted">คอมฯ · สารบรรณ · กฎหมาย · อังกฤษ · สังคม</div>
+                      <div className="mt-1 text-[11px] text-muted">คอมฯ · สารบรรณ · กฎหมาย · อังกฤษ · สังคม</div>
                     </div>
                   </div>
 

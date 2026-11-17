@@ -107,25 +107,25 @@ export function CatalogFormClient({
       {/* Subject Filter Strip */}
       <div className="rounded-card border border-line bg-panel p-4 shadow-card">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2 text-xs font-extrabold text-ink">
+          <div className="flex items-center gap-2 text-xs font-semibold text-ink">
             <Layers className="h-4 w-4 text-brand" />
             <span>เลือกรูปแบบการทำข้อสอบในชุด:</span>
           </div>
           {selectedSubject && (
-            <span className="text-xs font-bold text-brand">
-              กำลังกรองเฉพาะวิชา: {SUBJECT_MAP[selectedSubject]?.name}
+            <span className="text-xs font-medium text-brand">
+              กำลังกรอง: {SUBJECT_MAP[selectedSubject]?.name}
             </span>
           )}
         </div>
 
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-3 flex flex-wrap gap-1.5">
           <button
             type="button"
             onClick={() => setSelectedSubject('')}
-            className={`rounded-xl border px-3 py-1.5 text-xs font-bold transition-colors ${
+            className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
               selectedSubject === ''
-                ? 'border-brand bg-brand text-white'
-                : 'border-line bg-bg2 text-muted hover:border-brand/50 hover:text-ink'
+                ? 'border-brand bg-brand text-white font-semibold'
+                : 'border-line bg-bg2/50 text-muted font-medium hover:border-brand/50 hover:text-ink'
             }`}
           >
             ครบทุกวิชา (150 ข้อ)
@@ -138,10 +138,10 @@ export function CatalogFormClient({
                 key={sub.key}
                 type="button"
                 onClick={() => setSelectedSubject(active ? '' : sub.key)}
-                className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold transition-colors ${
+                className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs transition-colors ${
                   active
-                    ? 'border-brand bg-brand text-white'
-                    : 'border-line bg-bg2 text-ink hover:border-brand/50 hover:text-brand'
+                    ? 'border-brand bg-brand text-white font-semibold'
+                    : 'border-line bg-bg2/50 text-ink font-medium hover:border-brand/50 hover:text-brand'
                 }`}
               >
                 <SubjectIcon subjectKey={sub.key} size="sm" />

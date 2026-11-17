@@ -122,21 +122,21 @@ export function CatalogSubjectClient({ items }: CatalogSubjectClientProps) {
                 setActiveKey(sub.key);
                 setShowAllSets(false);
               }}
-              className={`flex flex-col items-start gap-2 rounded-2xl border p-3.5 text-left transition-all ${
+              className={`flex flex-col items-start gap-2 rounded-xl border p-3 text-left transition-colors ${
                 selected
-                  ? 'border-brand bg-brand/10 ring-2 ring-brand/25'
+                  ? 'border-brand bg-brand/10'
                   : 'border-line bg-panel hover:border-brand/50'
               }`}
             >
               <div className="flex w-full items-center justify-between gap-2">
                 <SubjectIcon subjectKey={sub.key} size="sm" />
-                <span className="font-mono text-[11px] font-bold text-muted">
+                <span className="text-[11px] font-medium text-muted tabular-nums">
                   {excludeCompleted && doneInSub > 0
                     ? `ใหม่ ${remInSub}/${totalInSub}`
                     : `${totalInSub.toLocaleString('en-US')} ข้อ`}
                 </span>
               </div>
-              <div className={`text-xs font-extrabold leading-snug ${selected ? 'text-brand' : 'text-ink'}`}>
+              <div className={`text-xs leading-snug ${selected ? 'font-semibold text-brand' : 'font-medium text-ink'}`}>
                 {sub.shortName}
               </div>
             </button>
@@ -145,23 +145,23 @@ export function CatalogSubjectClient({ items }: CatalogSubjectClientProps) {
       </div>
 
       {/* Active Subject Banner & Random Intense Drill */}
-      <section className="rounded-card border border-line bg-panel p-6 shadow-card">
-        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
-          <div className="flex items-start gap-4">
+      <section className="rounded-card border border-line bg-panel p-5 shadow-card">
+        <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
+          <div className="flex items-start gap-3.5">
             <SubjectIcon subjectKey={activeMeta.key} size="lg" />
             <div>
-              <span className="inline-flex items-center rounded-full bg-bg2 px-2.5 py-0.5 text-[11px] font-bold text-muted">
+              <div className="text-xs font-medium text-muted">
                 {activeMeta.grp === 'general' ? 'ภาคความรู้ความสามารถทั่วไป' : 'ภาคความรู้เฉพาะตำแหน่ง'}
-              </span>
-              <h2 className="mt-1.5 text-xl font-extrabold text-ink sm:text-2xl">
+              </div>
+              <h2 className="mt-0.5 text-xl font-bold text-ink sm:text-2xl">
                 {activeMeta.name}
               </h2>
-              <p className="mt-1 text-xs text-muted">
-                มีข้อสอบทั้งหมด <strong className="font-mono text-ink">{activeProgress.total.toLocaleString('en-US')} ข้อ</strong> ·{' '}
-                ทำแล้ว <strong className="font-mono text-ink">{activeProgress.done}</strong> (ถูก{' '}
-                <strong className="font-mono text-teal-ink">{activeProgress.correct}</strong> · ผิด{' '}
-                <strong className="font-mono text-accent">{activeProgress.wrong}</strong>) · เหลือข้อใหม่{' '}
-                <strong className="font-mono text-brand">{activeProgress.remaining.toLocaleString('en-US')} ข้อ</strong>
+              <p className="mt-1 text-xs text-muted tabular-nums">
+                ทั้งหมด <strong className="font-semibold text-ink">{activeProgress.total.toLocaleString('en-US')} ข้อ</strong> ·{' '}
+                ทำแล้ว <strong className="font-semibold text-ink">{activeProgress.done}</strong> (ถูก{' '}
+                <strong className="font-semibold text-teal-ink">{activeProgress.correct}</strong> · ผิด{' '}
+                <strong className="font-semibold text-accent">{activeProgress.wrong}</strong>) · เหลือใหม่{' '}
+                <strong className="font-semibold text-brand">{activeProgress.remaining.toLocaleString('en-US')} ข้อ</strong>
               </p>
             </div>
           </div>
@@ -173,7 +173,7 @@ export function CatalogSubjectClient({ items }: CatalogSubjectClientProps) {
                 <Link
                   key={qty}
                   href={`/exam/subject-${activeMeta.key}?count=${Math.min(qty, effectiveTotal)}&mode=practice&fresh=1${excludeParam}`}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2 px-3.5 py-2 text-xs font-bold text-ink transition-colors hover:border-brand/50 hover:text-brand"
+                  className="inline-flex items-center gap-1.5 rounded-btn border border-line bg-bg2/50 px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-brand/50 hover:text-brand tabular-nums"
                 >
                   <Shuffle className="h-3.5 w-3.5 text-brand" />
                   <span>สุ่มฝึก {Math.min(qty, effectiveTotal)} ข้อ</span>
@@ -181,7 +181,7 @@ export function CatalogSubjectClient({ items }: CatalogSubjectClientProps) {
               ))}
               <Link
                 href={`/exam/subject-${activeMeta.key}?count=${Math.min(50, effectiveTotal)}&mode=real&fresh=1${excludeParam}`}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-brand-dark"
+                className="inline-flex items-center gap-1.5 rounded-btn bg-brand px-3.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-dark tabular-nums"
               >
                 <span>สอบจับเวลา {Math.min(50, effectiveTotal)} ข้อ</span>
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -191,7 +191,7 @@ export function CatalogSubjectClient({ items }: CatalogSubjectClientProps) {
             <div className="flex flex-wrap items-center gap-2">
               <Link
                 href="/catalog/completed"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white hover:bg-brand-dark"
+                className="inline-flex items-center gap-1.5 rounded-btn bg-brand px-4 py-2 text-xs font-semibold text-white hover:bg-brand-dark"
               >
                 <span>ทบทวนข้อที่เคยทำแล้ว</span>
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -202,23 +202,23 @@ export function CatalogSubjectClient({ items }: CatalogSubjectClientProps) {
       </section>
 
       {/* Structured Ordered Sub-Sets */}
-      <section className="rounded-card border border-line bg-panel p-6 shadow-card">
+      <section className="rounded-card border border-line bg-panel p-5 shadow-card">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h3 className="flex items-center gap-2 text-base font-extrabold text-ink">
+            <h3 className="flex items-center gap-2 text-base font-semibold text-ink">
               <Layers className="h-4 w-4 text-brand" />
               <span>
                 {excludeCompleted && activeProgress.done > 0
                   ? `ชุดข้อสอบเฉพาะข้อใหม่ที่ยังไม่เคยทำ (${totalSets} ชุด · ${effectiveTotal} ข้อ)`
-                  : `ชุดข้อสอบแยกรายวิชา (เรียงลำดับไม่ซ้ำข้อ · ${totalSets} ชุด)`}
+                  : `ชุดข้อสอบแยกรายวิชา (เรียงลำดับ · ${totalSets} ชุด)`}
               </span>
             </h3>
             <p className="mt-0.5 text-xs text-muted">
-              ทำไล่ทีละชุดเพื่อให้ครบทุกข้อในวิชา {activeMeta.name} โดยไม่สุ่มซ้ำ
+              ทำไล่ทีละชุดเพื่อให้ครบทุกข้อในวิชา {activeMeta.name}
             </p>
           </div>
 
-          <div className="flex items-center gap-1.5 rounded-xl border border-line bg-bg2 p-1 text-xs font-bold">
+          <div className="flex items-center gap-1 rounded-lg border border-line bg-bg2/60 p-0.5 text-xs font-medium">
             {([20, 50] as const).map((sz) => (
               <button
                 key={sz}
@@ -227,8 +227,8 @@ export function CatalogSubjectClient({ items }: CatalogSubjectClientProps) {
                   setChunkSize(sz);
                   setShowAllSets(false);
                 }}
-                className={`rounded-lg px-3 py-1 transition-colors ${
-                  chunkSize === sz ? 'bg-panel text-brand shadow-sm' : 'text-muted hover:text-ink'
+                className={`rounded-md px-3 py-1 transition-colors tabular-nums ${
+                  chunkSize === sz ? 'bg-panel text-brand font-semibold shadow-sm' : 'text-muted hover:text-ink'
                 }`}
               >
                 ชุดละ {sz} ข้อ

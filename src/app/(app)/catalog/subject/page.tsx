@@ -29,23 +29,23 @@ export default function CatalogSubjectPage() {
   return (
     <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
       <SiteHeader mode="app" />
-      <main className="mx-auto max-w-5xl px-4 py-8">
-        <Link href="/catalog" className="inline-flex items-center gap-1.5 text-xs font-bold text-muted hover:text-brand">
-          <ArrowLeft className="h-3.5 w-3.5" />
-          <span>กลับไปหน้าเลือกโหมด</span>
-        </Link>
+      <main className="mx-auto max-w-5xl px-4 py-7 space-y-5">
+        <div className="border-b border-line pb-5">
+          <Link href="/catalog" className="inline-flex items-center gap-1.5 text-xs font-medium text-muted transition-colors hover:text-brand">
+            <ArrowLeft className="h-3.5 w-3.5" />
+            <span>กลับไปหน้าเลือกโหมด</span>
+          </Link>
 
-        <div className="mt-3 flex items-center gap-2 text-brand">
-          <Layers className="h-6 w-6" />
-          <h1 className="text-2xl font-extrabold text-ink sm:text-3xl">ชุดข้อสอบแยกรายวิชา (7 วิชา)</h1>
+          <h1 className="mt-2 flex items-center gap-2.5 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+            <Layers className="h-6 w-6 text-brand shrink-0" />
+            <span>ชุดข้อสอบแยกรายวิชา (7 วิชา)</span>
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            ฝึกเป็นชุดย่อยเรียงลำดับ (ชุดละ 20 หรือ 50 ข้อ) หรือสุ่มฝึกเข้มข้นรายวิชา
+          </p>
         </div>
-        <p className="mt-1 text-sm text-muted">
-          เลือกฝึกเป็นชุดย่อยแบบเรียงลำดับไม่ซ้ำข้อ (ชุดละ 20 หรือ 50 ข้อ), สุ่มฝึกเข้มข้น หรือเจาะตามหัวข้อย่อยได้ทันที
-        </p>
 
-        <div className="mt-6">
-          <CatalogSubjectClient items={items} />
-        </div>
+        <CatalogSubjectClient items={items} />
       </main>
     </div>
   );

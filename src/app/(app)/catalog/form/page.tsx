@@ -16,23 +16,23 @@ export default function CatalogFormPage() {
   return (
     <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
       <SiteHeader mode="app" />
-      <main className="mx-auto max-w-4xl px-4 py-8">
-        <Link href="/catalog" className="inline-flex items-center gap-1.5 text-xs font-bold text-muted hover:text-brand">
-          <ArrowLeft className="h-3.5 w-3.5" />
-          <span>กลับไปหน้าเลือกโหมด</span>
-        </Link>
+      <main className="mx-auto max-w-4xl px-4 py-7 space-y-5">
+        <div className="border-b border-line pb-5">
+          <Link href="/catalog" className="inline-flex items-center gap-1.5 text-xs font-medium text-muted transition-colors hover:text-brand">
+            <ArrowLeft className="h-3.5 w-3.5" />
+            <span>กลับไปหน้าเลือกโหมด</span>
+          </Link>
 
-        <div className="mt-3 flex items-center gap-2 text-brand">
-          <FileSpreadsheet className="h-5 w-5" />
-          <h1 className="text-2xl font-extrabold text-ink sm:text-3xl">ข้อสอบจำลองเป็นชุด ({sets.length} ชุด)</h1>
+          <h1 className="mt-2 flex items-center gap-2.5 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+            <FileSpreadsheet className="h-6 w-6 text-brand shrink-0" />
+            <span>ข้อสอบจำลองเป็นชุด ({sets.length} ชุด)</span>
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            ทำเต็มชุด 150 ข้อ (180 นาที) หรือเลือกทำเฉพาะรายวิชาภายในแต่ละชุด
+          </p>
         </div>
-        <p className="mt-1 text-sm text-muted">
-          เลือกทำเต็มชุด 150 ข้อ (180 นาที) หรือคลิกเลือกทำเฉพาะรายวิชาภายในแต่ละชุดได้ทันที
-        </p>
 
-        <div className="mt-6">
-          <CatalogFormClient sets={sets} attempts={runtime.attempts} />
-        </div>
+        <CatalogFormClient sets={sets} attempts={runtime.attempts} />
       </main>
     </div>
   );

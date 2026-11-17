@@ -77,20 +77,20 @@ export default function HistoryPage() {
     <div className="min-h-screen bg-bg text-ink pb-24 md:pb-16">
       <SiteHeader mode="app" />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-7 space-y-6">
+        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-line pb-5">
           <div>
-            <h1 className="text-2xl font-extrabold flex items-center gap-2.5">
-              <History className="w-6 h-6 text-brand" />
+            <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2.5 sm:text-3xl">
+              <History className="w-6 h-6 text-brand shrink-0" />
               <span>ประวัติการทำข้อสอบและแนวโน้มคะแนน</span>
             </h1>
             <p className="text-sm text-muted mt-1">
-              ติดตามพัฒนาการคะแนนสอบทุกครั้ง พร้อมทบทวนข้อที่ผิดและทำต่อจากที่ค้างไว้
+              ติดตามพัฒนาการคะแนนสอบ ทบทวนข้อที่ผิด และทำต่อจากที่ค้างไว้
             </p>
           </div>
           <Link
             href="/catalog/form"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-btn bg-brand hover:bg-brand-dark text-white font-bold text-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-btn bg-brand hover:bg-brand-dark text-white font-semibold text-xs transition-colors"
           >
             <Play className="w-4 h-4" />
             <span>ทำข้อสอบชุดใหม่</span>
@@ -99,51 +99,51 @@ export default function HistoryPage() {
 
         {/* Summary KPI Cards */}
         <section className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-          <div className="bg-panel border border-line rounded-card p-5 shadow-card">
-            <div className="flex items-center justify-between text-xs font-bold text-muted">
+          <div className="bg-panel border border-line rounded-card p-4 shadow-card">
+            <div className="flex items-center justify-between text-xs font-medium text-muted">
               <span>จำนวนครั้งที่สอบ</span>
               <FileText className="w-4 h-4 text-brand" />
             </div>
-            <p className="text-3xl font-extrabold font-mono mt-2">{stats.count}</p>
-            <p className="text-xs text-muted mt-1">ชุดที่ส่งตรวจแล้ว</p>
+            <p className="text-2xl font-bold font-mono tabular-nums mt-2">{stats.count}</p>
+            <p className="text-xs text-muted mt-0.5">ชุดที่ส่งตรวจแล้ว</p>
           </div>
 
-          <div className="bg-panel border border-line rounded-card p-5 shadow-card">
-            <div className="flex items-center justify-between text-xs font-bold text-muted">
+          <div className="bg-panel border border-line rounded-card p-4 shadow-card">
+            <div className="flex items-center justify-between text-xs font-medium text-muted">
               <span>คะแนนเฉลี่ยรวม</span>
               <BarChart3 className="w-4 h-4 text-teal-ink" />
             </div>
-            <p className="text-3xl font-extrabold font-mono mt-2 text-teal-ink">{stats.avgPct}%</p>
-            <p className="text-xs text-muted mt-1">เป้าหมายแนะนำ 60%+</p>
+            <p className="text-2xl font-bold font-mono tabular-nums mt-2 text-teal-ink">{stats.avgPct}%</p>
+            <p className="text-xs text-muted mt-0.5">เป้าหมายแนะนำ 60%+</p>
           </div>
 
-          <div className="bg-panel border border-line rounded-card p-5 shadow-card">
-            <div className="flex items-center justify-between text-xs font-bold text-muted">
+          <div className="bg-panel border border-line rounded-card p-4 shadow-card">
+            <div className="flex items-center justify-between text-xs font-medium text-muted">
               <span>สถิติสูงสุด</span>
               <TrendingUp className="w-4 h-4 text-gold-ink" />
             </div>
-            <p className="text-3xl font-extrabold font-mono mt-2">{stats.bestPct}%</p>
-            <p className="text-xs text-muted mt-1">คะแนนสูงสุดที่ทำได้</p>
+            <p className="text-2xl font-bold font-mono tabular-nums mt-2">{stats.bestPct}%</p>
+            <p className="text-xs text-muted mt-0.5">คะแนนสูงสุดที่ทำได้</p>
           </div>
 
-          <div className="bg-panel border border-line rounded-card p-5 shadow-card">
-            <div className="flex items-center justify-between text-xs font-bold text-muted">
+          <div className="bg-panel border border-line rounded-card p-4 shadow-card">
+            <div className="flex items-center justify-between text-xs font-medium text-muted">
               <span>สอบผ่านเกณฑ์</span>
               <Award className="w-4 h-4 text-brand" />
             </div>
-            <p className="text-3xl font-extrabold font-mono mt-2">
+            <p className="text-2xl font-bold font-mono tabular-nums mt-2">
               {stats.passCount}/{stats.count}
             </p>
-            <p className="text-xs text-muted mt-1">ผ่านเกณฑ์ 60% ทั้งสองภาค</p>
+            <p className="text-xs text-muted mt-0.5">ผ่านเกณฑ์ 60% ทั้งสองภาค</p>
           </div>
         </section>
 
         {/* Saved In-Progress Resume Card */}
         {progress && progress.list?.length > 0 && (
-          <section className="p-5 sm:p-6 rounded-card border-2 border-gold/60 bg-gold/10 shadow-card flex flex-wrap items-center justify-between gap-4">
+          <section className="p-5 rounded-card border border-gold/50 bg-gold/10 shadow-card flex flex-wrap items-center justify-between gap-4">
             <div className="space-y-1">
               <span className="badge-gold">มีข้อสอบที่ทำค้างไว้</span>
-              <h2 className="text-lg font-extrabold pt-1">
+              <h2 className="text-base font-semibold pt-1">
                 ชุดข้อสอบ #{progress.setId} ({progress.mode === 'real' ? 'โหมดจับเวลาจริง' : 'โหมดฝึกซ้อม'})
               </h2>
               <p className="text-sm text-muted">

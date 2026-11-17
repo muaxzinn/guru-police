@@ -47,20 +47,22 @@ export function CountdownCard({
 
   return (
     <div className="rounded-card border border-line bg-panel p-4 shadow-card sm:p-5">
-      <div className="flex items-center gap-2 text-xs font-bold text-ink sm:text-sm">
-        <Trophy className="h-4 w-4 text-gold-ink" />
-        <span>{title}</span>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-sm font-semibold text-ink">
+          <Trophy className="h-4 w-4 text-gold-ink" />
+          <span>{title}</span>
+        </div>
+        <div className="text-xs text-muted">วันสอบ · {dateLabel}</div>
       </div>
-      <div className="mt-0.5 text-xs text-muted">วันสอบ · {dateLabel}</div>
 
       <div className="mt-3 grid grid-cols-4 gap-2">
         {boxes.map((b) => (
           <div
             key={b.unit}
-            className={`rounded-2xl border px-2 py-2.5 text-center ${
+            className={`rounded-xl border px-2 py-2 text-center ${
               b.highlight
-                ? 'border-[rgb(var(--gold)/0.55)] bg-[rgb(var(--gold)/0.1)]'
-                : 'border-line bg-bg2/60'
+                ? 'border-[rgb(var(--gold)/0.5)] bg-[rgb(var(--gold)/0.08)]'
+                : 'border-line bg-bg2/45'
             }`}
           >
             <div
