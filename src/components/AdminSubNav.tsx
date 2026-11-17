@@ -26,7 +26,7 @@ export function AdminSubNav() {
   return (
     <div className="border-b border-line bg-panel/80 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-2 text-xs font-extrabold text-brand uppercase tracking-wider shrink-0">
+        <div className="flex items-center gap-2 text-xs font-semibold text-brand shrink-0">
           <Shield className="w-4 h-4" />
           <span>ADMIN CONSOLE</span>
         </div>
@@ -38,10 +38,10 @@ export function AdminSubNav() {
               <Link
                 key={href}
                 href={href}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs whitespace-nowrap transition-colors ${
                   active
-                    ? 'bg-brand text-white shadow-sm'
-                    : 'bg-bg2 border border-line text-muted hover:text-ink'
+                    ? 'bg-brand text-white font-semibold'
+                    : 'bg-bg2/60 border border-line text-muted font-medium hover:text-ink'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />

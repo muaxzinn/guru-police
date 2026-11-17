@@ -86,14 +86,14 @@ export default function ReportsPage() {
     <div className="min-h-screen bg-bg text-ink pb-24 md:pb-16">
       <SiteHeader mode="app" />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 space-y-6">
-        <div>
-          <h1 className="text-2xl font-extrabold flex items-center gap-2.5">
-            <Flag className="w-6 h-6 text-accent" />
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-7 space-y-6">
+        <div className="border-b border-line pb-5">
+          <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2.5 sm:text-3xl">
+            <Flag className="w-6 h-6 text-accent shrink-0" />
             <span>แจ้งปัญหาการใช้งานและข้อผิดพลาดของข้อสอบ</span>
           </h1>
           <p className="text-sm text-muted mt-1">
-            ติดตามสถานะรายงานที่ส่งไว้ และแจ้งปัญหาใหม่ให้ทีมวิชาการหรือทีมเทคนิคตรวจสอบ
+            ติดตามสถานะรายงานที่ส่งไว้ และแจ้งปัญหาใหม่ให้ทีมตรวจสอบ
           </p>
         </div>
 

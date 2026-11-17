@@ -1,5 +1,5 @@
 const isGithubPages = process.env.GITHUB_PAGES === '1';
-const basePath = isGithubPages ? process.env.NEXT_PUBLIC_BASE_PATH || '/guru-police' : '';
+const basePath = isGithubPages ? process.env.NEXT_PUBLIC_BASE_PATH || '/naisibpro' : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
