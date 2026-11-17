@@ -8,6 +8,7 @@ import {
   BookMarked,
   BookOpenCheck,
   Check,
+  ChevronDown,
   Database,
   History,
   Home,
@@ -105,18 +106,23 @@ export function ThemeAndBrandControls() {
   );
 }
 
-const APP_NAV = [
-  { href: '/', label: 'หน้าหลัก', icon: Home },
+const PRIMARY_APP_NAV = [
   { href: '/dashboard', label: 'แดชบอร์ด', icon: PenLine },
   { href: '/catalog', label: 'ชุดข้อสอบ', icon: BookMarked },
   { href: '/catalog/subject', label: 'แยกรายวิชา', icon: Layers },
   { href: '/catalog/topics', label: 'หัวข้อย่อย', icon: BookOpenCheck },
-  { href: '/catalog/completed', label: 'ข้อที่ทำแล้ว', icon: Archive },
-  { href: '/bank', label: 'คลัง 7,038 ข้อ', icon: Database },
-  { href: '/history', label: 'ประวัติ', icon: History },
-  { href: '/reports', label: 'แจ้งปัญหา', icon: Wrench },
-  { href: '/admin', label: 'Admin', icon: SlidersHorizontal },
+  { href: '/catalog/completed', label: 'ที่ทำแล้ว', icon: Archive },
+  { href: '/bank', label: 'คลังข้อสอบ', icon: Database },
 ];
+
+const SECONDARY_APP_NAV = [
+  { href: '/', label: 'หน้าหลัก', icon: Home },
+  { href: '/history', label: 'ประวัติการสอบ', icon: History },
+  { href: '/reports', label: 'แจ้งปัญหาข้อสอบ', icon: Wrench },
+  { href: '/admin', label: 'จัดการระบบ (Admin)', icon: SlidersHorizontal },
+];
+
+const APP_NAV = [...PRIMARY_APP_NAV, ...SECONDARY_APP_NAV];
 
 const MOBILE_BOTTOM_NAV = [
   { href: '/dashboard', label: 'แดชบอร์ด', icon: PenLine },
@@ -139,33 +145,45 @@ const PUBLIC_NAV = [
 export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   return (
     <>
-      <header className="sticky top-0 z-30 border-b border-line bg-panel/85 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-          <Link href="/" className="flex items-center gap-2.5 font-extrabold tracking-tight text-ink">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white shadow-sm">
-              <ShieldCheck className="h-5 w-5" />
+      <header className="sticky top-0 z-30 border-b border-line bg-panel/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2.5">
+          <Link href="/" className="flex items-center gap-2.5 font-display text-base font-bold tracking-tight text-ink sm:text-[17px]">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-white">
+              <ShieldCheck className="h-4.5 w-4.5" />
             </span>
-            <span className="text-base sm:text-lg">
+            <span>
               GURU <span className="text-brand">POLICE</span>
             </span>
           </Link>
 
           {mode === 'app' ? (
-            <nav className="hidden items-center gap-0.5 2xl:gap-1 xl:flex">
-              {APP_NAV.map((item) => {
+            <nav className="hidden items-center gap-1 lg:flex">
+              {PRIMARY_APP_NAV.map((item) => {
                 const Icon = item.icon;
                 const active = isNavItemActive(pathname, item.href, false);
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-xl px-2.5 py-1.5 text-xs font-semibold transition-colors ${
+                    className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] transition-colors ${
                       active
-                        ? 'bg-brand/10 text-brand'
-                        : 'text-muted hover:bg-bg2 hover:text-ink'
+                        ? 'bg-brand/10 font-semibold text-brand'
+                        : 'font-medium text-muted hover:bg-bg2 hover:text-ink'
                     }`}
                   >
                     <Icon className="h-3.5 w-3.5 shrink-0" />
@@ -173,14 +191,53 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
                   </Link>
                 );
               })}
+
+              <div className="relative" ref={moreRef}>
+                <button
+                  type="button"
+                  onClick={() => setMoreOpen((v) => !v)}
+                  aria-expanded={moreOpen}
+                  className={`inline-flex items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-[13px] transition-colors ${
+                    SECONDARY_APP_NAV.some((s) => s.href !== '/' && isNavItemActive(pathname, s.href, false))
+                      ? 'bg-brand/10 font-semibold text-brand'
+                      : 'font-medium text-muted hover:bg-bg2 hover:text-ink'
+                  }`}
+                >
+                  <span>เพิ่มเติม</span>
+                  <ChevronDown className="h-3.5 w-3.5" />
+                </button>
+                {moreOpen && (
+                  <div className="absolute right-0 top-10 z-50 w-48 rounded-xl border border-line bg-panel p-1.5 shadow-card">
+                    {SECONDARY_APP_NAV.map((item) => {
+                      const Icon = item.icon;
+                      const active = isNavItemActive(pathname, item.href, false);
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setMoreOpen(false)}
+                          className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13px] transition-colors ${
+                            active
+                              ? 'bg-brand/10 font-semibold text-brand'
+                              : 'font-medium text-ink hover:bg-bg2'
+                          }`}
+                        >
+                          <Icon className="h-3.5 w-3.5 text-muted" />
+                          <span>{item.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </nav>
           ) : (
-          <nav className="hidden items-center gap-5 xl:flex">
+          <nav className="hidden items-center gap-5 lg:flex">
             {PUBLIC_NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="whitespace-nowrap text-sm font-semibold text-muted transition-colors hover:text-brand"
+                className="whitespace-nowrap text-sm font-medium text-muted transition-colors hover:text-brand"
               >
                 {item.label}
               </Link>
@@ -188,24 +245,16 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
           </nav>
         )}
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <ThemeAndBrandControls />
 
-          {mode === 'public' ? (
+          {mode === 'public' && (
             <Link
               href="/dashboard"
-              className="hidden items-center gap-2 rounded-btn bg-brand px-4 py-2 text-sm font-bold text-white transition-all hover:bg-brand-dark sm:inline-flex"
+              className="hidden items-center gap-2 rounded-btn bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark sm:inline-flex"
             >
               <BookMarked className="h-4 w-4" />
-              <span>เริ่มทำข้อสอบทันที</span>
-            </Link>
-          ) : (
-            <Link
-              href="/catalog"
-              className="hidden items-center gap-1.5 whitespace-nowrap rounded-btn bg-brand px-3.5 py-2 text-xs font-bold text-white transition-all hover:bg-brand-dark 2xl:inline-flex"
-            >
-              <PenLine className="h-3.5 w-3.5" />
-              <span>เลือกชุดข้อสอบ</span>
+              <span>เริ่มทำข้อสอบ</span>
             </Link>
           )}
 
@@ -213,7 +262,7 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
             type="button"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="เปิดเมนูมือถือ"
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-panel text-ink xl:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-panel text-ink lg:hidden"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -221,7 +270,7 @@ export function SiteHeader({ mode = 'app' }: { mode?: 'public' | 'app' }) {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-line bg-panel px-4 py-3 xl:hidden">
+        <div className="border-t border-line bg-panel px-4 py-3 lg:hidden">
           <div className="grid grid-cols-2 gap-2">
             {(mode === 'app'
               ? APP_NAV

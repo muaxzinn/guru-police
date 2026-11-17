@@ -4,11 +4,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  Archive,
   ArrowRight,
   Award,
   Bookmark,
-  BookOpenCheck,
   CheckCircle2,
   Clock,
   Compass,
@@ -16,7 +14,6 @@ import {
   Database,
   Download,
   Flame,
-  Layers,
   Play,
   RotateCcw,
   ShieldAlert,
@@ -76,7 +73,7 @@ export function DashboardClient({
   const [syncNotice, setSyncNotice] = useState<string | null>(null);
   const [syncLoading, setSyncLoading] = useState(false);
   const currentTrackMeta = TRACKS.find((t) => t.name === selectedTrack) || TRACKS[0];
-  const { correctSet, mistakeSet, allCompletedSet } = useMemo(
+  const { correctSet, mistakeSet } = useMemo(
     () => getCompletedIdSets(profile),
     [profile]
   );
@@ -332,11 +329,11 @@ export function DashboardClient({
     <div className="min-h-screen bg-bg text-ink pb-24 md:pb-10">
       <SiteHeader mode="app" />
 
-      <main className="mx-auto max-w-5xl space-y-6 px-4 py-7 sm:py-9">
-        {/* Track Switcher & Quick Exam Navigation Bar */}
+      <main className="mx-auto max-w-5xl space-y-5 px-4 py-6 sm:py-8">
+        {/* Track Switcher & Sync Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-line bg-panel px-4 py-3 shadow-card">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-muted">
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted">
               <Compass className="h-4 w-4 text-brand" />
               <span>สายสอบหลัก:</span>
             </span>
@@ -349,10 +346,10 @@ export function DashboardClient({
                     type="button"
                     disabled={savingTrack}
                     onClick={() => handleTrackSwitch(t.name)}
-                    className={`rounded-xl border px-3 py-1.5 text-xs font-bold transition-colors ${
+                    className={`rounded-lg border px-3 py-1 text-xs transition-colors ${
                       active
-                        ? 'border-brand bg-brand text-white'
-                        : 'border-line bg-bg2 text-muted hover:border-brand/50 hover:text-ink'
+                        ? 'border-brand bg-brand text-white font-semibold'
+                        : 'border-line bg-bg2/50 text-muted font-medium hover:border-brand/50 hover:text-ink'
                     }`}
                   >
                     {t.shortName}
@@ -362,37 +359,14 @@ export function DashboardClient({
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={openSyncModal}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2 px-3 py-1.5 text-xs font-bold text-ink transition-colors hover:border-brand/50 hover:text-brand"
-            >
-              <Upload className="h-3.5 w-3.5 text-brand" />
-              <span>ซิงก์ข้อมูลข้ามเครื่อง</span>
-            </button>
-            <Link
-              href="/catalog/subject"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2 px-3 py-1.5 text-xs font-bold text-ink transition-colors hover:border-brand/50 hover:text-brand"
-            >
-              <Layers className="h-3.5 w-3.5 text-teal-ink" />
-              <span>ชุดข้อสอบแยกรายวิชา</span>
-            </Link>
-            <Link
-              href="/catalog/topics"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2 px-3 py-1.5 text-xs font-bold text-ink transition-colors hover:border-brand/50 hover:text-brand"
-            >
-              <BookOpenCheck className="h-3.5 w-3.5 text-brand" />
-              <span>แยกหัวข้อย่อยรายวิชา</span>
-            </Link>
-            <Link
-              href="/catalog/completed"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-brand/35 bg-brand/10 px-3 py-1.5 text-xs font-extrabold text-brand transition-colors hover:bg-brand hover:text-white"
-            >
-              <Archive className="h-3.5 w-3.5" />
-              <span>ข้อที่เคยทำแล้ว ({allCompletedSet.size})</span>
-            </Link>
-          </div>
+          <button
+            type="button"
+            onClick={openSyncModal}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-bg2/60 px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-brand/50 hover:text-brand"
+          >
+            <Upload className="h-3.5 w-3.5 text-brand" />
+            <span>ซิงก์ข้อมูลข้ามเครื่อง</span>
+          </button>
         </div>
 
         <QuestionPoolSettingsBar
@@ -408,20 +382,20 @@ export function DashboardClient({
         {examProgress && examProgress.list?.length > 0 && (
           <div className="flex flex-wrap items-center justify-between gap-4 rounded-card border border-gold/45 bg-gold/10 p-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/25 text-gold-ink">
-                <Clock className="h-5 w-5" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gold/25 text-gold-ink">
+                <Clock className="h-4.5 w-4.5" />
               </div>
               <div>
-                <div className="text-sm font-extrabold text-ink">มีข้อสอบที่ทำค้างไว้</div>
-                <div className="text-xs text-muted">
-                  ตอบแล้ว <span className="font-mono font-bold">{examProgress.answers.filter((a) => a !== null).length}</span> /{' '}
-                  <span className="font-mono font-bold">{examProgress.list.length}</span> ข้อ
+                <div className="text-sm font-semibold text-ink">มีข้อสอบที่ทำค้างไว้</div>
+                <div className="text-xs text-muted tabular-nums">
+                  ตอบแล้ว <span className="font-semibold text-ink">{examProgress.answers.filter((a) => a !== null).length}</span> /{' '}
+                  <span className="font-semibold text-ink">{examProgress.list.length}</span> ข้อ
                 </div>
               </div>
             </div>
             <Link
               href={`/exam/${examProgress.setId}?mode=${examProgress.mode}`}
-              className="inline-flex items-center gap-1.5 rounded-btn bg-brand px-4 py-2 text-xs font-bold text-white"
+              className="inline-flex items-center gap-1.5 rounded-btn bg-brand px-4 py-2 text-xs font-semibold text-white hover:bg-brand-dark"
             >
               <Play className="h-3.5 w-3.5" />
               <span>ทำต่อทันที</span>
@@ -430,18 +404,14 @@ export function DashboardClient({
         )}
 
         {/* Hero Greeting Card */}
-        <section className="rounded-card border border-line bg-panel p-6 shadow-card sm:p-8">
-          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+        <section className="rounded-card border border-line bg-panel p-5 shadow-card sm:p-6">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-teal/15 px-3 py-1 text-[11px] font-bold text-teal-ink">
-                <CheckCircle2 className="h-3.5 w-3.5" />
-                <span>เปิดฝึกทำครบทุกชุด · ไม่ต้องเข้าสู่ระบบ</span>
-              </div>
-              <h1 className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">
+              <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
                 ศูนย์ฝึกสอบ {currentTrackMeta.name}
               </h1>
-              <p className="mt-1.5 text-sm text-muted">
-                คลังข้อสอบนายสิบตำรวจ {totalQuestions.toLocaleString('en-US')} ข้อ · ครบ {currentTrackMeta.subjects.length} วิชาตามสายสอบของคุณ
+              <p className="mt-1 text-sm text-muted tabular-nums">
+                คลังข้อสอบ {totalQuestions.toLocaleString('en-US')} ข้อ · ครบ {currentTrackMeta.subjects.length} วิชาตามสายสอบ
               </p>
             </div>
             <StartExamModalButton
@@ -450,7 +420,7 @@ export function DashboardClient({
             />
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-5 grid gap-3.5 sm:grid-cols-2">
             <CountdownCard
               title={TRACKS[0].name}
               dateLabel={TRACKS[0].examDateLabel}

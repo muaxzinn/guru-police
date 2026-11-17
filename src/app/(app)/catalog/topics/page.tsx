@@ -18,44 +18,38 @@ export default function CatalogTopicsPage() {
   return (
     <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
       <SiteHeader mode="app" />
-      <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <main className="mx-auto max-w-6xl px-4 py-7 space-y-5">
+        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-line pb-5">
           <div>
             <Link
               href="/catalog"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-muted hover:text-brand"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-muted transition-colors hover:text-brand"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>กลับหน้าเลือกโหมดข้อสอบ</span>
             </Link>
-            <h1 className="mt-2 flex items-center gap-2.5 text-2xl font-extrabold sm:text-3xl">
-              <BookOpenCheck className="h-7 w-7 text-brand shrink-0" />
-              <span>คลังข้อสอบแยกตามเนื้อหาย่อยรายวิชา</span>
+            <h1 className="mt-2 flex items-center gap-2.5 text-2xl font-bold tracking-tight sm:text-3xl">
+              <BookOpenCheck className="h-6 w-6 text-brand shrink-0" />
+              <span>คลังข้อสอบแยกตามหัวข้อย่อย</span>
             </h1>
-            <p className="mt-1 text-sm text-muted">
-              เลือกฝึกเฉพาะบทหรือเนื้อหาย่อยของแต่ละวิชา (เช่น Microsoft Word, Excel, PowerPoint, แพ่ง/อาญา, อนุกรม) จากทั้งหมด{' '}
-              <strong className="font-mono text-ink">{totalTopicCards} หัวข้อ</strong> ·{' '}
-              <strong className="font-mono text-ink">
-                {allQuestions.length.toLocaleString('en-US')} ข้อ
-              </strong>
+            <p className="mt-1 text-sm text-muted tabular-nums">
+              เลือกฝึกเฉพาะบทในทั้ง 7 วิชา · {totalTopicCards} หัวข้อย่อย · {allQuestions.length.toLocaleString('en-US')} ข้อ
             </p>
           </div>
 
           <Link
             href="/catalog/subject"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-panel px-4 py-2 text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+            className="inline-flex items-center gap-1.5 rounded-btn border border-line bg-panel px-3.5 py-2 text-xs font-medium text-ink transition-colors hover:border-brand/50 hover:text-brand"
           >
             <Layers className="h-4 w-4 text-teal-ink" />
-            <span>ไปหน้าชุดข้อสอบรวมรายวิชา 7 วิชา</span>
+            <span>ไปหน้าแยกรายวิชา 7 วิชา</span>
           </Link>
         </div>
 
-        <div className="mt-6">
-          <CatalogTopicsClient
-            topicsBySubject={topicsBySubject}
-            subjectTotals={subjectTotals}
-          />
-        </div>
+        <CatalogTopicsClient
+          topicsBySubject={topicsBySubject}
+          subjectTotals={subjectTotals}
+        />
       </main>
     </div>
   );

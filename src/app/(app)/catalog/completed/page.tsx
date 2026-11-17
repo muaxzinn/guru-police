@@ -18,39 +18,39 @@ export default function CatalogCompletedPage() {
   return (
     <div className="min-h-screen bg-bg text-ink pb-24 md:pb-12">
       <SiteHeader mode="app" />
-      <main className="mx-auto max-w-6xl px-4 py-8 space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <main className="mx-auto max-w-6xl px-4 py-7 space-y-5">
+        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-line pb-5">
           <div>
             <Link
               href="/catalog"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-muted hover:text-brand"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-muted transition-colors hover:text-brand"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>กลับหน้าเลือกโหมดข้อสอบ</span>
             </Link>
-            <h1 className="mt-2 flex items-center gap-2.5 text-2xl font-extrabold sm:text-3xl">
-              <Archive className="h-7 w-7 text-brand shrink-0" />
-              <span>ชุดข้อสอบที่เคยทำแล้ว (รวม · ทำถูก · ทำผิด)</span>
+            <h1 className="mt-2 flex items-center gap-2.5 text-2xl font-bold tracking-tight sm:text-3xl">
+              <Archive className="h-6 w-6 text-brand shrink-0" />
+              <span>ชุดข้อสอบที่เคยทำแล้ว</span>
             </h1>
             <p className="mt-1 text-sm text-muted">
-              รวบรวมทุกข้อที่เคยตอบแล้วมาจัดเป็นชุดข้อสอบใหม่ทั้งแบบชุดใหญ่ 150 ข้อ แยกรายวิชา 7 วิชา และแยกหัวข้อย่อยรายบท
+              ทบทวนข้อที่เคยทำในแบบชุดใหญ่ 150 ข้อ แยกรายวิชา 7 วิชา หรือแยกตามหัวข้อย่อย
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             <Link
               href="/catalog/topics"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-panel px-3.5 py-2 text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+              className="inline-flex items-center gap-1.5 rounded-btn border border-line bg-panel px-3 py-2 text-xs font-medium text-ink transition-colors hover:border-brand/50 hover:text-brand"
             >
               <BookOpenCheck className="h-4 w-4 text-brand" />
-              <span>ไปฝึกหัวข้อย่อย (ข้อใหม่)</span>
+              <span>หัวข้อย่อย (ข้อใหม่)</span>
             </Link>
             <Link
               href="/catalog/subject"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-panel px-3.5 py-2 text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+              className="inline-flex items-center gap-1.5 rounded-btn border border-line bg-panel px-3 py-2 text-xs font-medium text-ink transition-colors hover:border-brand/50 hover:text-brand"
             >
               <Layers className="h-4 w-4 text-teal-ink" />
-              <span>ไปฝึกแยกรายวิชา</span>
+              <span>แยกรายวิชา</span>
             </Link>
           </div>
         </div>

@@ -142,10 +142,10 @@ export function CatalogTopicsClient({
       {/* Step Indicator / Breadcrumb Bar */}
       <nav
         aria-label="ขั้นตอนการเลือกชุดข้อสอบ"
-        className="rounded-card border border-line bg-panel p-3.5 sm:p-4 shadow-card space-y-3"
+        className="rounded-card border border-line bg-panel p-3.5 shadow-card space-y-3"
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-extrabold">
+          <div className="flex flex-wrap items-center gap-1.5 text-xs">
             <button
               type="button"
               onClick={() => {
@@ -155,17 +155,17 @@ export function CatalogTopicsClient({
                 setShowAllTopicsFlat(false);
                 setQuery('');
               }}
-              className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 transition ${
+              className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 transition-colors ${
                 isLevel1
-                  ? 'border-brand bg-brand text-white shadow-sm'
-                  : 'border-line bg-bg2/60 text-ink hover:border-brand/50 hover:text-brand'
+                  ? 'bg-brand text-white font-semibold'
+                  : 'text-muted font-medium hover:bg-bg2 hover:text-ink'
               }`}
             >
               <Layers className="h-3.5 w-3.5" />
               <span>1. เลือกการ์ดวิชาหลัก (7 วิชา)</span>
             </button>
 
-            <ArrowRight className="h-3.5 w-3.5 text-muted shrink-0" />
+            <ArrowRight className="h-3.5 w-3.5 text-muted/60 shrink-0" />
 
             <button
               type="button"
@@ -173,10 +173,10 @@ export function CatalogTopicsClient({
               onClick={() => {
                 setSelectedTopicCard(null);
               }}
-              className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 transition disabled:opacity-50 ${
+              className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 transition-colors disabled:opacity-45 ${
                 isLevel2
-                  ? 'border-brand bg-brand text-white shadow-sm'
-                  : 'border-line bg-bg2/60 text-ink hover:border-brand/50 hover:text-brand'
+                  ? 'bg-brand text-white font-semibold'
+                  : 'text-muted font-medium hover:bg-bg2 hover:text-ink'
               }`}
             >
               <BookOpen className="h-3.5 w-3.5" />
@@ -186,13 +186,13 @@ export function CatalogTopicsClient({
               </span>
             </button>
 
-            <ArrowRight className="h-3.5 w-3.5 text-muted shrink-0" />
+            <ArrowRight className="h-3.5 w-3.5 text-muted/60 shrink-0" />
 
             <span
-              className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 ${
+              className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 ${
                 isLevel3
-                  ? 'border-brand bg-brand text-white shadow-sm'
-                  : 'border-line bg-bg2/40 text-muted'
+                  ? 'bg-brand text-white font-semibold'
+                  : 'text-muted font-medium'
               }`}
             >
               <Sparkles className="h-3.5 w-3.5" />
@@ -204,18 +204,18 @@ export function CatalogTopicsClient({
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 rounded-xl border border-line bg-bg2/60 p-1 text-xs font-bold">
-            <span className="px-2 text-muted hidden sm:inline">แบ่งชุดย่อย:</span>
+          <div className="flex items-center gap-1 rounded-lg border border-line bg-bg2/60 p-0.5 text-xs font-medium">
+            <span className="px-2 text-muted hidden sm:inline">แบ่งชุด:</span>
             {([15, 20, 30] as const).map((sz) => (
               <button
                 key={sz}
                 type="button"
                 onClick={() => setChunkSize(sz)}
-                className={`rounded-lg px-2.5 py-1 transition-colors ${
-                  chunkSize === sz ? 'bg-panel text-brand shadow-sm' : 'text-muted hover:text-ink'
+                className={`rounded-md px-2.5 py-1 transition-colors tabular-nums ${
+                  chunkSize === sz ? 'bg-panel text-brand font-semibold shadow-sm' : 'text-muted hover:text-ink'
                 }`}
               >
-                ชุดละ {sz} ข้อ
+                {sz} ข้อ
               </button>
             ))}
           </div>
@@ -223,7 +223,7 @@ export function CatalogTopicsClient({
 
         {/* Search Input & Quick Flat View Toggle */}
         {!isLevel3 && (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2 border-t border-line/70">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2.5 border-t border-line/70">
             <div className="relative flex-1">
               <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-muted" />
               <input
@@ -232,30 +232,30 @@ export function CatalogTopicsClient({
                   setQuery(e.target.value);
                   setSelectedTopicCard(null);
                 }}
-                placeholder="ค้นหาหัวข้อย่อยข้ามวิชาได้ทันที เช่น Word, Excel, เครือข่าย, แพ่ง, อาญา, ร้อยละ..."
-                className="w-full rounded-xl border border-line bg-bg2/60 py-2 pl-9 pr-3 text-sm outline-none focus:border-brand"
+                placeholder="ค้นหาหัวข้อย่อย เช่น Word, Excel, เครือข่าย, แพ่ง, อาญา, อนุกรม..."
+                className="w-full rounded-lg border border-line bg-bg2/50 py-2 pl-9 pr-3 text-sm outline-none transition-colors focus:border-brand focus:bg-panel"
               />
             </div>
 
-            <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0">
+            <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
               {isLevel1 && (
                 <button
                   type="button"
                   onClick={() => setShowAllTopicsFlat(true)}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2/70 px-3 py-2 text-xs font-bold text-muted transition hover:border-brand/50 hover:text-ink"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-panel px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-brand/50 hover:text-ink"
                 >
                   <span>ดูรวมทั้ง {allTopics.length} บท</span>
                 </button>
               )}
-              <div className="text-xs font-mono text-muted">
+              <div className="text-xs text-muted tabular-nums">
                 {isLevel1 ? (
                   <>
-                    7 วิชาหลัก · <strong className="text-brand">{allTopics.length} บท</strong>
+                    7 วิชาหลัก · <strong className="font-semibold text-brand">{allTopics.length} บท</strong>
                   </>
                 ) : (
                   <>
-                    พบ <strong className="text-ink">{filteredTopics.length}</strong> บท ·{' '}
-                    <strong className="text-brand">{totalQuestionsFiltered.toLocaleString('en-US')}</strong> ข้อ
+                    พบ <strong className="font-semibold text-ink">{filteredTopics.length}</strong> บท ·{' '}
+                    <strong className="font-semibold text-brand">{totalQuestionsFiltered.toLocaleString('en-US')}</strong> ข้อ
                   </>
                 )}
               </div>
@@ -266,7 +266,7 @@ export function CatalogTopicsClient({
 
       {/* LEVEL 1: 7 Main Subject Block Cards */}
       {isLevel1 && (
-        <section aria-label="การ์ดวิชาหลักทั้ง 7 วิชา" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section aria-label="การ์ดวิชาหลักทั้ง 7 วิชา" className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
           {SUBJECTS.map((sub) => {
             const subTopics = topicsBySubject[sub.key] || [];
             const doneInSub = subTopics.reduce(
@@ -276,8 +276,6 @@ export function CatalogTopicsClient({
             const totalInSub = subjectTotals[sub.key] || 0;
             const remainingInSub = Math.max(0, totalInSub - doneInSub);
             const progressPct = totalInSub > 0 ? Math.round((doneInSub / totalInSub) * 100) : 0;
-            const previewTopics = subTopics.slice(0, 4);
-            const extraCount = Math.max(0, subTopics.length - previewTopics.length);
 
             return (
               <button
@@ -288,43 +286,31 @@ export function CatalogTopicsClient({
                   setSelectedTopicCard(null);
                   setSelectedCategory('all');
                 }}
-                className="group flex flex-col justify-between gap-4 rounded-card border border-line bg-panel p-5 sm:p-6 text-left shadow-card card-hover transition hover:border-brand/60"
+                className="group flex flex-col justify-between gap-4 rounded-card border border-line bg-panel p-5 text-left shadow-card card-hover"
               >
-                <div className="space-y-3.5 w-full">
-                  <div className="flex items-start justify-between gap-2">
+                <div className="space-y-3 w-full">
+                  <div className="flex items-center justify-between gap-2">
                     <SubjectIcon subjectKey={sub.key} size="md" />
-                    <div className="flex flex-wrap items-center justify-end gap-1.5">
-                      <span className="rounded-full border border-line bg-bg2 px-2.5 py-0.5 text-[11px] font-bold text-muted">
-                        {sub.grp === 'general' ? 'ภาคทั่วไป' : 'ภาคเฉพาะตำแหน่ง'}
-                      </span>
-                      <span className="rounded-full bg-brand/10 px-2.5 py-0.5 font-mono text-[11px] font-extrabold text-brand">
-                        {subTopics.length} หัวข้อย่อย
-                      </span>
-                    </div>
+                    <span className="text-xs font-medium text-muted">
+                      {sub.grp === 'general' ? 'ภาคทั่วไป' : 'ภาคเฉพาะตำแหน่ง'}
+                    </span>
                   </div>
 
                   <div>
-                    <h2 className="text-lg font-extrabold text-ink leading-snug group-hover:text-brand transition-colors">
+                    <h2 className="text-[17px] font-semibold text-ink leading-snug group-hover:text-brand transition-colors">
                       {sub.name}
                     </h2>
-                    <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted">
-                      <span className="font-mono font-bold text-ink">
-                        {totalInSub.toLocaleString('en-US')} ข้อ
-                      </span>
-                      {doneInSub > 0 && (
-                        <span>
-                          · ทำแล้ว <strong className="text-teal-ink">{doneInSub}</strong> · เหลือข้อใหม่{' '}
-                          <strong className="text-brand">{remainingInSub}</strong> ข้อ
-                        </span>
-                      )}
-                    </div>
+                    <p className="mt-1 text-xs text-muted tabular-nums">
+                      {totalInSub.toLocaleString('en-US')} ข้อ · {subTopics.length} หัวข้อย่อย
+                      {doneInSub > 0 && ` · เหลือใหม่ ${remainingInSub} ข้อ`}
+                    </p>
                   </div>
 
                   {doneInSub > 0 && (
                     <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[11px] font-mono text-muted">
-                        <span>ความคืบหน้าวิชา</span>
-                        <span className="font-bold text-brand">{progressPct}%</span>
+                      <div className="flex items-center justify-between text-xs text-muted tabular-nums">
+                        <span>ความคืบหน้า</span>
+                        <span className="font-semibold text-brand">{progressPct}%</span>
                       </div>
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-bg2">
                         <div
@@ -334,27 +320,10 @@ export function CatalogTopicsClient({
                       </div>
                     </div>
                   )}
-
-                  {/* Preview sub-topic block chips */}
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {previewTopics.map((tp) => (
-                      <span
-                        key={tp.title}
-                        className="max-w-full truncate rounded-lg border border-line bg-bg2/60 px-2 py-1 text-[11px] font-semibold text-muted"
-                      >
-                        {tp.displayTitle.replace(/_/g, ' ')}
-                      </span>
-                    ))}
-                    {extraCount > 0 && (
-                      <span className="rounded-lg border border-dashed border-brand/40 bg-brand/5 px-2 py-1 font-mono text-[11px] font-bold text-brand">
-                        +{extraCount} หัวข้อ
-                      </span>
-                    )}
-                  </div>
                 </div>
 
-                <div className="flex w-full items-center justify-between gap-2 border-t border-line pt-3 text-xs font-extrabold text-brand">
-                  <span>คลิกเลือกหัวข้อย่อยในวิชานี้ ({subTopics.length} บท)</span>
+                <div className="flex w-full items-center justify-between border-t border-line pt-3 text-xs font-semibold text-brand">
+                  <span>เลือกหัวข้อย่อย ({subTopics.length} บท)</span>
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </button>
@@ -366,7 +335,7 @@ export function CatalogTopicsClient({
       {/* LEVEL 2: Sub-Topic Block Cards (inside selected subject or search) */}
       {isLevel2 && (
         <section className="space-y-4">
-          <div className="rounded-card border border-line bg-panel p-4 sm:p-5 shadow-card space-y-3.5">
+          <div className="rounded-card border border-line bg-panel p-4 shadow-card space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2.5">
               <button
                 type="button"
@@ -377,14 +346,14 @@ export function CatalogTopicsClient({
                   setQuery('');
                   setShowAllTopicsFlat(false);
                 }}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-brand/35 bg-brand/10 px-3.5 py-2 text-xs font-extrabold text-brand transition hover:bg-brand hover:text-white"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-brand/30 bg-brand/5 px-3 py-1.5 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 <span>กลับไปเลือกการ์ดวิชาหลัก (7 วิชา)</span>
               </button>
 
               {selectedSubject && (
-                <div className="flex items-center gap-2 text-xs font-extrabold text-ink">
+                <div className="flex items-center gap-2 text-sm font-semibold text-ink">
                   <SubjectIcon subjectKey={selectedSubject} size="sm" />
                   <span>{SUBJECT_MAP[selectedSubject].name}</span>
                 </div>
@@ -405,10 +374,10 @@ export function CatalogTopicsClient({
                       setSelectedCategory('all');
                       setShowAllTopicsFlat(false);
                     }}
-                    className={`rounded-full border px-3 py-1 text-xs font-bold transition ${
+                    className={`rounded-lg border px-2.5 py-1 text-xs transition-colors tabular-nums ${
                       active
-                        ? 'border-brand bg-brand text-white'
-                        : 'border-line bg-bg2 text-muted hover:text-ink'
+                        ? 'border-brand bg-brand text-white font-semibold'
+                        : 'border-line bg-bg2/60 text-muted font-medium hover:text-ink'
                     }`}
                   >
                     {sub.shortName} ({count})
@@ -419,15 +388,15 @@ export function CatalogTopicsClient({
 
             {/* Category Filter Pills inside Selected Subject */}
             {categoriesForSubject.length > 1 && (
-              <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-line/70">
-                <span className="text-xs font-bold text-muted mr-1">หมวดเนื้อหา:</span>
+              <div className="flex flex-wrap items-center gap-1.5 pt-2.5 border-t border-line/70">
+                <span className="text-xs font-medium text-muted mr-1">หมวด:</span>
                 <button
                   type="button"
                   onClick={() => setSelectedCategory('all')}
-                  className={`rounded-full border px-3 py-1 text-xs font-bold transition ${
+                  className={`rounded-lg border px-2.5 py-1 text-xs transition-colors tabular-nums ${
                     selectedCategory === 'all'
-                      ? 'border-brand bg-brand text-white'
-                      : 'border-line bg-bg2 text-muted hover:text-ink'
+                      ? 'border-brand bg-brand/10 text-brand font-semibold'
+                      : 'border-line bg-panel text-muted font-medium hover:text-ink'
                   }`}
                 >
                   ทั้งหมด ({(topicsBySubject[selectedSubject as SubjectKey] || []).length})
@@ -437,10 +406,10 @@ export function CatalogTopicsClient({
                     key={cat.name}
                     type="button"
                     onClick={() => setSelectedCategory(cat.name)}
-                    className={`rounded-full border px-3 py-1 text-xs font-bold transition ${
+                    className={`rounded-lg border px-2.5 py-1 text-xs transition-colors tabular-nums ${
                       selectedCategory === cat.name
-                        ? 'border-brand bg-brand text-white'
-                        : 'border-line bg-bg2 text-muted hover:text-ink'
+                        ? 'border-brand bg-brand/10 text-brand font-semibold'
+                        : 'border-line bg-panel text-muted font-medium hover:text-ink'
                     }`}
                   >
                     {cat.name} ({cat.count})
@@ -452,15 +421,13 @@ export function CatalogTopicsClient({
 
           {filteredTopics.length === 0 ? (
             <div className="rounded-card border border-line bg-panel p-10 text-center space-y-2 shadow-card">
-              <p className="text-base font-extrabold text-ink">ไม่พบหัวข้อย่อยที่ตรงกับคำค้นหา</p>
+              <p className="text-base font-semibold text-ink">ไม่พบหัวข้อย่อยที่ตรงกับคำค้นหา</p>
               <p className="text-xs text-muted">ลองเปลี่ยนคำค้นหาหรือกดกลับไปเลือกการ์ดวิชาหลักอีกครั้ง</p>
             </div>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
               {filteredTopics.map((item) => {
                 const subMeta = SUBJECT_MAP[item.subjectKey];
-                const subTotal = subjectTotals[item.subjectKey] || 1;
-                const sharePct = Math.max(1, Math.round((item.count / subTotal) * 100));
                 const stats = getTopicStats(item);
                 const topicParam = encodeURIComponent(item.rawTitles.join('||'));
                 const cardId = `${item.subjectKey}::${item.title}`;
@@ -470,103 +437,75 @@ export function CatalogTopicsClient({
                     key={cardId}
                     className="flex flex-col justify-between gap-4 overflow-hidden rounded-card border border-line bg-panel p-5 shadow-card card-hover"
                   >
-                    <div className="space-y-3">
+                    <div className="space-y-2.5">
                       <div className="flex items-start gap-2.5 min-w-0">
                         <SubjectIcon subjectKey={item.subjectKey} size="sm" />
                         <div className="min-w-0 flex-1">
-                          <div className="flex flex-wrap items-center gap-1.5">
-                            <span className="text-[11px] font-extrabold text-brand">
-                              {subMeta.shortName}
-                            </span>
-                            <span className="max-w-full truncate rounded-full border border-line bg-bg2 px-2 py-0.5 text-[11px] font-bold text-muted">
-                              {item.category}
-                            </span>
+                          <div className="flex items-center gap-1.5 text-xs text-muted">
+                            <span className="font-semibold text-brand">{subMeta.shortName}</span>
+                            <span>·</span>
+                            <span className="truncate">{item.category}</span>
                           </div>
-                          <h3 className="mt-1 text-base font-extrabold text-ink leading-snug break-words">
+                          <h3 className="mt-0.5 text-base font-semibold text-ink leading-snug break-words">
                             {item.displayTitle.replace(/_/g, ' ')}
                           </h3>
                         </div>
                       </div>
 
-                      <p className="text-xs text-muted leading-relaxed">{item.description}</p>
+                      <p className="text-[13px] text-muted leading-relaxed line-clamp-2">
+                        {item.description}
+                      </p>
 
-                      {/* 2-Box Block Metrics */}
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="rounded-xl border border-line bg-bg2/60 p-2.5">
-                          <div className="text-[11px] font-bold text-muted">จำนวนข้อสอบ</div>
-                          <div className="mt-0.5 font-mono text-sm font-extrabold text-brand">
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs text-muted tabular-nums">
+                        <span>
+                          <strong className="font-semibold text-ink">
                             {excludeCompleted ? `${stats.remainingCount} ข้อใหม่` : `${item.count} ข้อ`}
-                          </div>
-                          <div className="font-mono text-[10px] text-muted">
-                            ทั้งหมด {item.count} ข้อ · {sharePct}%
-                          </div>
-                        </div>
-                        <div className="rounded-xl border border-line bg-bg2/60 p-2.5">
-                          <div className="text-[11px] font-bold text-muted">จำนวนชุดย่อย</div>
-                          <div className="mt-0.5 font-mono text-sm font-extrabold text-ink">
-                            {stats.totalSets} ชุดบล็อก
-                          </div>
-                          <div className="font-mono text-[10px] text-muted">ชุดละ {chunkSize} ข้อ</div>
-                        </div>
+                          </strong>{' '}
+                          · {stats.totalSets} ชุดย่อย (ชุดละ {chunkSize} ข้อ)
+                        </span>
+                        {stats.doneTotal > 0 && (
+                          <span>
+                            ทำแล้ว {stats.doneTotal}/{item.count}
+                          </span>
+                        )}
                       </div>
-
-                      {stats.doneTotal > 0 && (
-                        <div className="flex flex-wrap items-center justify-between gap-1.5 rounded-xl border border-line bg-bg2/40 px-3 py-1.5 text-[11px]">
-                          <span className="font-bold text-ink">
-                            ทำแล้ว <span className="font-mono">{stats.doneTotal}/{item.count}</span>
-                          </span>
-                          <span className="text-muted">
-                            ถูก <strong className="text-teal-ink">{stats.doneCorrect}</strong> · ผิด{' '}
-                            <strong className="text-accent">{stats.doneWrong}</strong>
-                          </span>
-                        </div>
-                      )}
                     </div>
 
                     {/* Block Card Actions */}
-                    <div className="space-y-2 border-t border-line pt-3">
+                    <div className="border-t border-line pt-3">
                       {stats.activeCount > 0 ? (
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="flex items-center gap-2">
                           <button
                             type="button"
                             onClick={() => {
                               setSelectedSubject(item.subjectKey);
                               setSelectedTopicCard(item);
                             }}
-                            className="col-span-2 inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand px-3 py-2.5 text-xs font-extrabold text-white transition hover:bg-brand-dark"
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-btn bg-brand px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
                           >
                             <Layers className="h-3.5 w-3.5" />
-                            <span>เปิดบล็อกชุดข้อสอบ ({stats.totalSets} ชุด)</span>
-                            <ArrowRight className="h-3.5 w-3.5" />
+                            <span>เปิดบล็อกชุดข้อสอบ ({stats.totalSets})</span>
                           </button>
                           <Link
                             href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${chunkSize}&mode=practice&fresh=1${excludeParam}`}
-                            className="inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-bg2 px-2.5 py-2 text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+                            className="inline-flex items-center justify-center gap-1 rounded-btn border border-line bg-bg2/60 px-3 py-2 text-xs font-medium text-ink transition-colors hover:border-brand/50 hover:text-brand"
                           >
                             <Play className="h-3.5 w-3.5 text-brand" />
-                            <span>เริ่มชุดที่ 1</span>
-                          </Link>
-                          <Link
-                            href={`/bank?subject=${item.subjectKey}&topic=${topicParam}`}
-                            className="inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-bg2 px-2.5 py-2 text-xs font-bold text-muted transition hover:border-brand/50 hover:text-ink"
-                          >
-                            <Database className="h-3.5 w-3.5" />
-                            <span>ดูในคลัง</span>
+                            <span>ชุดที่ 1</span>
                           </Link>
                         </div>
                       ) : (
-                        <div className="space-y-2 rounded-2xl border border-teal/40 bg-teal/10 p-3 text-center">
-                          <p className="inline-flex items-center gap-1 text-xs font-extrabold text-teal-ink">
-                            <CheckCircle2 className="h-4 w-4" />
-                            <span>ทำครบทุกข้อในบทนี้แล้ว!</span>
-                          </p>
-                          <div className="grid grid-cols-2 gap-1.5">
+                        <div className="flex items-center justify-between gap-2 rounded-lg border border-teal/35 bg-teal/5 px-3 py-2">
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-teal-ink">
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            <span>ทำครบทุกข้อแล้ว</span>
+                          </span>
+                          <div className="flex items-center gap-1.5">
                             <Link
                               href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${chunkSize}&mode=practice&fresh=1&excludeCompleted=0`}
-                              className="inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-panel px-2.5 py-1.5 text-xs font-bold text-ink hover:border-brand/50"
+                              className="rounded-md border border-line bg-panel px-2.5 py-1 text-xs font-medium text-ink hover:border-brand/50"
                             >
-                              <Play className="h-3 w-3 text-brand" />
-                              <span>ฝึกซ้ำชุดที่ 1</span>
+                              ฝึกซ้ำ
                             </Link>
                             <button
                               type="button"
@@ -580,10 +519,9 @@ export function CatalogTopicsClient({
                                   void resetForTopic(item.subjectKey, item.rawTitles.join('||'), 'all');
                                 }
                               }}
-                              className="inline-flex items-center justify-center gap-1 rounded-xl border border-line bg-panel px-2.5 py-1.5 text-xs font-bold text-muted hover:text-accent"
+                              className="rounded-md border border-line bg-panel px-2.5 py-1 text-xs font-medium text-muted hover:text-accent"
                             >
-                              <RotateCcw className="h-3 w-3" />
-                              <span>รีเซ็ตบทนี้</span>
+                              รีเซ็ต
                             </button>
                           </div>
                         </div>
@@ -605,14 +543,14 @@ export function CatalogTopicsClient({
         const topicParam = encodeURIComponent(item.rawTitles.join('||'));
 
         return (
-          <section aria-label="บล็อกชุดข้อสอบย่อย" className="space-y-5">
-            <div className="rounded-card border border-line bg-panel p-5 sm:p-6 shadow-card space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-2.5">
+          <section aria-label="บล็อกชุดข้อสอบย่อย" className="space-y-4">
+            <div className="rounded-card border border-line bg-panel p-5 shadow-card space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setSelectedTopicCard(null)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-brand/35 bg-brand/10 px-3.5 py-2 text-xs font-extrabold text-brand transition hover:bg-brand hover:text-white"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-brand/30 bg-brand/5 px-3 py-1.5 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" />
                     <span>กลับไปการ์ดหัวข้อย่อยวิชา{subMeta.shortName}</span>
@@ -624,7 +562,7 @@ export function CatalogTopicsClient({
                       setSelectedSubject(null);
                       setSelectedCategory('all');
                     }}
-                    className="inline-flex items-center gap-1 rounded-xl border border-line bg-bg2 px-3 py-2 text-xs font-bold text-muted transition hover:border-brand/50 hover:text-ink"
+                    className="inline-flex items-center gap-1 rounded-lg border border-line bg-bg2/60 px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-brand/50 hover:text-ink"
                   >
                     <span>กลับไปการ์ดวิชาหลัก (7 วิชา)</span>
                   </button>
@@ -643,7 +581,7 @@ export function CatalogTopicsClient({
                         void resetForTopic(item.subjectKey, item.rawTitles.join('||'), 'all');
                       }
                     }}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-accent/40 bg-accent/10 px-3 py-1.5 text-xs font-bold text-accent transition hover:bg-accent hover:text-white"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-accent/35 bg-accent/5 px-3 py-1.5 text-xs font-medium text-accent transition-colors hover:bg-accent hover:text-white"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                     <span>รีเซ็ตบทนี้ ({stats.doneTotal} ข้อ)</span>
@@ -655,42 +593,41 @@ export function CatalogTopicsClient({
                 <div className="flex items-start gap-3 min-w-0">
                   <SubjectIcon subjectKey={item.subjectKey} size="md" />
                   <div className="min-w-0 space-y-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-xs font-extrabold text-brand">{subMeta.name}</span>
-                      <span className="rounded-full border border-line bg-bg2 px-2.5 py-0.5 text-[11px] font-bold text-muted">
-                        {item.category}
-                      </span>
+                    <div className="flex items-center gap-1.5 text-xs text-muted">
+                      <span className="font-semibold text-brand">{subMeta.name}</span>
+                      <span>·</span>
+                      <span>{item.category}</span>
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-extrabold text-ink leading-snug break-words">
+                    <h2 className="text-xl font-bold text-ink leading-snug break-words">
                       {item.displayTitle.replace(/_/g, ' ')}
                     </h2>
-                    <p className="text-xs sm:text-sm text-muted">{item.description}</p>
+                    <p className="text-[13px] text-muted">{item.description}</p>
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-line bg-bg2/60 px-4 py-3 text-left sm:text-right shrink-0">
-                  <div className="font-mono text-lg font-extrabold text-brand">
+                <div className="text-left sm:text-right shrink-0 tabular-nums">
+                  <div className="text-lg font-bold text-brand">
                     {excludeCompleted ? `${stats.remainingCount} ข้อใหม่` : `${item.count} ข้อ`}
                   </div>
-                  <div className="font-mono text-xs text-muted">
-                    ทั้งหมด {item.count} ข้อ · {stats.totalSets} ชุดบล็อก
+                  <div className="text-xs text-muted">
+                    ทั้งหมด {item.count} ข้อ · {stats.totalSets} ชุดย่อย
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-line/70">
+              <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-line/70">
                 {stats.activeCount > 0 && (
                   <>
                     <Link
                       href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&count=20&mode=practice&fresh=1${excludeParam}`}
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2 px-3.5 py-2 text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+                      className="inline-flex items-center gap-1.5 rounded-btn border border-line bg-bg2/60 px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-brand/50 hover:text-brand"
                     >
                       <Shuffle className="h-3.5 w-3.5 text-brand" />
                       <span>สุ่มฝึก {Math.min(20, stats.activeCount)} ข้อ</span>
                     </Link>
                     <Link
                       href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${stats.activeCount}&mode=practice&fresh=1${excludeParam}`}
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2 px-3.5 py-2 text-xs font-bold text-ink transition hover:border-teal/60 hover:text-teal-ink"
+                      className="inline-flex items-center gap-1.5 rounded-btn border border-line bg-bg2/60 px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-teal/60 hover:text-teal-ink"
                     >
                       <Sparkles className="h-3.5 w-3.5 text-teal-ink" />
                       <span>ทำครบทั้งบท ({stats.activeCount} ข้อ)</span>
@@ -699,33 +636,33 @@ export function CatalogTopicsClient({
                 )}
                 <Link
                   href={`/bank?subject=${item.subjectKey}&topic=${topicParam}`}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-line bg-bg2 px-3.5 py-2 text-xs font-bold text-muted transition hover:border-brand/50 hover:text-ink"
+                  className="inline-flex items-center gap-1.5 rounded-btn border border-line bg-bg2/60 px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-brand/50 hover:text-ink"
                 >
                   <Database className="h-3.5 w-3.5" />
-                  <span>เปิดดูโจทย์ทั้งหมดในคลัง</span>
+                  <span>ดูโจทย์ในคลัง</span>
                 </Link>
               </div>
             </div>
 
             {stats.totalSets === 0 ? (
-              <div className="rounded-card border border-teal/40 bg-teal/10 p-8 text-center space-y-3">
-                <div className="inline-flex items-center gap-2 text-sm font-extrabold text-teal-ink">
+              <div className="rounded-card border border-teal/35 bg-teal/5 p-8 text-center space-y-3">
+                <div className="inline-flex items-center gap-2 text-sm font-semibold text-teal-ink">
                   <CheckCircle2 className="h-5 w-5" />
-                  <span>ทำครบทุกข้อในบทนี้แล้ว!</span>
+                  <span>ทำครบทุกข้อในบทนี้แล้ว</span>
                 </div>
                 <p className="text-xs text-muted">
-                  คุณสามารถทบทวนข้อที่เคยทำได้ในหน้า &ldquo;ชุดที่เคยทำแล้ว&rdquo; หรือฝึกซ้ำทั้งหมด
+                  คุณสามารถทบทวนข้อที่เคยทำได้ในหน้าชุดที่เคยทำแล้ว หรือเลือกฝึกซ้ำชุดที่ 1
                 </p>
                 <div className="flex flex-wrap justify-center gap-2">
                   <Link
                     href="/catalog/completed"
-                    className="rounded-xl bg-brand px-4 py-2 text-xs font-extrabold text-white hover:bg-brand-dark"
+                    className="rounded-btn bg-brand px-4 py-2 text-xs font-semibold text-white hover:bg-brand-dark"
                   >
                     ไปหน้าชุดข้อสอบที่เคยทำแล้ว
                   </Link>
                   <Link
                     href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=1&count=${chunkSize}&mode=practice&fresh=1&excludeCompleted=0`}
-                    className="rounded-xl border border-line bg-panel px-4 py-2 text-xs font-bold text-ink hover:border-brand/50"
+                    className="rounded-btn border border-line bg-panel px-4 py-2 text-xs font-medium text-ink hover:border-brand/50"
                   >
                     ฝึกซ้ำชุดที่ 1
                   </Link>
@@ -741,36 +678,33 @@ export function CatalogTopicsClient({
                   return (
                     <div
                       key={setNum}
-                      className="flex flex-col justify-between gap-3 rounded-2xl border border-line bg-panel p-4 shadow-card transition hover:border-brand/50"
+                      className="flex flex-col justify-between gap-3 rounded-card border border-line bg-panel p-4 shadow-card card-hover"
                     >
-                      <div className="space-y-1.5">
+                      <div className="space-y-1">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="rounded-xl bg-brand/10 px-2.5 py-1 font-mono text-xs font-extrabold text-brand">
+                          <span className="text-sm font-semibold text-brand tabular-nums">
                             ชุดที่ {setNum}
                           </span>
-                          <span className="inline-flex items-center gap-1 font-mono text-xs font-semibold text-muted">
+                          <span className="inline-flex items-center gap-1 text-xs text-muted tabular-nums">
                             <Clock className="h-3.5 w-3.5" />
                             <span>{Math.max(10, qCount)} นาที</span>
                           </span>
                         </div>
-                        <div className="text-sm font-extrabold text-ink">
-                          ช่วงข้อที่ <span className="font-mono">{startQ}–{endQ}</span> ({qCount} ข้อ)
-                        </div>
-                        <div className="text-[11px] text-muted truncate">
-                          {item.displayTitle.replace(/_/g, ' ')}
+                        <div className="text-xs text-muted tabular-nums">
+                          ข้อที่ {startQ}–{endQ} ({qCount} ข้อ)
                         </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 pt-1">
                         <Link
                           href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=${setNum}&count=${chunkSize}&mode=practice&fresh=1${excludeParam}`}
-                          className="rounded-xl border border-line bg-bg2 py-2 text-center text-xs font-bold text-ink transition hover:border-brand/50 hover:text-brand"
+                          className="rounded-btn border border-line bg-bg2/60 py-2 text-center text-xs font-medium text-ink transition-colors hover:border-brand/50 hover:text-brand"
                         >
                           โหมดฝึกซ้อม
                         </Link>
                         <Link
                           href={`/exam/topic?subject=${item.subjectKey}&topic=${topicParam}&set=${setNum}&count=${chunkSize}&mode=real&fresh=1${excludeParam}`}
-                          className="rounded-xl bg-brand py-2 text-center text-xs font-extrabold text-white transition hover:bg-brand-dark"
+                          className="rounded-btn bg-brand py-2 text-center text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
                         >
                           จับเวลาจริง
                         </Link>

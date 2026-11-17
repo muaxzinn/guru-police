@@ -145,19 +145,19 @@ function QuestionBankInner() {
       <main className="mx-auto max-w-5xl px-4 py-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold text-brand">
+            <div className="flex items-center gap-2 text-xs font-semibold text-brand">
               <Database className="h-4 w-4" />
               <span>คลังข้อสอบเชิงลึก · 7,038 ข้อ</span>
             </div>
-            <h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">
-              ค้นหาและเจาะลึกข้อสอบ 132 หัวข้อ
+            <h1 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">
+              ค้นหาข้อสอบ 132 หัวข้อ
             </h1>
           </div>
 
           {(subject || topic) && (
             <Link
               href={buildTopicDrillHref()}
-              className="inline-flex items-center gap-2 rounded-btn bg-brand px-4 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-brand-dark"
+              className="inline-flex items-center gap-2 rounded-btn bg-brand px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
             >
               <Play className="h-3.5 w-3.5" />
               <span>ฝึกทำเฉพาะหัวข้อที่กรองอยู่ (สูงสุด 30 ข้อ)</span>
@@ -167,9 +167,9 @@ function QuestionBankInner() {
 
         {/* Filter Bar */}
         <section className="mt-5 rounded-card border border-line bg-panel p-4 shadow-card overflow-hidden">
-          <div className="grid gap-3 md:grid-cols-4 min-w-0">
+          <div className="grid gap-2.5 md:grid-cols-4 min-w-0">
             <div className="relative md:col-span-2 min-w-0">
-              <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted" />
+              <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-muted" />
               <input
                 value={query}
                 onChange={(e) => {
@@ -177,7 +177,7 @@ function QuestionBankInner() {
                   setPage(1);
                 }}
                 placeholder="ค้นหาคำถาม ตัวเลือก คำอธิบาย หรือ ID ข้อสอบ..."
-                className="w-full min-w-0 rounded-xl border border-line bg-bg2/60 py-2.5 pl-9 pr-3 text-sm outline-none focus:border-brand"
+                className="w-full min-w-0 rounded-lg border border-line bg-bg2/50 py-2 pl-9 pr-3 text-sm outline-none transition-colors focus:border-brand focus:bg-panel"
               />
             </div>
 
@@ -188,7 +188,7 @@ function QuestionBankInner() {
                 setTopic('');
                 setPage(1);
               }}
-              className="w-full min-w-0 max-w-full truncate rounded-xl border border-line bg-bg2/60 px-3 py-2.5 text-sm outline-none focus:border-brand"
+              className="w-full min-w-0 max-w-full truncate rounded-lg border border-line bg-bg2/50 px-3 py-2 text-sm outline-none transition-colors focus:border-brand focus:bg-panel"
             >
               <option value="">ทุกรายวิชา (7 วิชา)</option>
               {SUBJECTS.map((s) => (
@@ -204,7 +204,7 @@ function QuestionBankInner() {
                 setTopic(e.target.value);
                 setPage(1);
               }}
-              className="w-full min-w-0 max-w-full truncate rounded-xl border border-line bg-bg2/60 px-3 py-2.5 text-sm outline-none focus:border-brand"
+              className="w-full min-w-0 max-w-full truncate rounded-lg border border-line bg-bg2/50 px-3 py-2 text-sm outline-none transition-colors focus:border-brand focus:bg-panel"
             >
               <option value="">ทุกหัวข้อย่อย ({topics.length} หัวข้อ)</option>
               {topic && !topics.some((t) => t.title === topic) && (
@@ -218,15 +218,15 @@ function QuestionBankInner() {
             </select>
           </div>
 
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 min-w-0">
-            <div className="flex flex-wrap items-center gap-3 min-w-0 w-full sm:w-auto">
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 min-w-0 pt-2.5 border-t border-line/70">
+            <div className="flex flex-wrap items-center gap-2.5 min-w-0 w-full sm:w-auto">
               <select
                 value={batch}
                 onChange={(e) => {
                   setBatch(e.target.value);
                   setPage(1);
                 }}
-                className="w-full sm:w-auto min-w-0 max-w-full truncate rounded-xl border border-line bg-bg2/60 px-3 py-1.5 text-xs font-semibold outline-none focus:border-brand"
+                className="w-full sm:w-auto min-w-0 max-w-full truncate rounded-lg border border-line bg-bg2/50 px-2.5 py-1.5 text-xs font-medium outline-none focus:border-brand"
               >
                 <option value="">ทุกชุดนำเข้า</option>
                 {batches.map((b) => (
@@ -236,7 +236,7 @@ function QuestionBankInner() {
                 ))}
               </select>
 
-              <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-line bg-bg2/60 px-3 py-1.5 text-xs font-semibold text-ink">
+              <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-line bg-bg2/50 px-2.5 py-1.5 text-xs font-medium text-ink">
                 <input
                   type="checkbox"
                   checked={hasImage}
@@ -253,7 +253,7 @@ function QuestionBankInner() {
                 <button
                   type="button"
                   onClick={resetFilters}
-                  className="inline-flex items-center gap-1 rounded-xl border border-line bg-bg2/60 px-3 py-1.5 text-xs font-bold text-muted hover:border-brand/50 hover:text-brand transition"
+                  className="inline-flex items-center gap-1 rounded-lg border border-line bg-panel px-2.5 py-1.5 text-xs font-medium text-muted transition-colors hover:border-brand/50 hover:text-brand"
                 >
                   <X className="h-3.5 w-3.5" />
                   <span>ล้างตัวกรอง</span>
@@ -261,8 +261,8 @@ function QuestionBankInner() {
               )}
             </div>
 
-            <div className="font-mono text-xs text-muted">
-              พบ <span className="font-bold text-ink">{total.toLocaleString()}</span> ข้อ · หน้า {page}/{totalPages}
+            <div className="text-xs text-muted tabular-nums">
+              พบ <span className="font-semibold text-ink">{total.toLocaleString()}</span> ข้อ · หน้า {page}/{totalPages}
             </div>
           </div>
         </section>
@@ -273,12 +273,12 @@ function QuestionBankInner() {
           className="mt-4 rounded-card border border-line bg-panel p-4 shadow-card overflow-hidden space-y-3"
         >
           <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
-            <div className="flex items-center gap-2 text-xs font-extrabold text-ink min-w-0">
+            <div className="flex items-center gap-2 text-xs font-semibold text-ink min-w-0">
               <Layers className="h-4 w-4 text-brand shrink-0" />
               <span className="truncate">
                 {subject
-                  ? `การ์ดหัวข้อย่อย · วิชา${SUBJECT_MAP[subject as SubjectKey]?.name || subject}`
-                  : 'เลือกจากการ์ดวิชาหลัก (คลิกเพื่อดูหัวข้อย่อย)'}
+                  ? `หัวข้อย่อย · ${SUBJECT_MAP[subject as SubjectKey]?.name || subject}`
+                  : 'เลือกดูตามการ์ดวิชาหลัก'}
               </span>
             </div>
 
@@ -291,7 +291,7 @@ function QuestionBankInner() {
                       setTopic('');
                       setPage(1);
                     }}
-                    className="inline-flex items-center gap-1 rounded-xl border border-line bg-bg2/70 px-2.5 py-1 text-[11px] font-bold text-muted hover:text-ink"
+                    className="inline-flex items-center gap-1 rounded-lg border border-line bg-bg2/60 px-2.5 py-1 text-xs font-medium text-muted hover:text-ink"
                   >
                     <X className="h-3 w-3" />
                     <span>แสดงทุกหัวข้อในวิชานี้</span>
@@ -304,7 +304,7 @@ function QuestionBankInner() {
                     setTopic('');
                     setPage(1);
                   }}
-                  className="inline-flex items-center gap-1 rounded-xl border border-brand/35 bg-brand/10 px-2.5 py-1 text-[11px] font-extrabold text-brand hover:bg-brand hover:text-white transition"
+                  className="inline-flex items-center gap-1 rounded-lg border border-brand/30 bg-brand/5 px-2.5 py-1 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
                 >
                   <ArrowLeft className="h-3 w-3" />
                   <span>กลับไปการ์ดวิชาหลัก (7 วิชา)</span>
@@ -327,18 +327,18 @@ function QuestionBankInner() {
                       setTopic('');
                       setPage(1);
                     }}
-                    className="flex min-w-0 flex-col items-start justify-between gap-2 rounded-2xl border border-line bg-bg2/60 p-3 text-left transition hover:border-brand/60 hover:bg-brand/5"
+                    className="flex min-w-0 flex-col items-start justify-between gap-2 rounded-xl border border-line bg-bg2/40 p-3 text-left transition-colors hover:border-brand/50 hover:bg-brand/5"
                   >
                     <div className="flex w-full items-center justify-between gap-1">
                       <SubjectIcon subjectKey={s.key} size="sm" />
-                      <span className="font-mono text-[10px] font-bold text-brand shrink-0">
+                      <span className="text-[11px] font-medium text-brand tabular-nums shrink-0">
                         {subTopics.length} บท
                       </span>
                     </div>
                     <div className="w-full min-w-0 space-y-0.5">
-                      <div className="truncate text-xs font-extrabold text-ink">{s.shortName}</div>
+                      <div className="truncate text-xs font-semibold text-ink">{s.shortName}</div>
                       {subQuestionCount > 0 && (
-                        <div className="font-mono text-[10px] text-muted">
+                        <div className="text-[11px] text-muted tabular-nums">
                           {subQuestionCount.toLocaleString()} ข้อ
                         </div>
                       )}
@@ -363,15 +363,15 @@ function QuestionBankInner() {
                           setTopic(t.title);
                           setPage(1);
                         }}
-                        className={`flex min-w-0 items-center justify-between gap-2 rounded-xl border px-3 py-2 text-left text-xs transition ${
+                        className={`flex min-w-0 items-center justify-between gap-2 rounded-lg border px-3 py-2 text-left text-xs transition-colors ${
                           active
-                            ? 'border-brand bg-brand/10 font-extrabold text-brand ring-1 ring-brand/30'
-                            : 'border-line bg-bg2/60 font-semibold text-ink hover:border-brand/50'
+                            ? 'border-brand bg-brand/10 font-semibold text-brand'
+                            : 'border-line bg-bg2/40 font-medium text-ink hover:border-brand/50'
                         }`}
                       >
                         <span className="min-w-0 truncate">{t.title.replace(/_/g, ' ')}</span>
-                        <span className="shrink-0 font-mono text-[11px] font-bold text-brand">
-                          {t.count} ข้อ
+                        <span className="shrink-0 text-[11px] font-semibold text-brand tabular-nums">
+                          {t.count}
                         </span>
                       </button>
                     );

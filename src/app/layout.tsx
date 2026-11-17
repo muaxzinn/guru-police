@@ -5,7 +5,7 @@ import { ThemeAndBrandProvider } from '@/components/ThemeAndBrandProvider';
 
 const prompt = Prompt({
   subsets: ['thai', 'latin'],
-  weight: ['400', '600', '700', '800'],
+  weight: ['500', '600', '700'],
   variable: '--font-prompt',
   display: 'swap',
 });

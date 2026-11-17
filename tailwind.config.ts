@@ -24,16 +24,17 @@ const config: Config = {
         blue: 'rgb(var(--blue) / <alpha-value>)',
       },
       borderRadius: {
-        card: '24px',
-        btn: '18px',
+        card: '14px',
+        btn: '10px',
       },
       fontFamily: {
-        sans: ['var(--font-prompt)', 'Prompt', 'Sarabun', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-sarabun)', 'Sarabun', 'Prompt', 'system-ui', 'sans-serif'],
+        display: ['var(--font-prompt)', 'Prompt', 'Sarabun', 'system-ui', 'sans-serif'],
         exam: ['var(--font-sarabun)', 'Sarabun', 'Prompt', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
-        card: '0 10px 30px -10px rgb(var(--ink) / 0.08), 0 1px 2px rgb(var(--ink) / 0.04)',
+        card: '0 1px 3px rgb(var(--ink) / 0.05), 0 1px 2px rgb(var(--ink) / 0.03)',
       },
     },
   },
