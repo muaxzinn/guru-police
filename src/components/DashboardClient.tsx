@@ -880,7 +880,7 @@ export function DashboardClient({
                   <div>
                     <div className="text-sm font-bold text-ink">{row.nameMasked}</div>
                     {row.isChampion && (
-                      <div className="text-[11px] font-bold text-gold-ink">NAISIB PRO Champion</div>
+                      <div className="text-[11px] font-bold text-gold-ink">นายสิบ โปร Champion</div>
                     )}
                   </div>
                 </div>

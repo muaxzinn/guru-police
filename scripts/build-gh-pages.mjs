@@ -9,7 +9,7 @@ const Q_SVGS_DIR = path.join(ROOT_DIR, 'public', 'question-svgs');
 const STATIC_DATA_DIR = path.join(ROOT_DIR, 'public', 'static-data');
 const STASH_DIR = path.join(ROOT_DIR, '.gh-pages-stash');
 const OUT_DIR = path.join(ROOT_DIR, 'out');
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '/guru-police';
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '/naisibpro';
 
 const SUBJECTS = [
   { key: 'math', name: 'ความสามารถทั่วไป', setId: 101 },

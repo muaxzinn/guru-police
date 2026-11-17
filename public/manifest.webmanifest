@@ -1,6 +1,6 @@
 {
-  "name": "NAISIB PRO — ติวสอบนายสิบตำรวจ",
-  "short_name": "NAISIB PRO",
+  "name": "นายสิบ โปร — ติวสอบนายสิบตำรวจ",
+  "short_name": "นายสิบ โปร",
   "description": "ฝึกทำข้อสอบตำรวจเสมือนจริง พร้อมเฉลยละเอียด",
   "start_url": "./dashboard/",
   "display": "standalone",

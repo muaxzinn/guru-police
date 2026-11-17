@@ -533,7 +533,7 @@ export function ResultDetailClient() {
                         </p>
                         {(eText || !eImg) && (
                           <RichExamContent
-                            text={eText || 'เฉลยตามคลังข้อมูลข้อสอบมาตรฐาน NAISIB PRO'}
+                            text={eText || 'เฉลยตามคลังข้อมูลข้อสอบมาตรฐาน นายสิบ โปร'}
                             className="text-ink/90 leading-relaxed"
                           />
                         )}

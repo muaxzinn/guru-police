@@ -6,7 +6,7 @@ export default function RootLoading() {
     <AppLoadingScreen
       variant="page"
       includeHeader={true}
-      title="กำลังเตรียมระบบ NAISIB PRO..."
+      title="กำลังเตรียมระบบ นายสิบ โปร..."
       subtitle="กำลังโหลดคลังข้อสอบนายสิบตำรวจ 7,038 ข้อ และข้อมูลผู้ใช้งาน"
     />
   );

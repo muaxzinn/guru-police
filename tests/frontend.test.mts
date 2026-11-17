@@ -166,7 +166,7 @@ test('AppLoadingScreen component renders all 5 variants with Thai status, progre
     assert.ok(html.includes('กำลัง'), `[${variant}] Expected Thai loading status text`);
     assert.equal(html.includes('<article'), false, `[${variant}] Skeleton must not render <article> tags`);
     if (variant === 'page') {
-      assert.ok(html.includes('NAISIB') && html.includes('PRO'), 'Expected header shell when includeHeader=true');
+      assert.ok(html.includes('นายสิบ') && html.includes('โปร'), 'Expected header shell when includeHeader=true');
     }
   }
 });
